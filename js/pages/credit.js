@@ -4,8 +4,10 @@
    destino configurado en CA_CREDIT.endpoint y el formulario se vacía, también la firma.
    Mientras no haya endpoint, el envío no sale del navegador. */
 window.CA_CREDIT = {
-  endpoint: '',                       // servicio de envío (pendiente de decidir)
-  to: 'hectormota@caradvisorcorporation.com',
+  // FormSubmit reenvía el PDF firmado al correo. La primera solicitud le llega a ese correo como
+  // "activa este formulario": hay que confirmarla una vez. Después FormSubmit da un alias aleatorio
+  // que conviene poner aquí en lugar del correo, para que no quede visible en el código de la página.
+  endpoint: 'https://formsubmit.co/ajax/hectormota@caradvisorcorporation.com',
 };
 
 (() => {
@@ -191,13 +193,18 @@ window.CA_CREDIT = {
     try {
       const data = collect();
       const doc = await buildPdf(data);
-      const pdf = doc.output('datauristring');
       if (CFG.endpoint) {
-        const r = await fetch(CFG.endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ to: CFG.to, applicant: data.gName, business: data.legalName, pdf }),
-        });
+        // En el cuerpo del correo solo va el nombre; el SSN y las cuentas viajan dentro del PDF adjunto.
+        const safe = s => String(s || 'solicitud').normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
+        const body = new FormData();
+        body.append('_subject', `Nueva solicitud de crédito — ${data.gName}${data.legalName ? ` (${data.legalName})` : ''}`);
+        body.append('_template', 'box');
+        body.append('_captcha', 'false');
+        body.append('Solicitante', data.gName);
+        body.append('Negocio', data.legalName || '—');
+        body.append('Recibida', new Date().toLocaleString('en-US'));
+        body.append('attachment', doc.output('blob'), `Credit-Application-${safe(data.gName)}.pdf`);
+        const r = await fetch(CFG.endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
       }
       wipe();
