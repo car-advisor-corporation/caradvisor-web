@@ -1,0 +1,151 @@
+<!--{"title": "Contact · Car Advisor", "title_key": "meta.contact.title", "desc": "Tell Car Advisor the car you want. Three short steps, no obligation, in English or Spanish.", "desc_key": "meta.contact.desc", "css": ["components"], "i18n": ["contact"], "js": ["crm.js", "pages/contact.js"]}-->
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:crumbs"><a href="index.html" data-i18n="nav.home">Home</a><span aria-hidden="true">/</span><span aria-current="page" data-i18n="nav.contact">Contact</span></nav>
+    <div class="page-hero-row">
+      <div>
+        <p class="eyebrow" data-i18n="ct.eyebrow">Start your request</p>
+        <h1 class="metal" data-i18n="ct.title">Tell us the car. We'll take it from there.</h1>
+        <p class="lede" data-i18n="ct.lede">Three short steps, no obligation. An advisor will contact you the way you prefer, in English or Spanish.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-label="Request form and contact details" data-i18n-attr="aria-label:ct.aria">
+  <div class="wrap request-grid request-grid--form-first">
+    <div class="form-card">
+      <form id="req-form" novalidate>
+        <ol class="steps" aria-label="Progress" data-i18n-attr="aria-label:form.progress">
+          <li aria-current="step"><span>1</span><span data-i18n="fs.1">Vehicle</span></li>
+          <li><span>2</span><span data-i18n="fs.2">Details</span></li>
+          <li><span>3</span><span data-i18n="fs.3">Contact</span></li>
+        </ol>
+
+        <fieldset class="step" data-step="0">
+          <legend data-i18n="fs.1.l">What are you looking for?</legend>
+          <div class="fld">
+            <label for="r-vehicle" data-i18n="f.vehicle.l">Vehicle or idea</label>
+            <input class="txt-in" id="r-vehicle" name="vehicle" type="text" aria-required="true" autocomplete="off" placeholder="e.g. 2027 Toyota Highlander XLE, or a family SUV under $45k" data-i18n-attr="placeholder:f.vehicle.ph" aria-describedby="r-vehicle-hint step0-err">
+            <p class="hint" id="r-vehicle-hint" data-i18n="f.vehicle.hint">A specific model or just what you need. Both work.</p>
+            <p class="err" id="step0-err" hidden></p>
+          </div>
+          <div class="fld">
+            <span class="lbl" id="l-service" data-i18n="f.service.l">What do you need?</span>
+            <div class="opts" role="radiogroup" aria-labelledby="l-service">
+              <label class="opt"><input type="radio" name="service" value="new" checked><span data-i18n="f.s.new">Buy new</span></label>
+              <label class="opt"><input type="radio" name="service" value="used"><span data-i18n="f.s.used">Buy used</span></label>
+              <label class="opt"><input type="radio" name="service" value="lease"><span data-i18n="f.s.lease">Lease</span></label>
+              <label class="opt"><input type="radio" name="service" value="audit"><span data-i18n="f.s.audit">Audit a quote I have</span></label>
+            </div>
+          </div>
+          <div class="fld">
+            <label for="r-budget" data-i18n="f.budget.l">Budget</label>
+            <select class="txt-in" id="r-budget" name="budget">
+              <option value="" data-i18n="f.b.0">Select a range</option>
+              <option value="lt30" data-i18n="f.b.1">Under $30,000</option>
+              <option value="30-45" data-i18n="f.b.2">$30,000 – $45,000</option>
+              <option value="45-60" data-i18n="f.b.3">$45,000 – $60,000</option>
+              <option value="60-80" data-i18n="f.b.4">$60,000 – $80,000</option>
+              <option value="80plus" data-i18n="f.b.5">$80,000 or more</option>
+              <option value="monthly" data-i18n="f.b.6">I think in monthly payments</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="1" hidden>
+          <legend data-i18n="fs.2.l">A few details</legend>
+          <div class="fld">
+            <span class="lbl" id="l-timing" data-i18n="f.timing.l">When do you need it?</span>
+            <div class="opts" role="radiogroup" aria-labelledby="l-timing">
+              <label class="opt"><input type="radio" name="timing" value="asap" checked><span data-i18n="f.t.asap">As soon as possible</span></label>
+              <label class="opt"><input type="radio" name="timing" value="soon"><span data-i18n="f.t.soon">In 1–3 months</span></label>
+              <label class="opt"><input type="radio" name="timing" value="explore"><span data-i18n="f.t.explore">Just exploring</span></label>
+            </div>
+          </div>
+          <div class="fld">
+            <span class="lbl" id="l-pay" data-i18n="f.pay.l">How do you plan to pay?</span>
+            <div class="opts" role="radiogroup" aria-labelledby="l-pay">
+              <label class="opt"><input type="radio" name="pay" value="finance" checked><span data-i18n="f.p.finance">Financing</span></label>
+              <label class="opt"><input type="radio" name="pay" value="lease"><span data-i18n="f.p.lease">Lease</span></label>
+              <label class="opt"><input type="radio" name="pay" value="cash"><span data-i18n="f.p.cash">Cash</span></label>
+              <label class="opt"><input type="radio" name="pay" value="unsure"><span data-i18n="f.p.unsure">Not sure yet</span></label>
+            </div>
+          </div>
+          <div class="fld">
+            <span class="lbl" id="l-trade" data-i18n="f.trade.l">Do you have a trade-in?</span>
+            <div class="opts" role="radiogroup" aria-labelledby="l-trade">
+              <label class="opt"><input type="radio" name="trade" value="no" checked><span data-i18n="f.no">No</span></label>
+              <label class="opt"><input type="radio" name="trade" value="yes"><span data-i18n="f.yes">Yes</span></label>
+            </div>
+          </div>
+          <div class="fld" id="trade-desc" hidden>
+            <label for="r-trade" data-i18n="f.tradedesc.l">Your current vehicle</label>
+            <input class="txt-in" id="r-trade" name="tradeVehicle" type="text" autocomplete="off" placeholder="Year, make, model and approximate mileage" data-i18n-attr="placeholder:f.tradedesc.ph">
+          </div>
+        </fieldset>
+
+        <fieldset class="step" data-step="2" hidden>
+          <legend data-i18n="fs.3.l">How can we reach you?</legend>
+          <div class="fld">
+            <label for="r-name" data-i18n="f.name.l">Full name</label>
+            <input class="txt-in" id="r-name" name="name" type="text" aria-required="true" autocomplete="name" aria-describedby="r-name-err">
+            <p class="err" id="r-name-err" hidden></p>
+          </div>
+          <div class="row-2">
+            <div class="fld">
+              <label for="r-phone" data-i18n="f.phone.l">Mobile phone</label>
+              <input class="txt-in" id="r-phone" name="phone" type="tel" aria-required="true" autocomplete="tel" inputmode="tel" aria-describedby="r-phone-err">
+              <p class="err" id="r-phone-err" hidden></p>
+            </div>
+            <div class="fld">
+              <label for="r-email"><span data-i18n="f.email.l">Email</span> <span data-i18n="f.optional">(optional)</span></label>
+              <input class="txt-in" id="r-email" name="email" type="email" autocomplete="email" aria-describedby="r-email-err">
+              <p class="err" id="r-email-err" hidden></p>
+            </div>
+          </div>
+          <div class="fld">
+            <span class="lbl" id="l-contact" data-i18n="f.contact.l">Best way to reach you</span>
+            <div class="opts" role="radiogroup" aria-labelledby="l-contact">
+              <label class="opt"><input type="radio" name="contact" value="whatsapp" checked><span>WhatsApp</span></label>
+              <label class="opt"><input type="radio" name="contact" value="call"><span data-i18n="f.c.call">Phone call</span></label>
+              <label class="opt"><input type="radio" name="contact" value="email"><span data-i18n="f.c.email">Email</span></label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-nav">
+          <button class="btn btn-ghost" type="button" id="f-back" hidden data-i18n="f.back">Back</button>
+          <button class="btn btn-red" type="submit" id="f-next">Continue</button>
+        </div>
+        <p class="consent" data-i18n="f.consent">By sending, you agree that Car Advisor may contact you about this request. We will never ask for your Social Security number through this form.</p>
+      </form>
+
+      <div class="success" id="req-success" hidden tabindex="-1">
+        <div class="ok-mark"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+        <h2 class="sr-only" data-i18n="ok.sr">Request sent</h2>
+        <h3 id="ok-title"></h3>
+        <p id="ok-text"></p>
+        <div class="summary" id="ok-summary"></div>
+        <div class="actions">
+          <a class="btn btn-red" id="ok-wa" href="https://wa.me/13056006112" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="ok.wa">Continue on WhatsApp</span></a>
+          <button class="btn btn-ghost" type="button" id="ok-again" data-i18n="ok.again">Start another request</button>
+        </div>
+        <p class="demo-note" data-i18n="ok.demo">Demo: this form is not connected to email or a CRM yet.</p>
+      </div>
+    </div>
+
+    <div class="info-col">
+      <h2 data-i18n="ct.reach">Prefer to talk?</h2>
+      <dl class="contact-list">
+        <div><svg aria-hidden="true"><use href="#i-wa"/></svg><dt data-i18n="req.office">Office &amp; WhatsApp</dt><dd><a class="mono" href="tel:+13056006112">+1 (305) 600-6112</a></dd></div>
+        <div><svg aria-hidden="true"><use href="#i-phone"/></svg><dt data-i18n="req.mobile">Mobile</dt><dd><a class="mono" href="tel:+17865367332">+1 (786) 536-7332</a></dd></div>
+        <div><svg aria-hidden="true"><use href="#i-mail"/></svg><dt data-i18n="req.email">Email</dt><dd><a href="mailto:info@caradvisorcorp.com">info@caradvisorcorp.com</a></dd></div>
+        <div><svg aria-hidden="true"><use href="#i-pin"/></svg><dt data-i18n="req.visit">Office address</dt><dd><a href="https://www.google.com/maps/search/?api=1&amp;query=1500+NW+89th+Ct+Ste+112+Doral+FL+33172" target="_blank" rel="noopener">1500 NW 89th Ct, Suite 112, Doral, FL 33172</a></dd></div>
+      </dl>
+      <div class="map">
+        <iframe title="Map: Car Advisor office in Doral, Florida" data-i18n-attr="title:req.map" src="https://www.google.com/maps?q=1500+NW+89th+Ct+Ste+112,+Doral,+FL+33172&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>

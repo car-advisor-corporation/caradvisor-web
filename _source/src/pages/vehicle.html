@@ -1,0 +1,85 @@
+<!--{"title": "Vehicle details · Car Advisor", "title_key": "meta.vd.title", "desc": "Photo, specifications and a payment estimate for a vehicle in Car Advisor's inventory.", "desc_key": "meta.vd.desc", "css": ["components", "inventory"], "i18n": ["inventory"], "data": ["data/inventory.js"], "js": ["crm.js", "vehicles.js", "pages/vehicle.js"], "nav": "inventory", "band": true}-->
+<section class="vd-top">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:crumbs"><a href="index.html" data-i18n="nav.home">Home</a><span aria-hidden="true">/</span><a href="inventory.html" id="vd-back" data-i18n="nav.inventory">Inventory</a><span aria-hidden="true">/</span><span aria-current="page" id="vd-crumb"></span></nav>
+    <div class="vd-grid" id="vd-content">
+      <figure class="vd-media">
+        <div class="vd-img" id="vd-img"></div>
+        <figcaption class="vd-credit" id="vd-credit"></figcaption>
+      </figure>
+      <div class="vd-info">
+        <p class="vcard-make" id="vd-make"></p>
+        <h1 class="metal" id="vd-title"></h1>
+        <p class="vd-trim" id="vd-trim"></p>
+        <div class="vd-badges" id="vd-badges"></div>
+        <div class="vd-price"><strong id="vd-price"></strong><span id="vd-monthly"></span></div>
+        <p class="vd-demo" data-i18n="vd.demo">Demo listing: example price and mileage.</p>
+        <div class="vd-actions">
+          <a class="btn btn-red" id="vd-request" href="contact.html"><span data-i18n="vd.request">Request this vehicle</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-ghost" id="vd-wa" href="https://wa.me/13056006112" target="_blank" rel="noopener"><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="vd.ask">Ask on WhatsApp</span></a>
+        </div>
+        <ul class="vd-quick" id="vd-quick"></ul>
+      </div>
+    </div>
+    <div class="vd-missing" id="vd-missing" hidden>
+      <h1 data-i18n="vd.missing.t">We couldn't find that vehicle.</h1>
+      <p data-i18n="vd.missing.p">It may no longer be available, or the link is incomplete. Browse the inventory or tell us what you're looking for.</p>
+      <div class="actions">
+        <a class="btn btn-ghost" href="inventory.html" data-i18n="vd.missing.browse">Browse the inventory</a>
+        <a class="btn btn-red" href="contact.html" data-i18n="vd.missing.ask">Ask us to find it</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="vd-details" aria-labelledby="specs-title">
+  <div class="wrap vd-body">
+    <div>
+      <h2 id="specs-title" data-i18n="vd.specs">Specifications</h2>
+      <table class="spec-table"><tbody id="vd-specs"></tbody></table>
+    </div>
+    <aside class="pay-card" aria-labelledby="pay-title">
+      <h2 id="pay-title" data-i18n="vd.pay.t">Estimate your payment</h2>
+      <div class="pay-grid">
+        <div><label for="p-price" data-i18n="vd.pay.price">Vehicle price</label><div class="money"><input class="num-in" id="p-price" type="number" inputmode="numeric" min="0" step="500"></div></div>
+        <div><label for="p-down" data-i18n="vd.pay.down">Down payment</label><div class="money"><input class="num-in" id="p-down" type="number" inputmode="numeric" min="0" step="500"></div></div>
+        <div><label for="p-apr" data-i18n="vd.pay.apr">APR</label><div class="pct"><input class="num-in" id="p-apr" type="number" inputmode="decimal" min="0" max="40" step="0.1" value="6.9"></div></div>
+        <div><label for="p-term" data-i18n="vd.pay.term">Term (months)</label><select class="num-in" id="p-term"><option>36</option><option>48</option><option>60</option><option selected>72</option><option>84</option></select></div>
+      </div>
+      <dl class="pay-out" aria-live="polite">
+        <div><dt data-i18n="vd.pay.monthly">Estimated monthly</dt><dd id="p-monthly">—</dd></div>
+        <div><dt data-i18n="vd.pay.interest">Total interest</dt><dd class="sm" id="p-interest">—</dd></div>
+      </dl>
+      <p class="pay-note" data-i18n="vd.pay.note">Estimate before taxes and fees. We compare rates across our network to find what you actually qualify for.</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-alt" aria-labelledby="do-title">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-i18n="vd.do.eyebrow">With Car Advisor</p>
+      <div><h2 id="do-title" data-i18n="vd.do.title">What we do before this car reaches your driveway.</h2></div>
+    </header>
+    <ol class="vd-steps">
+      <li><span class="mono">01</span><h3 data-i18n="vd.do.1.t">Confirm and negotiate</h3><p data-i18n="vd.do.1.p">We confirm availability and negotiate the price and package directly with the dealer.</p></li>
+      <li><span class="mono">02</span><h3 data-i18n="vd.do.2.t">Optimize the financing</h3><p data-i18n="vd.do.2.p">We compare loan and lease rates so a marked-up rate never reaches your contract.</p></li>
+      <li><span class="mono">03</span><h3 data-i18n="vd.do.3.t">Audit the contract</h3><p data-i18n="vd.do.3.p">We review every line item and remove unnecessary extras before you sign.</p></li>
+      <li><span class="mono">04</span><h3 data-i18n="vd.do.4.t">Deliver it to you</h3><p data-i18n="vd.do.4.p">Inspected, cleaned and delivered to your home or office.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="sim-title">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-i18n="vd.sim.eyebrow">Keep browsing</p>
+      <div><h2 id="sim-title" data-i18n="vd.sim.title">Similar vehicles</h2></div>
+    </header>
+    <ul class="vgrid" id="vd-similar"></ul>
+    <div class="row-end">
+      <span></span>
+      <a class="btn btn-ghost" href="inventory.html"><span data-i18n="vd.sim.all">Back to the inventory</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>

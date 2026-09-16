@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Panel · Car Advisor</title>
+<link rel="icon" type="image/png" href="assets/emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Outfit:wght@300..700&amp;display=swap">
+<style>
+:root {
+  --bg: #0B0D10; --surface: #12151A; --surface-2: #171B21; --line: #232932; --line-2: #2E3540;
+  --text: #EEF1F5; --text-2: #B7C0CC; --muted: #8B95A3; --red: #DB2D2E; --red-soft: rgba(219,45,46,.16);
+  --ok: #2FA96B; --warn: #E0A33A;
+  --f-display: "Archivo", system-ui, sans-serif; --f-body: "Outfit", system-ui, sans-serif; --f-mono: "IBM Plex Mono", monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 400 15px/1.5 var(--f-body); }
+a { color: var(--text); }
+h1, h2, h3 { font-family: var(--f-display); font-stretch: 112%; letter-spacing: -.01em; margin: 0; }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+header.top { border-bottom: 1px solid var(--line); background: var(--surface); position: sticky; top: 0; z-index: 10; }
+.top-row { display: flex; align-items: center; gap: 16px; padding: 14px 0; flex-wrap: wrap; }
+.top-row img { height: 36px; width: auto; }
+.top-row h1 { font-size: 1.05rem; font-weight: 700; }
+.spacer { flex: 1; }
+.tag { font: 600 .68rem/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--line-2); border-radius: 999px; padding: 7px 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--surface-2); color: var(--text); font: 600 .9rem var(--f-body); cursor: pointer; }
+.btn:hover { border-color: var(--muted); }
+.btn-red { background: var(--red); border-color: var(--red); color: #fff; }
+.btn-red:hover { filter: brightness(1.08); }
+.btn-ghost { background: transparent; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+main { padding: 24px 0 80px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin-bottom: 20px; }
+.panel h2 { font-size: 1rem; margin-bottom: 4px; }
+.panel .hint { color: var(--muted); font-size: .86rem; margin: 0 0 16px; }
+.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+label { display: block; font: 600 .74rem/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+input, select, textarea { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line-2); background: var(--bg); color: var(--text); font: 400 .95rem var(--f-body); }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--red); outline-offset: 1px; }
+textarea { min-height: 78px; resize: vertical; }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th { text-align: left; font: 600 .7rem/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 10px 8px; border-bottom: 1px solid var(--line-2); white-space: nowrap; }
+td { padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+tr:hover td { background: var(--surface-2); }
+td img { width: 74px; height: 50px; object-fit: cover; border-radius: 6px; display: block; background: var(--surface-2); }
+.row-actions { display: flex; gap: 6px; }
+.mini { padding: 6px 10px; font-size: .8rem; border-radius: 8px; }
+.pill { display: inline-block; padding: 4px 8px; border-radius: 999px; font: 600 .68rem/1 var(--f-mono); text-transform: uppercase; letter-spacing: .06em; }
+.pill-new { background: var(--red-soft); color: #FF8A8A; }
+.pill-used { background: rgba(139,149,163,.18); color: var(--text-2); }
+.bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+.bar input[type="search"] { max-width: 280px; }
+.status { padding: 12px 14px; border-radius: 10px; font-size: .9rem; margin-bottom: 14px; display: none; }
+.status.show { display: block; }
+.status-ok { background: rgba(47,169,107,.14); border: 1px solid rgba(47,169,107,.5); }
+.status-err { background: var(--red-soft); border: 1px solid rgba(219,45,46,.5); }
+.status-work { background: rgba(224,163,58,.14); border: 1px solid rgba(224,163,58,.5); }
+dialog { border: 1px solid var(--line-2); border-radius: 18px; background: var(--surface); color: var(--text); padding: 0; max-width: 820px; width: calc(100% - 32px); }
+dialog::backdrop { background: rgba(0,0,0,.66); }
+.dlg-head { display: flex; align-items: center; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.dlg-body { padding: 20px; max-height: 68vh; overflow: auto; }
+.dlg-foot { display: flex; gap: 10px; justify-content: flex-end; padding: 16px 20px; border-top: 1px solid var(--line); }
+.count { font: 600 .8rem var(--f-mono); color: var(--muted); }
+.warn-box { border: 1px solid rgba(224,163,58,.45); background: rgba(224,163,58,.1); border-radius: 10px; padding: 12px 14px; font-size: .86rem; color: var(--text-2); }
+code { font-family: var(--f-mono); font-size: .85em; background: var(--surface-2); padding: 2px 5px; border-radius: 4px; }
+@media (max-width: 760px) { .hide-sm { display: none; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-row">
+    <img src="assets/logo-lockup.png" alt="Car Advisor">
+    <h1>Panel de inventario</h1>
+    <span class="tag" id="mode">local</span>
+    <span class="spacer"></span>
+    <a class="btn btn-ghost" href="inventory.html" target="_blank" rel="noopener">Ver la web</a>
+    <button class="btn" id="btn-github">Conectar GitHub</button>
+    <button class="btn btn-red" id="btn-publish">Publicar cambios</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="status" id="status"></div>
+
+  <section class="panel">
+    <div class="bar">
+      <button class="btn btn-red" id="btn-new">+ Añadir vehículo</button>
+      <input type="search" id="q" placeholder="Buscar por marca, modelo o stock" aria-label="Buscar">
+      <span class="spacer"></span>
+      <span class="count" id="count"></span>
+      <button class="btn btn-ghost mini" id="btn-download">Descargar inventory.js</button>
+      <button class="btn btn-ghost mini" id="btn-reset">Descartar cambios</button>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th>Foto</th><th>Vehículo</th><th>Precio</th><th class="hide-sm">Millaje</th>
+            <th class="hide-sm">Estado</th><th class="hide-sm">Stock</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<dialog id="dlg">
+  <form method="dialog" id="form">
+    <div class="dlg-head"><h2 id="dlg-title">Vehículo</h2></div>
+    <div class="dlg-body">
+      <div class="grid">
+        <div><label for="f-make">Marca</label><input id="f-make" name="make" required></div>
+        <div><label for="f-model">Modelo</label><input id="f-model" name="model" required></div>
+        <div><label for="f-trim">Versión</label><input id="f-trim" name="trim" placeholder="XLE, Sport…"></div>
+        <div><label for="f-year">Año</label><input id="f-year" name="year" type="number" min="1980" max="2100" required></div>
+        <div><label for="f-price">Precio (USD)</label><input id="f-price" name="price" type="number" min="0" step="1" required></div>
+        <div><label for="f-miles">Millaje</label><input id="f-miles" name="miles" type="number" min="0" step="1" value="0"></div>
+        <div><label for="f-body">Carrocería</label><select id="f-body" name="body">
+          <option value="sedan">Sedán</option><option value="suv">SUV</option><option value="hatch">Hatchback</option>
+          <option value="pickup">Pickup</option><option value="minivan">Minivan</option><option value="coupe">Coupé</option><option value="wagon">Familiar</option>
+        </select></div>
+        <div><label for="f-fuel">Combustible</label><select id="f-fuel" name="fuel">
+          <option value="gas">Gasolina</option><option value="hybrid">Híbrido</option><option value="electric">Eléctrico</option>
+        </select></div>
+        <div><label for="f-cond">Estado</label><select id="f-cond" name="cond">
+          <option value="new">Nuevo</option><option value="cert">Certificado</option><option value="used">Usado</option>
+        </select></div>
+        <div><label for="f-drive">Tracción</label><select id="f-drive" name="drivetrain">
+          <option>FWD</option><option>AWD</option><option>RWD</option><option>4WD</option>
+        </select></div>
+        <div><label for="f-trans">Transmisión</label><input id="f-trans" name="transmission" placeholder="8-speed automatic"></div>
+        <div><label for="f-seats">Plazas</label><input id="f-seats" name="seats" type="number" min="2" max="9" value="5"></div>
+        <div><label for="f-mpg">Consumo</label><input id="f-mpg" name="mpg" placeholder="32 mpg · 300 mi range"></div>
+        <div><label for="f-color">Color</label><input id="f-color" name="color"></div>
+        <div><label for="f-stock">Nº de stock</label><input id="f-stock" name="stock" placeholder="CA-2001"></div>
+      </div>
+      <div style="margin-top:14px">
+        <label for="f-img">Foto (URL o archivo del repositorio)</label>
+        <input id="f-img" name="img" placeholder="assets/vehicles/toyota-crown-2027.jpg">
+      </div>
+      <div style="margin-top:14px">
+        <label for="f-note">Descripción</label>
+        <textarea id="f-note" name="note" placeholder="2027 Toyota Corolla compact sedan. MSRP inicial: $23,325."></textarea>
+      </div>
+      <div class="grid" style="margin-top:14px">
+        <div><label for="f-author">Autor de la foto</label><input id="f-author" name="author"></div>
+        <div><label for="f-license">Licencia de la foto</label><input id="f-license" name="license"></div>
+      </div>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn btn-ghost" value="cancel" formnovalidate>Cancelar</button>
+      <button class="btn btn-red" id="btn-save" value="save">Guardar</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="dlg-gh">
+  <form method="dialog">
+    <div class="dlg-head"><h2>Conectar con GitHub</h2></div>
+    <div class="dlg-body">
+      <p class="hint">Para publicar los cambios en la web hace falta un token de acceso de GitHub. Se guarda solo en este navegador y nunca sale de él salvo para hablar con GitHub.</p>
+      <ol style="color:var(--text-2);font-size:.9rem;line-height:1.7">
+        <li>Abre <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a></li>
+        <li>En <em>Repository access</em> elige <strong>Only select repositories</strong> → <code>caradvisor-web</code></li>
+        <li>En <em>Permissions → Repository permissions</em> pon <strong>Contents: Read and write</strong></li>
+        <li>Genera el token y pégalo aquí abajo</li>
+      </ol>
+      <div class="warn-box" style="margin:14px 0">Dale permiso <strong>solo</strong> a este repositorio. Con ese token se puede cambiar la web, así que no lo compartas por chat ni por correo.</div>
+      <div><label for="f-token">Token</label><input id="f-token" type="password" autocomplete="off" placeholder="github_pat_…"></div>
+      <div style="margin-top:14px"><label for="f-repo">Repositorio</label><input id="f-repo" value="leonardario04-dotcom/caradvisor-web"></div>
+    </div>
+    <div class="dlg-foot">
+      <button class="btn btn-ghost" value="cancel">Cancelar</button>
+      <button class="btn btn-ghost" id="btn-forget" value="forget">Olvidar token</button>
+      <button class="btn btn-red" id="btn-connect" value="save">Conectar</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="js/data/inventory.js"></script>
+<script>
+/* Panel de inventario: edita window.CA_INVENTORY, guarda un borrador en este navegador y publica
+   el archivo js/data/inventory.js en GitHub, que es lo que vuelve a desplegar la web. */
+(() => {
+  'use strict';
+  const $ = s => document.querySelector(s);
+  const DRAFT = 'ca-admin-draft';
+  const TOKEN = 'ca-admin-token';
+  const REPO = 'ca-admin-repo';
+  const PATH = 'js/data/inventory.js';
+  const HEADER = `/* Car Advisor inventory: the vehicles published on caradvisorcorporation.com.
+   Editado desde el panel (admin.html). */\n`;
+
+  const original = (window.CA_INVENTORY || []).map(v => JSON.parse(JSON.stringify(v)));
+  let list = load();
+  let editing = null;
+
+  function load() {
+    try {
+      const raw = localStorage.getItem(DRAFT);
+      if (raw) return JSON.parse(raw);
+    } catch (e) { /* sin almacenamiento */ }
+    return original.map(v => JSON.parse(JSON.stringify(v)));
+  }
+  function save() {
+    try { localStorage.setItem(DRAFT, JSON.stringify(list)); } catch (e) { /* sin almacenamiento */ }
+    render();
+  }
+  const token = () => { try { return localStorage.getItem(TOKEN) || ''; } catch (e) { return ''; } };
+  const repo = () => { try { return localStorage.getItem(REPO) || 'leonardario04-dotcom/caradvisor-web'; } catch (e) { return 'leonardario04-dotcom/caradvisor-web'; } };
+
+  function say(msg, kind = 'ok') {
+    const el = $('#status');
+    el.className = `status show status-${kind}`;
+    el.textContent = msg;
+    if (kind === 'ok') setTimeout(() => { el.className = 'status'; }, 6000);
+  }
+  const usd = n => '$' + Number(n || 0).toLocaleString('en-US');
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const slug = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  function changed() { return JSON.stringify(list) !== JSON.stringify(original); }
+
+  function render() {
+    const q = $('#q').value.trim().toLowerCase();
+    const shown = list.filter(v => !q || `${v.year} ${v.make} ${v.model} ${v.trim || ''} ${v.stock || ''}`.toLowerCase().includes(q));
+    $('#rows').innerHTML = shown.map(v => `
+      <tr>
+        <td>${v.img && v.img.thumb ? `<img src="${esc(v.img.thumb)}" alt="" loading="lazy">` : '<div style="width:74px;height:50px;border-radius:6px;background:var(--surface-2)"></div>'}</td>
+        <td><strong>${esc(v.year)} ${esc(v.make)} ${esc(v.model)}</strong><br><span style="color:var(--muted);font-size:.84rem">${esc(v.trim || '')}</span></td>
+        <td>${usd(v.price)}</td>
+        <td class="hide-sm">${Number(v.miles || 0).toLocaleString('en-US')}</td>
+        <td class="hide-sm"><span class="pill ${v.cond === 'new' ? 'pill-new' : 'pill-used'}">${v.cond === 'new' ? 'Nuevo' : v.cond === 'cert' ? 'Certificado' : 'Usado'}</span></td>
+        <td class="hide-sm"><code>${esc(v.stock || '')}</code></td>
+        <td><div class="row-actions">
+          <button class="btn mini" data-edit="${esc(v.id)}">Editar</button>
+          <button class="btn mini" data-del="${esc(v.id)}">Borrar</button>
+        </div></td>
+      </tr>`).join('') || '<tr><td colspan="7" style="color:var(--muted);padding:26px 8px">No hay vehículos que coincidan.</td></tr>';
+    $('#count').textContent = `${list.length} vehículos${changed() ? ' · cambios sin publicar' : ''}`;
+    $('#btn-publish').disabled = !changed();
+    $('#mode').textContent = token() ? 'GitHub conectado' : 'solo local';
+  }
+
+  function openForm(v) {
+    editing = v || null;
+    $('#dlg-title').textContent = v ? `${v.year} ${v.make} ${v.model}` : 'Nuevo vehículo';
+    const f = $('#form');
+    const set = (n, val) => { f.elements[n].value = val == null ? '' : val; };
+    set('make', v && v.make); set('model', v && v.model); set('trim', v && v.trim);
+    set('year', v ? v.year : new Date().getFullYear());
+    set('price', v && v.price); set('miles', v ? v.miles : 0);
+    set('body', (v && v.body) || 'suv'); set('fuel', (v && v.fuel) || 'gas'); set('cond', (v && v.cond) || 'new');
+    set('drivetrain', (v && v.drivetrain) || 'FWD'); set('transmission', v && v.transmission);
+    set('seats', v ? v.seats : 5); set('mpg', v && v.mpg); set('color', v && v.color);
+    set('stock', v && v.stock); set('note', v && v.note);
+    set('img', v && v.img ? v.img.thumb : '');
+    set('author', v && v.img ? v.img.author : ''); set('license', v && v.img ? v.img.license : '');
+    $('#dlg').showModal();
+  }
+
+  $('#form').addEventListener('submit', e => {
+    if (e.submitter && e.submitter.value !== 'save') return;
+    const f = e.target;
+    const g = n => f.elements[n].value.trim();
+    const rec = {
+      id: editing ? editing.id : slug(`${g('year')} ${g('make')} ${g('model')} ${g('trim')}`) || `veh-${Date.now()}`,
+      make: g('make'), model: g('model'), trim: g('trim'), year: Number(g('year')),
+      body: g('body'), fuel: g('fuel'), drivetrain: g('drivetrain'), transmission: g('transmission'),
+      seats: Number(g('seats')) || 5, mpg: g('mpg'), color: g('color'),
+      price: Number(g('price')) || 0, miles: Number(g('miles')) || 0, cond: g('cond'),
+      stock: g('stock') || `CA-${2000 + list.length + 1}`, note: g('note'),
+      img: Object.assign({}, editing && editing.img, { thumb: g('img'), author: g('author'), license: g('license') }),
+    };
+    if (editing) list[list.findIndex(v => v.id === editing.id)] = rec;
+    else list.unshift(rec);
+    save();
+    say(editing ? 'Vehículo actualizado. Recuerda publicar los cambios.' : 'Vehículo añadido. Recuerda publicar los cambios.');
+  });
+
+  $('#rows').addEventListener('click', e => {
+    const ed = e.target.closest('[data-edit]');
+    const del = e.target.closest('[data-del]');
+    if (ed) openForm(list.find(v => v.id === ed.dataset.edit));
+    if (del) {
+      const v = list.find(x => x.id === del.dataset.del);
+      if (v && confirm(`¿Borrar ${v.year} ${v.make} ${v.model}?`)) {
+        list = list.filter(x => x.id !== v.id);
+        save();
+        say('Vehículo borrado. Recuerda publicar los cambios.');
+      }
+    }
+  });
+
+  $('#btn-new').addEventListener('click', () => openForm(null));
+  $('#q').addEventListener('input', render);
+  $('#btn-reset').addEventListener('click', () => {
+    if (!confirm('Se descartan todos los cambios que no hayas publicado. ¿Seguir?')) return;
+    try { localStorage.removeItem(DRAFT); } catch (e) { /* sin almacenamiento */ }
+    list = original.map(v => JSON.parse(JSON.stringify(v)));
+    save();
+    say('Cambios descartados.');
+  });
+
+  function fileBody() {
+    return HEADER + 'window.CA_INVENTORY = ' + JSON.stringify(list, null, 1) + ';\n';
+  }
+
+  $('#btn-download').addEventListener('click', () => {
+    const blob = new Blob([fileBody()], { type: 'text/javascript' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'inventory.js';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  });
+
+  // --- GitHub ---
+  $('#btn-github').addEventListener('click', () => {
+    $('#f-token').value = '';
+    $('#f-repo').value = repo();
+    $('#dlg-gh').showModal();
+  });
+  $('#dlg-gh').addEventListener('close', async () => {
+    const v = $('#dlg-gh').returnValue;
+    if (v === 'forget') {
+      try { localStorage.removeItem(TOKEN); } catch (e) { /* sin almacenamiento */ }
+      render();
+      return say('Token olvidado en este navegador.');
+    }
+    if (v !== 'save') return;
+    const tk = $('#f-token').value.trim();
+    if (!tk) return;
+    try {
+      localStorage.setItem(TOKEN, tk);
+      localStorage.setItem(REPO, $('#f-repo').value.trim());
+    } catch (e) { return say('Este navegador no permite guardar el token.', 'err'); }
+    const r = await fetch(`https://api.github.com/repos/${repo()}`, { headers: { Authorization: `Bearer ${tk}` } });
+    render();
+    say(r.ok ? 'Conectado con GitHub. Ya puedes publicar.' : `GitHub respondió ${r.status}: revisa el token o el repositorio.`, r.ok ? 'ok' : 'err');
+  });
+
+  $('#btn-publish').addEventListener('click', async () => {
+    const tk = token();
+    if (!tk) return say('Primero conecta GitHub con un token.', 'err');
+    const btn = $('#btn-publish');
+    btn.disabled = true;
+    say('Publicando…', 'work');
+    try {
+      const base = `https://api.github.com/repos/${repo()}/contents/${PATH}`;
+      const head = { Authorization: `Bearer ${tk}`, Accept: 'application/vnd.github+json' };
+      const cur = await fetch(base, { headers: head });
+      if (!cur.ok) throw new Error(`no pude leer el archivo (${cur.status})`);
+      const sha = (await cur.json()).sha;
+      const content = btoa(unescape(encodeURIComponent(fileBody())));
+      const put = await fetch(base, {
+        method: 'PUT',
+        headers: Object.assign({ 'Content-Type': 'application/json' }, head),
+        body: JSON.stringify({ message: `Inventario actualizado desde el panel (${list.length} vehículos)`, content, sha }),
+      });
+      if (!put.ok) throw new Error(`GitHub respondió ${put.status}`);
+      try { localStorage.removeItem(DRAFT); } catch (e) { /* sin almacenamiento */ }
+      say('Publicado. La web se actualiza sola en uno o dos minutos.');
+    } catch (err) {
+      say(`No se pudo publicar: ${err.message}`, 'err');
+    }
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

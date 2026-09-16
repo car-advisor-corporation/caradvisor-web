@@ -1,0 +1,32 @@
+<!--{"title": "Article · Car Advisor", "title_key": "meta.art.title", "desc": "Car-buying advice from the Car Advisor team: dealer fees, choosing a powertrain and how a vehicle concierge works.", "desc_key": "meta.art.desc", "css": ["components"], "i18n": ["article"], "data": ["data/articles.js"], "js": ["pages/article.js"], "nav": "index", "band": true}-->
+<article class="art">
+  <header class="art-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:crumbs"><a href="index.html" data-i18n="nav.home">Home</a><span aria-hidden="true">/</span><a href="index.html#insights" data-i18n="art.all">Articles</a><span aria-hidden="true">/</span><span aria-current="page" id="art-crumb"></span></nav>
+      <p class="art-meta"><span id="art-cat"></span><span id="art-date"></span></p>
+      <h1 id="art-title" class="metal"></h1>
+      <p class="lede" id="art-lede"></p>
+    </div>
+  </header>
+  <div class="wrap art-wrap">
+    <figure class="art-photo"><img id="art-img" src="" alt="" width="750" height="500" fetchpriority="high"></figure>
+    <div class="art-body" id="art-body"></div>
+    <aside class="art-cta">
+      <h2 data-i18n="art.cta.t">Want this handled for you?</h2>
+      <p data-i18n="art.cta.p">Tell us the vehicle you want, or just your budget. We source it, negotiate it and deliver it to your door.</p>
+      <div class="art-cta-row">
+        <a class="btn btn-red" href="contact.html"><span data-i18n="cta.start">Start my request</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-ghost" href="inventory.html"><span data-i18n="hero.browse">Browse the inventory</span></a>
+      </div>
+    </aside>
+  </div>
+  <section class="section section-alt" aria-labelledby="art-more-t">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow" data-i18n="ins.eyebrow">Insights</p>
+        <div><h2 id="art-more-t" data-i18n="art.more">Keep reading</h2></div>
+      </header>
+      <ul class="posts" id="art-more"></ul>
+    </div>
+  </section>
+</article>

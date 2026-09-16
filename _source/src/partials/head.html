@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n="{{title_key}}">{{title}}</title>
+<meta name="description" content="{{desc}}" data-i18n-attr="content:{{desc_key}}">
+<meta name="theme-color" content="#0B0D10">
+{{seo}}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Car Advisor">
+<meta property="og:title" content="{{title}}">
+<meta property="og:description" content="{{desc}}">
+<meta property="og:image" content="https://caradvisorcorporation.com/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<script>
+/* Runs before first paint: language and the slide direction of page transitions. */
+(function () {
+  var d = document.documentElement, lang = null;
+  try { lang = localStorage.getItem('ca-lang'); } catch (e) {}
+  var qs = new URLSearchParams(location.search), q = qs.get('lang');
+  if (q) lang = q;
+  if (lang === 'es' || lang === 'en') d.lang = lang;
+  var order = ['index', 'inventory', 'vehicle', 'services', 'about', 'faq', 'contact'];
+  function rank(url) {
+    try {
+      var slug = new URL(url, location.href).pathname.split('/').pop().replace(/\.html$/, '') || 'index';
+      var i = order.indexOf(slug);
+      return i < 0 ? 0 : i;
+    } catch (e) { return 0; }
+  }
+  window.addEventListener('pagereveal', function (e) {
+    if (!e.viewTransition) return;
+    var a = window.navigation && navigation.activation;
+    if (!a || !a.from) { e.viewTransition.skipTransition(); return; }
+    var back = a.navigationType === 'traverse'
+      ? a.entry && a.entry.index < a.from.index
+      : rank(location.href) < rank(a.from.url);
+    e.viewTransition.types.add(back ? 'back' : 'forward');
+  });
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&amp;family=Caveat:wght@700&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=Outfit:wght@300..700&amp;display=swap">
+{{preload}}<link rel="stylesheet" href="css/base.css">{{css}}
+</head>

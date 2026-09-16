@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n="meta.home.title">Car Advisor · Car-Buying Concierge in Doral &amp; Miami</title>
+<meta name="description" content="Tell us the car you want. Car Advisor sources it nationwide, negotiates the price, audits your contract and financing, and delivers it to your door, with no dealership visits." data-i18n-attr="content:meta.home.desc">
+<meta name="theme-color" content="#0B0D10">
+<link rel="canonical" href="https://caradvisorcorporation.com/">
+<link rel="alternate" hreflang="en" href="https://caradvisorcorporation.com/">
+<link rel="alternate" hreflang="es" href="https://caradvisorcorporation.com/?lang=es">
+<link rel="alternate" hreflang="x-default" href="https://caradvisorcorporation.com/">
+<meta property="og:url" content="https://caradvisorcorporation.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Car Advisor">
+<meta property="og:title" content="Car Advisor · Car-Buying Concierge in Doral &amp; Miami">
+<meta property="og:description" content="Tell us the car you want. Car Advisor sources it nationwide, negotiates the price, audits your contract and financing, and delivers it to your door, with no dealership visits.">
+<meta property="og:image" content="https://caradvisorcorporation.com/assets/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/favicon.png?v=e97104eb">
+<link rel="apple-touch-icon" href="assets/favicon.png?v=e97104eb">
+<script>
+/* Runs before first paint: language and the slide direction of page transitions. */
+(function () {
+  var d = document.documentElement, lang = null;
+  try { lang = localStorage.getItem('ca-lang'); } catch (e) {}
+  var qs = new URLSearchParams(location.search), q = qs.get('lang');
+  if (q) lang = q;
+  if (lang === 'es' || lang === 'en') d.lang = lang;
+  var order = ['index', 'inventory', 'vehicle', 'services', 'about', 'faq', 'contact'];
+  function rank(url) {
+    try {
+      var slug = new URL(url, location.href).pathname.split('/').pop().replace(/\.html$/, '') || 'index';
+      var i = order.indexOf(slug);
+      return i < 0 ? 0 : i;
+    } catch (e) { return 0; }
+  }
+  window.addEventListener('pagereveal', function (e) {
+    if (!e.viewTransition) return;
+    var a = window.navigation && navigation.activation;
+    if (!a || !a.from) { e.viewTransition.skipTransition(); return; }
+    var back = a.navigationType === 'traverse'
+      ? a.entry && a.entry.index < a.from.index
+      : rank(location.href) < rank(a.from.url);
+    e.viewTransition.types.add(back ? 'back' : 'forward');
+  });
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&amp;family=Caveat:wght@700&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=Outfit:wght@300..700&amp;display=swap">
+<link rel="preload" as="image" href="assets/logo-full-900.webp?v=c670e69a" imagesrcset="assets/logo-full-640.webp 640w, assets/logo-full-900.webp 900w, assets/logo-full-1187.webp 1187w" imagesizes="(max-width: 560px) 96vw, min(92vw, 1020px)">
+<link rel="stylesheet" href="css/base.css?v=eac2158a">
+<link rel="stylesheet" href="css/components.css?v=ee3d0a38">
+<link rel="stylesheet" href="css/home.css?v=0d13f5e6">
+</head>
+<body data-page="index">
+<!-- Icons and body-style silhouettes (silhouettes are the fallback when a vehicle photo fails to load). -->
+<svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
+  <defs>
+    <linearGradient id="g-paint" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E6EAEE"/><stop offset=".36" stop-color="#9DA6B1"/><stop offset=".64" stop-color="#48505B"/><stop offset="1" stop-color="#1C2128"/>
+    </linearGradient>
+    <linearGradient id="g-glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34404E"/><stop offset=".5" stop-color="#0B0F14"/><stop offset="1" stop-color="#1D2631"/>
+    </linearGradient>
+    <linearGradient id="g-belt" gradientUnits="userSpaceOnUse" x1="14" y1="0" x2="230" y2="0">
+      <stop offset="0" stop-color="#FF7A7A"/><stop offset=".45" stop-color="#DB2D2E"/><stop offset="1" stop-color="#DB2D2E" stop-opacity="0"/>
+    </linearGradient>
+    <symbol id="car-sedan" viewBox="0 0 240 96"><g transform="translate(240 0) scale(-1 1)">
+      <ellipse cx="121" cy="85" rx="106" ry="4.5" fill="#000" opacity=".35"/>
+      <path fill="url(#g-paint)" d="M14,62 C14,54 20,50 32,48 L70,44 C82,34 98,24 118,22 L150,22 C166,22 178,30 190,42 L214,46 C224,48 228,54 228,62 L228,66 C228,68 226,70 224,70 L200,70 A18,18 0 0 0 164,70 L76,70 A18,18 0 0 0 40,70 L18,70 C16,70 14,68 14,66 Z"/>
+      <path fill="url(#g-glass)" d="M78,44 C88,34 100,28 118,27 L128,27 L128,44 Z M134,27 L150,27 C162,27 172,33 182,44 L134,44 Z"/>
+      <path d="M30 55H214" stroke="url(#g-belt)" stroke-width="1.4"/>
+      <g fill="#0A0C0F" stroke="#39414C" stroke-width="2"><circle cx="58" cy="70" r="14"/><circle cx="182" cy="70" r="14"/></g>
+      <g fill="none" stroke="#A6AFB9" stroke-width="1.6"><circle cx="58" cy="70" r="7.5"/><circle cx="182" cy="70" r="7.5"/></g>
+      <path d="M15 53h9v3h-9z" fill="#F4F7FA"/><path d="M223 51h5v5h-5z" fill="#FF3B3B"/>
+    </g></symbol>
+    <symbol id="car-suv" viewBox="0 0 240 96"><g transform="translate(240 0) scale(-1 1)">
+      <ellipse cx="121" cy="86" rx="108" ry="4.5" fill="#000" opacity=".35"/>
+      <path fill="url(#g-paint)" d="M12,60 C12,50 18,46 30,45 L62,42 C70,30 80,20 96,18 L178,18 C190,18 196,22 200,32 L206,44 L220,47 C227,49 230,54 230,60 L230,66 C230,68 228,70 226,70 L202,70 A19,19 0 0 0 164,70 L78,70 A19,19 0 0 0 40,70 L16,70 C14,70 12,68 12,66 Z"/>
+      <path fill="url(#g-glass)" d="M70,42 C76,32 84,24 98,23 L128,23 L128,42 Z M134,23 L176,23 C184,23 188,27 191,33 L195,42 L134,42 Z"/>
+      <path d="M28 55H222" stroke="url(#g-belt)" stroke-width="1.4"/>
+      <g fill="#0A0C0F" stroke="#39414C" stroke-width="2"><circle cx="59" cy="70" r="15"/><circle cx="183" cy="70" r="15"/></g>
+      <g fill="none" stroke="#A6AFB9" stroke-width="1.6"><circle cx="59" cy="70" r="8"/><circle cx="183" cy="70" r="8"/></g>
+      <path d="M13 51h9v3.4h-9z" fill="#F4F7FA"/><path d="M225 48h5v6h-5z" fill="#FF3B3B"/>
+    </g></symbol>
+    <symbol id="car-hatch" viewBox="0 0 240 96"><g transform="translate(240 0) scale(-1 1)">
+      <ellipse cx="116" cy="85" rx="100" ry="4.5" fill="#000" opacity=".35"/>
+      <path fill="url(#g-paint)" d="M16,62 C16,54 22,50 34,48 L68,44 C80,33 96,24 116,22 L168,22 C184,22 196,30 204,42 L212,56 L214,64 C214,68 212,70 210,70 L192,70 A18,18 0 0 0 156,70 L78,70 A18,18 0 0 0 42,70 L20,70 C18,70 16,68 16,66 Z"/>
+      <path fill="url(#g-glass)" d="M76,44 C86,34 98,28 116,27 L128,27 L128,44 Z M134,27 L166,27 C180,27 190,33 198,44 L134,44 Z"/>
+      <path d="M32 56H208" stroke="url(#g-belt)" stroke-width="1.4"/>
+      <g fill="#0A0C0F" stroke="#39414C" stroke-width="2"><circle cx="60" cy="70" r="14"/><circle cx="174" cy="70" r="14"/></g>
+      <g fill="none" stroke="#A6AFB9" stroke-width="1.6"><circle cx="60" cy="70" r="7.5"/><circle cx="174" cy="70" r="7.5"/></g>
+      <path d="M17 53h9v3h-9z" fill="#F4F7FA"/><path d="M206 52h6v5h-6z" fill="#FF3B3B"/>
+    </g></symbol>
+    <symbol id="car-pickup" viewBox="0 0 240 96"><g transform="translate(240 0) scale(-1 1)">
+      <ellipse cx="120" cy="86" rx="110" ry="4.5" fill="#000" opacity=".35"/>
+      <path fill="url(#g-paint)" d="M10,60 C10,50 16,46 28,45 L58,43 C66,31 74,20 90,18 L136,18 C140,18 142,20 142,24 L142,44 L226,44 C229,44 230,46 230,48 L230,66 C230,68 228,70 226,70 L206,70 A19,19 0 0 0 168,70 L76,70 A19,19 0 0 0 38,70 L14,70 C12,70 10,68 10,66 Z"/>
+      <path fill="url(#g-glass)" d="M66,42 C72,32 80,24 92,23 L108,23 L108,42 Z M114,23 L136,23 L136,42 L114,42 Z"/>
+      <path d="M146 49H228" stroke="#5E6772" stroke-width="1"/>
+      <path d="M26 56H228" stroke="url(#g-belt)" stroke-width="1.4"/>
+      <g fill="#0A0C0F" stroke="#39414C" stroke-width="2"><circle cx="57" cy="70" r="15"/><circle cx="187" cy="70" r="15"/></g>
+      <g fill="none" stroke="#A6AFB9" stroke-width="1.6"><circle cx="57" cy="70" r="8"/><circle cx="187" cy="70" r="8"/></g>
+      <path d="M11 51h9v3.4h-9z" fill="#F4F7FA"/><path d="M226 49h4v7h-4z" fill="#FF3B3B"/>
+    </g></symbol>
+    <symbol id="car-minivan" viewBox="0 0 240 96"><g transform="translate(240 0) scale(-1 1)">
+      <ellipse cx="121" cy="85" rx="106" ry="4.5" fill="#000" opacity=".35"/>
+      <path fill="url(#g-paint)" d="M12,60 C12,52 16,48 26,46 L48,42 C60,28 74,18 96,16 L200,16 C212,16 218,22 220,32 L224,52 L228,58 L228,66 C228,68 226,70 224,70 L204,70 A18,18 0 0 0 168,70 L74,70 A18,18 0 0 0 38,70 L16,70 C14,70 12,68 12,66 Z"/>
+      <path fill="url(#g-glass)" d="M56,42 C66,30 78,22 96,21 L120,21 L120,42 Z M126,21 L164,21 L164,42 L126,42 Z M170,21 L200,21 C208,21 212,25 213,31 L215,42 L170,42 Z"/>
+      <path d="M28 55H222" stroke="url(#g-belt)" stroke-width="1.4"/>
+      <g fill="#0A0C0F" stroke="#39414C" stroke-width="2"><circle cx="56" cy="70" r="14"/><circle cx="186" cy="70" r="14"/></g>
+      <g fill="none" stroke="#A6AFB9" stroke-width="1.6"><circle cx="56" cy="70" r="7.5"/><circle cx="186" cy="70" r="7.5"/></g>
+      <path d="M13 51h8v3h-8z" fill="#F4F7FA"/><path d="M221 55h5v6h-5z" fill="#FF3B3B"/>
+    </g></symbol>
+    <symbol id="car-coupe" viewBox="0 0 240 96"><g transform="translate(240 0) scale(-1 1)">
+      <ellipse cx="121" cy="85" rx="106" ry="4.5" fill="#000" opacity=".35"/>
+      <path fill="url(#g-paint)" d="M12,62 C12,56 18,52 30,51 L80,46 C96,34 112,27 132,26 L150,26 C170,26 188,34 204,46 L220,50 C226,52 228,56 228,62 L228,66 C228,68 226,70 224,70 L202,70 A18,18 0 0 0 166,70 L74,70 A18,18 0 0 0 38,70 L16,70 C14,70 12,68 12,66 Z"/>
+      <path fill="url(#g-glass)" d="M90,46 C102,37 116,31 132,30 L140,30 L140,46 Z M146,30 L150,30 C164,30 178,36 192,46 L146,46 Z"/>
+      <path d="M30 59H214" stroke="url(#g-belt)" stroke-width="1.4"/>
+      <g fill="#0A0C0F" stroke="#39414C" stroke-width="2"><circle cx="56" cy="70" r="14"/><circle cx="184" cy="70" r="14"/></g>
+      <g fill="none" stroke="#A6AFB9" stroke-width="1.6"><circle cx="56" cy="70" r="7.5"/><circle cx="184" cy="70" r="7.5"/></g>
+      <path d="M13 57h10v2.6h-10z" fill="#F4F7FA"/><path d="M223 53h5v5h-5z" fill="#FF3B3B"/>
+    </g></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.15h-.01a8.230 8.230 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.83c0 4.54-3.7 8.22-8.230 8.22zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.410.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.23-.16-.48-.28z"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" d="M5 3.5h3.2l1.6 4.2-2.1 1.4a11.5 11.5 0 0 0 7.2 7.2l1.4-2.1 4.2 1.6V19a1.6 1.6 0 0 1-1.7 1.6C10.7 20.1 3.9 13.3 3.4 5.2A1.6 1.6 0 0 1 5 3.5z"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></g></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></g></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.5l5 5 10-11"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3.5 16.5a8.5 8.5 0 1 1 17 0"/><path d="M12 16.5l4.2-5"/></g></symbol>
+    <symbol id="i-fuel" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="4" y="3.5" width="10" height="17" rx="1.6"/><path d="M4 9.5h10"/><path d="M14 7.5l3.6 3v7.3a1.7 1.7 0 0 1-3.4 0V14"/></g></symbol>
+    <symbol id="i-drive" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.2"/><path d="M12 14.2v6.3M10 11.4 3.8 9.6M14 11.4l6.2-1.8"/></g></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c.6-3.4 3-5.2 6-5.2s5.4 1.8 6 5.2"/><circle cx="17" cy="9" r="2.6"/><path d="M16.2 14.8c2.6.2 4.3 1.9 4.9 4.7"/></g></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 6.5h16M7 12h10M10 17.5h4"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M7 4.5v15l12-7.5z"/></symbol>
+  </defs>
+</svg>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<header class="site-header">
+  <div class="wrap header-row">
+    <a class="brand" href="index.html" aria-label="Car Advisor — home" data-i18n-attr="aria-label:brand.home">
+      <img src="assets/logo-lockup.webp?v=03c47afe" alt="Car Advisor Solution" width="998" height="300">
+    </a>
+    <nav class="nav" id="nav" aria-label="Main" data-i18n-attr="aria-label:nav.aria">
+      <a href="index.html" aria-current="page"><span data-i18n="nav.home">Home</span><span class="nav-ind" aria-hidden="true"></span></a>
+      <a href="inventory.html"><span data-i18n="nav.inventory">Inventory</span></a>
+      <a href="services.html"><span data-i18n="nav.services">Services</span></a>
+      <a href="about.html"><span data-i18n="nav.about">About</span></a>
+      <a href="faq.html"><span data-i18n="nav.faq">FAQ</span></a>
+      <a href="contact.html"><span data-i18n="nav.contact">Contact</span></a>
+    </nav>
+    <div class="header-actions">
+      <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label:lang">
+        <button type="button" data-lang="en" aria-pressed="true" lang="en">EN</button>
+        <button type="button" data-lang="es" aria-pressed="false" lang="es">ES</button>
+      </div>
+      <a class="btn btn-red btn-sm header-cta" href="contact.html" data-i18n="cta.start">Start my request</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu" data-i18n-attr="aria-label:menu"><span></span></button>
+    </div>
+  </div>
+</header>
+<div class="nav-backdrop" aria-hidden="true"></div>
+<main id="main">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AutomotiveBusiness",
+  "@id": "https://caradvisorcorporation.com/#business",
+  "name": "Car Advisor Corporation",
+  "alternateName": "Car Advisor Solution",
+  "slogan": "Smart advice. Better decisions. Every mile.",
+  "description": "Car-buying concierge: vehicle sourcing, price negotiation, financing and lease optimization, trade-in valuation, contract audit and doorstep delivery.",
+  "url": "https://caradvisorcorporation.com/",
+  "logo": "https://caradvisorcorporation.com/assets/og.jpg",
+  "image": "https://caradvisorcorporation.com/assets/og.jpg",
+  "telephone": "+1-305-600-6112",
+  "email": "info@caradvisorcorp.com",
+  "address": { "@type": "PostalAddress", "streetAddress": "1500 NW 89th Ct Ste 112", "addressLocality": "Doral", "addressRegion": "FL", "postalCode": "33172", "addressCountry": "US" },
+  "areaServed": "US",
+  "knowsLanguage": ["en", "es"]
+}
+</script>
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="streaks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="hero-logo">
+    <div class="hero-fx" aria-hidden="true">
+      <span class="fx-fog fx-fog-1"></span>
+      <span class="fx-fog fx-fog-2"></span>
+      <span class="fx-beam fx-beam-1"></span>
+      <span class="fx-beam fx-beam-2"></span>
+      <span class="fx-beam fx-beam-3"></span>
+      <span class="fx-beam fx-beam-4"></span>
+      <span class="fx-dash fx-dash-1"></span>
+      <span class="fx-dash fx-dash-2"></span>
+    </div>
+    <div class="logo3d" id="logo3d">
+      <span class="l3 l3-full">
+        <img src="assets/logo-full-900.webp?v=c670e69a" srcset="assets/logo-full-640.webp 640w, assets/logo-full-900.webp 900w, assets/logo-full-1187.webp 1187w" sizes="(max-width: 560px) 96vw, min(92vw, 1020px)" alt="Car Advisor Solution — smart advice, better decisions, every mile" width="1020" height="1004" fetchpriority="high">
+        <i class="l3-sheen" aria-hidden="true"></i>
+      </span>
+    </div>
+    <span class="hero-scroll" aria-hidden="true"></span>
+  </div>
+  <div class="wrap hero-stack">
+    <div class="hero-copy">
+      <p class="eyebrow" data-i18n="hero.eyebrow">Car-buying concierge · Doral, Florida</p>
+      <h1 id="hero-title" class="metal" data-i18n="hero.title">Your next vehicle, without going to the dealer.</h1>
+      <p class="lede" data-i18n="hero.lede">You choose it. We take care of everything else: the search, the negotiation, the financing, the paperwork and the delivery to your door.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-red" href="contact.html"><span data-i18n="cta.start">Start my request</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        <a class="btn btn-ghost" href="inventory.html"><span data-i18n="hero.browse">Browse the inventory</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="makes" aria-labelledby="makes-title">
+  <div class="wrap makes-head">
+    <p class="eyebrow" id="makes-title" data-i18n="makes.label">We source any make</p>
+    <button class="makes-pause" type="button" aria-pressed="false" data-i18n="makes.pause">Pause</button>
+  </div>
+  <div class="makes-track">
+    <div class="makes-rail">
+      <ul>
+        <li><a href="inventory.html?make=Hyundai"><img src="assets/brands/hyundai.webp?v=68121584" alt="Hyundai" width="167" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Kia"><img class="lift-dark" src="assets/brands/kia.webp?v=8ea69a9b" alt="Kia" width="167" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Honda"><img src="assets/brands/honda.webp?v=674c0ccb" alt="Honda" width="103" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Genesis"><img src="assets/brands/genesis.webp?v=608cf10c" alt="Genesis" width="220" height="77" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=GMC"><img class="lift-dark" src="assets/brands/gmc.webp?v=4d5b27ac" alt="GMC" width="220" height="55" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Subaru"><img src="assets/brands/subaru.webp?v=09c19919" alt="Subaru" width="154" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Volkswagen"><img src="assets/brands/volkswagen.webp?v=77b92cc8" alt="Volkswagen" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Toyota"><img src="assets/brands/toyota.webp?v=b729af93" alt="Toyota" width="103" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Lexus"><img src="assets/brands/lexus.webp?v=3048bd27" alt="Lexus" width="118" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Audi"><img src="assets/brands/audi.webp?v=ff74a3d7" alt="Audi" width="143" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Fiat"><img src="assets/brands/fiat.webp?v=caa5e59e" alt="Fiat" width="86" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Nissan"><img src="assets/brands/nissan.webp?v=89ecd1b0" alt="Nissan" width="98" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Rivian"><img src="assets/brands/rivian.webp?v=6190bf75" alt="Rivian" width="87" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Mazda"><img src="assets/brands/mazda.webp?v=622ef6d8" alt="Mazda" width="79" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=BMW"><img src="assets/brands/bmw.webp?v=1a4df204" alt="BMW" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Mercedes-Benz"><img src="assets/brands/mercedes-benz.webp?v=fdf2d632" alt="Mercedes-Benz" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Mitsubishi"><img class="lift-dark" src="assets/brands/mitsubishi.webp?v=87ce2553" alt="Mitsubishi" width="97" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Buick"><img src="assets/brands/buick.webp?v=bb311eb5" alt="Buick" width="79" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Volvo"><img src="assets/brands/volvo.webp?v=ed002457" alt="Volvo" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Cadillac"><img src="assets/brands/cadillac.webp?v=b4564f68" alt="Cadillac" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lamborghini"><img src="assets/brands/lamborghini.webp?v=96b12e46" alt="Lamborghini" width="79" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Alfa%20Romeo"><img src="assets/brands/alfa-romeo.webp?v=aec44165" alt="Alfa Romeo" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lotus"><img src="assets/brands/lotus.webp?v=fa712159" alt="Lotus" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Acura"><img src="assets/brands/acura.webp?v=60126f23" alt="Acura" width="84" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Dodge"><img class="lift-dark" src="assets/brands/dodge.webp?v=d52180f1" alt="Dodge" width="81" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Infiniti"><img class="inv-light" src="assets/brands/infiniti.webp?v=720c757d" alt="Infiniti" width="108" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Porsche"><img src="assets/brands/porsche.webp?v=95a30f72" alt="Porsche" width="66" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Tesla"><img class="lift-dark" src="assets/brands/tesla.webp?v=aaa79a6a" alt="Tesla" width="65" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Maserati"><img src="assets/brands/maserati.webp?v=8cde7e00" alt="Maserati" width="55" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Rolls-Royce"><img src="assets/brands/rolls-royce.webp?v=cb0fc62a" alt="Rolls-Royce" width="48" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lincoln"><img src="assets/brands/lincoln.webp?v=bcfcbb4a" alt="Lincoln" width="49" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Ferrari"><img src="assets/brands/ferrari.webp?v=78962c62" alt="Ferrari" width="53" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=McLaren"><img src="assets/brands/mclaren.webp?v=93090613" alt="McLaren" width="220" height="32" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Chrysler"><img src="assets/brands/chrysler.webp?v=ed426662" alt="Chrysler" width="220" height="62" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lucid"><img class="inv-light" src="assets/brands/lucid.webp?v=45a9778c" alt="Lucid" width="220" height="76" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Ford"><img src="assets/brands/ford.webp?v=b63f22b5" alt="Ford" width="220" height="82" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Land%20Rover"><img src="assets/brands/range-rover.webp?v=96787cb3" alt="Range Rover" width="220" height="59" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Land%20Rover"><img src="assets/brands/land-rover.webp?v=5b56a67e" alt="Land Rover" width="161" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Jeep"><img src="assets/brands/jeep.webp?v=f9dcb6d1" alt="Jeep" width="212" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Bentley"><img src="assets/brands/bentley.webp?v=302eb954" alt="Bentley" width="166" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Aston%20Martin"><img class="lift-dark" src="assets/brands/aston-martin.webp?v=ef43483e" alt="Aston Martin" width="220" height="50" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=MINI"><img src="assets/brands/mini.webp?v=abdb9fe1" alt="MINI" width="198" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Chevrolet"><img src="assets/brands/chevrolet.webp?v=38714da4" alt="Chevrolet" width="174" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Jaguar"><img src="assets/brands/jaguar.webp?v=892aa569" alt="Jaguar" width="164" height="84" loading="eager" fetchpriority="low" decoding="async"></a></li>
+      </ul>
+      <ul aria-hidden="true">
+        <li><a href="inventory.html?make=Hyundai" tabindex="-1"><img src="assets/brands/hyundai.webp?v=68121584" alt="" width="167" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Kia" tabindex="-1"><img class="lift-dark" src="assets/brands/kia.webp?v=8ea69a9b" alt="" width="167" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Honda" tabindex="-1"><img src="assets/brands/honda.webp?v=674c0ccb" alt="" width="103" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Genesis" tabindex="-1"><img src="assets/brands/genesis.webp?v=608cf10c" alt="" width="220" height="77" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=GMC" tabindex="-1"><img class="lift-dark" src="assets/brands/gmc.webp?v=4d5b27ac" alt="" width="220" height="55" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Subaru" tabindex="-1"><img src="assets/brands/subaru.webp?v=09c19919" alt="" width="154" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Volkswagen" tabindex="-1"><img src="assets/brands/volkswagen.webp?v=77b92cc8" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Toyota" tabindex="-1"><img src="assets/brands/toyota.webp?v=b729af93" alt="" width="103" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Lexus" tabindex="-1"><img src="assets/brands/lexus.webp?v=3048bd27" alt="" width="118" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Audi" tabindex="-1"><img src="assets/brands/audi.webp?v=ff74a3d7" alt="" width="143" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Fiat" tabindex="-1"><img src="assets/brands/fiat.webp?v=caa5e59e" alt="" width="86" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Nissan" tabindex="-1"><img src="assets/brands/nissan.webp?v=89ecd1b0" alt="" width="98" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Rivian" tabindex="-1"><img src="assets/brands/rivian.webp?v=6190bf75" alt="" width="87" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Mazda" tabindex="-1"><img src="assets/brands/mazda.webp?v=622ef6d8" alt="" width="79" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=BMW" tabindex="-1"><img src="assets/brands/bmw.webp?v=1a4df204" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Mercedes-Benz" tabindex="-1"><img src="assets/brands/mercedes-benz.webp?v=fdf2d632" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Mitsubishi" tabindex="-1"><img class="lift-dark" src="assets/brands/mitsubishi.webp?v=87ce2553" alt="" width="97" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Buick" tabindex="-1"><img src="assets/brands/buick.webp?v=bb311eb5" alt="" width="79" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Volvo" tabindex="-1"><img src="assets/brands/volvo.webp?v=ed002457" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Cadillac" tabindex="-1"><img src="assets/brands/cadillac.webp?v=b4564f68" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lamborghini" tabindex="-1"><img src="assets/brands/lamborghini.webp?v=96b12e46" alt="" width="79" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Alfa%20Romeo" tabindex="-1"><img src="assets/brands/alfa-romeo.webp?v=aec44165" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lotus" tabindex="-1"><img src="assets/brands/lotus.webp?v=fa712159" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Acura" tabindex="-1"><img src="assets/brands/acura.webp?v=60126f23" alt="" width="84" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Dodge" tabindex="-1"><img class="lift-dark" src="assets/brands/dodge.webp?v=d52180f1" alt="" width="81" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Infiniti" tabindex="-1"><img class="inv-light" src="assets/brands/infiniti.webp?v=720c757d" alt="" width="108" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Porsche" tabindex="-1"><img src="assets/brands/porsche.webp?v=95a30f72" alt="" width="66" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Tesla" tabindex="-1"><img class="lift-dark" src="assets/brands/tesla.webp?v=aaa79a6a" alt="" width="65" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Maserati" tabindex="-1"><img src="assets/brands/maserati.webp?v=8cde7e00" alt="" width="55" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Rolls-Royce" tabindex="-1"><img src="assets/brands/rolls-royce.webp?v=cb0fc62a" alt="" width="48" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lincoln" tabindex="-1"><img src="assets/brands/lincoln.webp?v=bcfcbb4a" alt="" width="49" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Ferrari" tabindex="-1"><img src="assets/brands/ferrari.webp?v=78962c62" alt="" width="53" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=McLaren" tabindex="-1"><img src="assets/brands/mclaren.webp?v=93090613" alt="" width="220" height="32" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Chrysler" tabindex="-1"><img src="assets/brands/chrysler.webp?v=ed426662" alt="" width="220" height="62" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Lucid" tabindex="-1"><img class="inv-light" src="assets/brands/lucid.webp?v=45a9778c" alt="" width="220" height="76" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Ford" tabindex="-1"><img src="assets/brands/ford.webp?v=b63f22b5" alt="" width="220" height="82" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Land%20Rover" tabindex="-1"><img src="assets/brands/range-rover.webp?v=96787cb3" alt="" width="220" height="59" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Land%20Rover" tabindex="-1"><img src="assets/brands/land-rover.webp?v=5b56a67e" alt="" width="161" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Jeep" tabindex="-1"><img src="assets/brands/jeep.webp?v=f9dcb6d1" alt="" width="212" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Bentley" tabindex="-1"><img src="assets/brands/bentley.webp?v=302eb954" alt="" width="166" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Aston%20Martin" tabindex="-1"><img class="lift-dark" src="assets/brands/aston-martin.webp?v=ef43483e" alt="" width="220" height="50" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=MINI" tabindex="-1"><img src="assets/brands/mini.webp?v=abdb9fe1" alt="" width="198" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="inventory.html?make=Chevrolet" tabindex="-1"><img src="assets/brands/chevrolet.webp?v=38714da4" alt="" width="174" height="84" loading="lazy" decoding="async"></a></li>
+        <li><a href="contact.html?vehicle=Jaguar" tabindex="-1"><img src="assets/brands/jaguar.webp?v=892aa569" alt="" width="164" height="84" loading="lazy" decoding="async"></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="facts-band">
+  <div class="wrap">
+    <dl class="hero-facts">
+      <div><dt>25+</dt><dd data-i18n="fact.years">years inside the car business</dd></div>
+      <div><dt data-i18n="fact.any.t">Any make</dt><dd data-i18n="fact.any">sourced through a nationwide network</dd></div>
+      <div><dt>0</dt><dd data-i18n="fact.zero">trips to the dealership for you</dd></div>
+    </dl>
+  </div>
+</section>
+
+
+
+<section class="section" id="featured" aria-labelledby="feat-title">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-i18n="feat.eyebrow">Inventory</p>
+      <div>
+        <h2 id="feat-title" data-i18n="feat.title">Browse what's available, or ask for anything.</h2>
+        <p data-i18n="feat.intro">A sample of vehicles in our network right now. We aren't limited to a lot: tell us any make, model or trim and we'll track it down.</p>
+      </div>
+    </header>
+    <ul class="vgrid" id="featured-grid"></ul>
+    <div class="row-end">
+      <p data-i18n="feat.note">Prices are the manufacturers' starting MSRP; photos are stock images of the same model.</p>
+      <a class="btn btn-ghost" href="inventory.html"><span id="featured-all">View the full inventory</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-i18n="how.eyebrow">How it works</p>
+      <div>
+        <h2 id="how-title" data-i18n="how.title">Four steps. You only show up for the last one.</h2>
+        <p data-i18n="how.intro">Tell us what you want, or just your budget and how you drive. From there, our team does the work a dealership usually makes you do.</p>
+      </div>
+    </header>
+    <ol class="route">
+      <li><span class="route-n mono">01</span><h3 data-i18n="how.1.t">Tell us what you want</h3><p data-i18n="how.1.p">Make, model and trim, or your budget, commute and family needs. Not sure yet? We give you objective advice before anything is negotiated.</p></li>
+      <li><span class="route-n mono">02</span><h3 data-i18n="how.2.t">We find it and negotiate</h3><p data-i18n="how.2.p">We search our nationwide network, evaluate the options and negotiate directly with dealers for the best price and package.</p></li>
+      <li><span class="route-n mono">03</span><h3 data-i18n="how.3.t">We handle financing and paperwork</h3><p data-i18n="how.3.p">We compare loan and lease rates, audit every line of the contract and remove the extras you don't need.</p></li>
+      <li><span class="route-n mono">04</span><h3 data-i18n="how.4.t">It arrives at your door</h3><p data-i18n="how.4.p">Inspected, cleaned and delivered to your home or office.</p><span class="route-keys" data-i18n="how.keys">You get the keys.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="compare" aria-labelledby="cmp-title">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-i18n="cmp.eyebrow">The difference</p>
+      <div>
+        <h2 id="cmp-title" data-i18n="cmp.title">The dealership works for the dealership. We work for you.</h2>
+        <p data-i18n="cmp.intro">We don't sell from a lot, so there's no inventory to push on you. Our only job is getting you the right car on the right terms.</p>
+      </div>
+    </header>
+    <div class="compare-wrap" tabindex="0" role="region" aria-labelledby="cmp-title">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th scope="col"><span class="sr-only" data-i18n="cmp.h.stage">Stage</span></th>
+            <th scope="col" data-i18n="cmp.h.dealer">On your own at the dealership</th>
+            <th scope="col" class="ca" data-i18n="cmp.h.ca">With Car Advisor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row" data-i18n="cmp.r1.t">Your time</th><td><div class="cell"><svg class="no" aria-hidden="true"><use href="#i-x"/></svg><span data-i18n="cmp.r1.d">Hours on the lot and in the finance office</span></div></td><td class="ca"><div class="cell"><svg class="yes" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="cmp.r1.c">One conversation from home. We do the legwork.</span></div></td></tr>
+          <tr><th scope="row" data-i18n="cmp.r2.t">Choice</th><td><div class="cell"><svg class="no" aria-hidden="true"><use href="#i-x"/></svg><span data-i18n="cmp.r2.d">Limited to what's on their lot</span></div></td><td class="ca"><div class="cell"><svg class="yes" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="cmp.r2.c">Any make, model or trim, sourced nationwide</span></div></td></tr>
+          <tr><th scope="row" data-i18n="cmp.r3.t">Advice</th><td><div class="cell"><svg class="no" aria-hidden="true"><use href="#i-x"/></svg><span data-i18n="cmp.r3.d">Steered toward the inventory they need to move</span></div></td><td class="ca"><div class="cell"><svg class="yes" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="cmp.r3.c">Unbiased, matched to your needs and budget</span></div></td></tr>
+          <tr><th scope="row" data-i18n="cmp.r4.t">Price</th><td><div class="cell"><svg class="no" aria-hidden="true"><use href="#i-x"/></svg><span data-i18n="cmp.r4.d">You negotiate alone against professionals</span></div></td><td class="ca"><div class="cell"><svg class="yes" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="cmp.r4.c">Industry insiders negotiate on your behalf</span></div></td></tr>
+          <tr><th scope="row" data-i18n="cmp.r5.t">Contract</th><td><div class="cell"><svg class="no" aria-hidden="true"><use href="#i-x"/></svg><span data-i18n="cmp.r5.d">Add-ons and marked-up rates appear at signing</span></div></td><td class="ca"><div class="cell"><svg class="yes" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="cmp.r5.c">Every line audited before you sign</span></div></td></tr>
+          <tr><th scope="row" data-i18n="cmp.r6.t">Delivery</th><td><div class="cell"><svg class="no" aria-hidden="true"><use href="#i-x"/></svg><span data-i18n="cmp.r6.d">You go and pick it up</span></div></td><td class="ca"><div class="cell"><svg class="yes" aria-hidden="true"><use href="#i-check"/></svg><span data-i18n="cmp.r6.c">Delivered to your home or office</span></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" aria-labelledby="promo-title">
+  <div class="wrap promo">
+    <h2 class="sr-only" id="promo-title" data-i18n="promo.title">Shortcuts</h2>
+    <a class="promo-card" href="services.html#check">
+      <p class="eyebrow" data-i18n="promo.1.eyebrow">Free tool</p>
+      <h3 data-i18n="promo.1.t">Already have a dealer quote?</h3>
+      <p data-i18n="promo.1.p">Check it for junk fees and marked-up rates before you sign anything.</p>
+      <span class="link-arrow"><span data-i18n="promo.1.cta">Check my quote</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+    </a>
+    <a class="promo-card" href="contact.html">
+      <p class="eyebrow" data-i18n="promo.2.eyebrow">Not sure yet?</p>
+      <h3 data-i18n="promo.2.t">Tell us how you drive. We'll tell you what fits.</h3>
+      <p data-i18n="promo.2.p">Objective advice on any make or model, based on your commute, your family and your budget.</p>
+      <span class="link-arrow"><span data-i18n="promo.2.cta">Talk to an advisor</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="insights" aria-labelledby="ins-title">
+  <div class="wrap">
+    <header class="sec-head">
+      <p class="eyebrow" data-i18n="ins.eyebrow">Insights</p>
+      <div>
+        <h2 id="ins-title" data-i18n="ins.title">Read this before you sign anything.</h2>
+        <p data-i18n="ins.intro">Car-buying tips, industry news and straight answers from the Car Advisor team.</p>
+      </div>
+    </header>
+    <ul class="posts">
+      <li class="post"><a href="article.html?id=hidden-dealer-fees">
+        <div class="post-img"><img src="assets/posts/fees.webp?v=f728ff40" alt="" width="430" height="321" loading="lazy" decoding="async"></div>
+        <p class="post-meta"><span data-i18n="ins.date">Aug 25, 2026</span><span data-i18n="ins.1.cat">Auto financing</span></p>
+        <h3 data-i18n="ins.1.t">Hidden dealer fees: what you're really paying for (and how to avoid them)</h3>
+        <span class="link-arrow"><span data-i18n="ins.read">Read article</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a></li>
+      <li class="post"><a href="article.html?id=electric-hybrid-or-gas">
+        <div class="post-img"><img src="assets/posts/powertrain.webp?v=517ebb32" alt="" width="430" height="321" loading="lazy" decoding="async"></div>
+        <p class="post-meta"><span data-i18n="ins.date">Aug 25, 2026</span><span data-i18n="ins.2.cat">Electric vehicles</span></p>
+        <h3 data-i18n="ins.2.t">Electric, hybrid or gas? Choosing the right vehicle for your lifestyle</h3>
+        <span class="link-arrow"><span data-i18n="ins.read">Read article</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a></li>
+      <li class="post"><a href="article.html?id=why-you-need-a-car-concierge">
+        <div class="post-img"><img src="assets/posts/concierge.webp?v=7af97506" alt="" width="430" height="321" loading="lazy" decoding="async"></div>
+        <p class="post-meta"><span data-i18n="ins.date">Aug 25, 2026</span><span data-i18n="ins.3.cat">Car-buying guide</span></p>
+        <h3 data-i18n="ins.3.t">The ultimate hack for buying a car: why you need a vehicle concierge</h3>
+        <span class="link-arrow"><span data-i18n="ins.read">Read article</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+      </a></li>
+    </ul>
+  </div>
+</section>
+
+<section class="cta-band" aria-labelledby="band-title">
+  <div class="wrap cta-band-inner">
+    <div>
+      <h2 id="band-title" data-i18n="band.title">Tell us the car. We'll take it from there.</h2>
+      <p data-i18n="band.text">Three short steps, no obligation. An advisor contacts you the way you prefer, in English or Spanish.</p>
+    </div>
+    <div class="cta-band-actions">
+      <a class="btn btn-red" href="contact.html"><span data-i18n="cta.start">Start my request</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost-inv" href="https://wa.me/13056006112" target="_blank" rel="noopener" data-wa><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="band.wa">Chat on WhatsApp</span></a>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <img src="assets/logo-lockup.webp?v=03c47afe" alt="Car Advisor Solution" width="998" height="300" loading="lazy">
+        <p data-i18n="ft.tagline">Smart advice. Better decisions. Every mile.</p>
+      </div>
+      <div>
+        <h2 data-i18n="ft.explore">Explore</h2>
+        <ul>
+          <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+          <li><a href="inventory.html" data-i18n="nav.inventory">Inventory</a></li>
+          <li><a href="services.html" data-i18n="nav.services">Services</a></li>
+          <li><a href="about.html" data-i18n="nav.about">About</a></li>
+          <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+          <li><a href="contact.html" data-i18n="nav.contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 data-i18n="ft.services">Services</h2>
+        <ul>
+          <li><a href="services.html#svc-sourcing" data-i18n="svc.1.t">Custom vehicle sourcing</a></li>
+          <li><a href="services.html#svc-negotiation" data-i18n="svc.2.t">Expert price negotiation</a></li>
+          <li><a href="services.html#svc-financing" data-i18n="svc.3.t">Financing &amp; lease optimization</a></li>
+          <li><a href="services.html#svc-tradein" data-i18n="svc.4.t">Trade-in valuation</a></li>
+          <li><a href="services.html#svc-audit" data-i18n="svc.5.t">Contract &amp; paperwork audit</a></li>
+          <li><a href="services.html#svc-delivery" data-i18n="svc.6.t">VIP doorstep delivery</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 data-i18n="ft.contact">Contact</h2>
+        <ul>
+          <li><a class="mono" href="tel:+13056006112">+1 (305) 600-6112</a></li>
+          <li><a class="mono" href="tel:+17865367332">+1 (786) 536-7332</a></li>
+          <li><a href="mailto:info@caradvisorcorp.com">info@caradvisorcorp.com</a></li>
+          <li>1500 NW 89th Ct, Suite 112<br>Doral, FL 33172</li>        </ul>
+        <ul class="foot-social" aria-label="Car Advisor on social media" data-i18n-attr="aria-label:ft.social">
+          <li><a href="https://www.facebook.com/caradvisorcorporation" target="_blank" rel="noopener">Facebook</a></li>
+          <li><a href="https://www.instagram.com/caradvisorcorporation/" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span data-year>2026</span> Car Advisor Corporation</span>
+      <span class="foot-legal"><a href="privacy.html" data-i18n="lg.priv">Privacy policy</a><a href="terms.html" data-i18n="lg.terms">Terms of service</a></span>
+      <span data-i18n="ft.demo">Prices are the manufacturers' starting MSRP; photos are stock images of the same model.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/13056006112" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" data-wa data-i18n-attr="aria-label:wa.aria"><svg aria-hidden="true"><use href="#i-wa"/></svg></a>
+
+<nav class="mbar" aria-label="Quick contact" data-i18n-attr="aria-label:mb.aria">
+  <a href="tel:+13056006112"><svg aria-hidden="true"><use href="#i-phone"/></svg><span data-i18n="mb.call">Call</span></a>
+  <a href="https://wa.me/13056006112" target="_blank" rel="noopener" data-wa><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
+  <a class="go" href="contact.html" data-i18n="mb.start">Get started</a>
+</nav>
+
+<script src="js/i18n/common.js?v=038e266a"></script>
+<script src="js/i18n/home.js?v=6b6d86ae"></script>
+<script src="js/data/inventory.js?v=bcca3e40"></script>
+<script src="js/core.js?v=a09622d8"></script>
+<script src="js/vehicles.js?v=d7bf6e0f"></script>
+<script src="js/pages/home.js?v=b0d52cbf"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!--{"title": "Inventory · Car Advisor", "title_key": "meta.inv.title", "desc": "Browse vehicles available through Car Advisor's nationwide network, or ask us to source any make, model or trim.", "desc_key": "meta.inv.desc", "css": ["components", "inventory"], "i18n": ["inventory"], "data": ["data/inventory.js"], "js": ["vehicles.js", "pages/inventory.js"], "band": true}-->
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:crumbs"><a href="index.html" data-i18n="nav.home">Home</a><span aria-hidden="true">/</span><span aria-current="page" data-i18n="nav.inventory">Inventory</span></nav>
+    <div class="page-hero-row">
+      <div>
+        <p class="eyebrow" data-i18n="inv.eyebrow">Inventory</p>
+        <h1 class="metal" data-i18n="inv.title">Find it here, or we'll find it for you.</h1>
+        <p class="lede" data-i18n="inv.lede">Browse vehicles available through our network. Don't see the one you want? We source any make, model or trim, nationwide.</p>
+      </div>
+      <p class="demo-badge" data-i18n="inv.demo">Prices are the manufacturers' starting MSRP. Photos are stock images of the same model.</p>
+    </div>
+  </div>
+</section>
+
+<section class="inv" aria-label="Vehicles" data-i18n-attr="aria-label:inv.aria">
+  <div class="wrap inv-layout">
+    <aside class="filters-panel" id="filters" aria-labelledby="filters-title">
+      <div class="fp-head">
+        <h2 id="filters-title" data-i18n="inv.filters">Filters</h2>
+        <button type="button" class="fp-close" aria-label="Close filters" data-i18n-attr="aria-label:inv.close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+      <form id="filter-form" role="search">
+        <div class="fgroup">
+          <label class="fg-label" for="f-q" data-i18n="inv.search">Search</label>
+          <input class="txt-in" id="f-q" type="search" autocomplete="off" placeholder="Make, model or trim" data-i18n-attr="placeholder:inv.search.ph">
+        </div>
+        <fieldset class="fgroup"><legend data-i18n="inv.condition">Condition</legend><div class="fchips" id="f-cond"></div></fieldset>
+        <fieldset class="fgroup"><legend data-i18n="inv.body">Body style</legend><div class="fchips" id="f-body"></div></fieldset>
+        <fieldset class="fgroup"><legend data-i18n="inv.make">Make</legend><div class="checklist" id="f-make"></div></fieldset>
+        <fieldset class="fgroup"><legend data-i18n="inv.fuel">Fuel</legend><div class="fchips" id="f-fuel"></div></fieldset>
+        <fieldset class="fgroup">
+          <legend data-i18n="inv.price">Price</legend>
+          <div class="range2">
+            <label><span data-i18n="inv.min">Min</span><span class="money"><input class="num-in" id="f-pmin" type="number" inputmode="numeric" min="0" step="1000" placeholder="0"></span></label>
+            <label><span data-i18n="inv.max">Max</span><span class="money"><input class="num-in" id="f-pmax" type="number" inputmode="numeric" min="0" step="1000" placeholder="No max" data-i18n-attr="placeholder:inv.anyPh"></span></label>
+          </div>
+        </fieldset>
+        <fieldset class="fgroup">
+          <legend data-i18n="inv.year">Year</legend>
+          <div class="range2">
+            <label><span data-i18n="inv.from">From</span><select class="txt-in" id="f-ymin"></select></label>
+            <label><span data-i18n="inv.to">To</span><select class="txt-in" id="f-ymax"></select></label>
+          </div>
+        </fieldset>
+        <div class="fgroup">
+          <label class="fg-label" for="f-miles" data-i18n="inv.miles">Mileage</label>
+          <select class="txt-in" id="f-miles">
+            <option value="" data-i18n="inv.m0">Any mileage</option>
+            <option value="1000" data-i18n="inv.m1">New (under 1,000 mi)</option>
+            <option value="15000" data-i18n="inv.m2">Under 15,000 mi</option>
+            <option value="30000" data-i18n="inv.m3">Under 30,000 mi</option>
+            <option value="60000" data-i18n="inv.m4">Under 60,000 mi</option>
+          </select>
+        </div>
+      </form>
+      <div class="fp-foot">
+        <button type="button" class="btn btn-ghost btn-sm" id="f-clear" data-i18n="inv.clear">Clear all</button>
+        <button type="button" class="btn btn-red btn-sm fp-apply" id="fp-apply">Show vehicles</button>
+      </div>
+    </aside>
+
+    <div class="results" id="results">
+      <h2 class="sr-only" id="results-title" data-i18n="inv.results">Results</h2>
+      <div class="results-bar">
+        <p class="results-count" id="r-count" aria-live="polite" tabindex="-1"></p>
+        <div class="results-tools">
+          <button class="btn btn-ghost btn-sm filters-open" type="button" aria-controls="filters" aria-expanded="false"><svg aria-hidden="true"><use href="#i-filter"/></svg><span data-i18n="inv.filters">Filters</span><span class="badge" id="f-badge" hidden></span></button>
+          <label class="sort"><span data-i18n="inv.sort">Sort by</span>
+            <select class="txt-in txt-in--sm" id="f-sort">
+              <option value="rec" data-i18n="inv.s.rec">Recommended</option>
+              <option value="price-asc" data-i18n="inv.s.pasc">Price: low to high</option>
+              <option value="price-desc" data-i18n="inv.s.pdesc">Price: high to low</option>
+              <option value="year-desc" data-i18n="inv.s.year">Newest first</option>
+              <option value="miles-asc" data-i18n="inv.s.miles">Lowest mileage</option>
+            </select>
+          </label>
+        </div>
+      </div>
+      <div class="active-filters" id="active-filters"></div>
+      <ul class="inv-grid" id="inv-grid"></ul>
+      <div class="inv-empty" id="inv-empty" hidden>
+        <h2 data-i18n="inv.empty.t">No exact matches</h2>
+        <p data-i18n="inv.empty.p">Nothing in this demo inventory matches those filters, but we can still source it through our network.</p>
+        <div class="actions">
+          <button class="btn btn-ghost" type="button" id="empty-clear" data-i18n="inv.clear">Clear all</button>
+          <a class="btn btn-red" href="contact.html" data-i18n="inv.empty.ask">Ask us to find it</a>
+        </div>
+      </div>
+      <nav class="pager" id="pager" aria-label="Pages" data-i18n-attr="aria-label:inv.pages"></nav>
+      <aside class="source-cta" aria-labelledby="src-title">
+        <div>
+          <h2 id="src-title" data-i18n="inv.src.t">Not on the list?</h2>
+          <p data-i18n="inv.src.p">We aren't limited to a lot. Tell us the make, model and trim, and we'll track it down nationwide.</p>
+        </div>
+        <a class="btn btn-red" href="contact.html"><span data-i18n="inv.src.cta">Request any vehicle</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </aside>
+      <p class="credits-note" data-i18n="inv.credits">Photos are stock images of each model, used under free licenses. Each vehicle page credits the author and license.</p>
+    </div>
+  </div>
+  <div class="fp-backdrop" aria-hidden="true"></div>
+</section>

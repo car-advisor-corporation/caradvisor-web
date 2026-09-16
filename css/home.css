@@ -1,0 +1,161 @@
+/* Car Advisor — home page: hero (logo first, copy below), makes marquee, "how it works" road. */
+
+.hero { position: relative; overflow: hidden; padding: clamp(12px, 1.6vw, 22px) 0 clamp(56px, 7vw, 96px); background: var(--hero-bg); border-bottom: 1px solid var(--line); }
+.streaks { position: absolute; inset: 0; pointer-events: none; }
+.streaks i { position: absolute; left: -40%; width: 38%; height: 1px; opacity: .7; background: linear-gradient(90deg, transparent, var(--streak), transparent); animation: streak 9s linear infinite; }
+.streaks i:nth-child(1) { top: 22%; animation-duration: 11s; }
+.streaks i:nth-child(2) { top: 48%; animation-delay: -4s; animation-duration: 8s; background: linear-gradient(90deg, transparent, var(--streak-red), transparent); }
+.streaks i:nth-child(3) { top: 71%; animation-delay: -7s; animation-duration: 13s; }
+.streaks i:nth-child(4) { top: 88%; animation-delay: -2s; animation-duration: 10s; width: 24%; }
+.streaks i:nth-child(5) { top: 34%; animation-delay: -5s; animation-duration: 6.5s; width: 18%; background: linear-gradient(90deg, transparent, var(--streak-red), transparent); }
+.streaks i:nth-child(6) { top: 60%; animation-delay: -9s; animation-duration: 7.5s; width: 30%; }
+.streaks i:nth-child(7) { top: 12%; animation-delay: -3s; animation-duration: 12s; width: 22%; }
+@keyframes streak { to { transform: translateX(420%); } }
+
+/* The logo opens the page full width; the copy follows underneath as you scroll. */
+.hero-stack { position: relative; display: grid; gap: clamp(36px, 5vw, 64px); }
+.hero > .hero-logo + .hero-stack { margin-top: clamp(-40px, -3vw, -12px); }
+/* Primera pantalla: el logo a sangre, de borde a borde, fundido con el fondo de la página.
+   mix-blend-mode: screen hace desaparecer el negro del archivo, así que no hay ningún recuadro. */
+/* Primera pantalla: el logo a sangre, en dos capas con profundidad. El negro del arte desaparece
+   con mix-blend-mode: screen, así que no hay recuadro; la inclinación sigue al cursor. */
+/* Primera pantalla: solo el emblema y el texto son imagen (PNG recortado, sin fondo).
+   La neblina y las rayas rojas del arte original se recrean en CSS y se animan a lo ancho. */
+.hero-logo {
+  position: relative; display: grid; place-items: center;
+  width: 100vw; margin-left: calc(50% - 50vw);
+  min-height: min(88svh, 900px);
+  perspective: 1400px;
+}
+.hero-logo::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 20%; z-index: 4; pointer-events: none;
+  background: linear-gradient(to top, var(--hero-bg) 4%, transparent);
+}
+
+.hero-fx { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.fx-fog { position: absolute; border-radius: 50%; filter: blur(60px); opacity: .75; }
+.fx-fog-1 { left: 50%; top: 46%; width: min(120vw, 1250px); height: min(74vh, 700px); transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(150, 168, 190, .17), transparent 72%); animation: fogDrift 18s ease-in-out infinite; }
+.fx-fog-2 { left: 50%; top: 48%; width: min(78vw, 780px); height: min(52vh, 480px); transform: translate(-50%, -50%);
+  background: radial-gradient(closest-side, rgba(219, 45, 46, .26), transparent 70%); animation: fogPulse 9s ease-in-out infinite; }
+@keyframes fogDrift { 50% { transform: translate(-52%, -48%) scale(1.08); opacity: .95; } }
+@keyframes fogPulse { 50% { transform: translate(-50%, -50%) scale(1.13); opacity: .6; } }
+
+/* Rayas de velocidad: cruzan toda la pantalla de lado a lado, por detrás del logo. */
+.fx-beam { position: absolute; left: -45%; height: 2px; width: 45%; border-radius: 2px; opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .5), transparent); animation: beamRun 7s linear infinite; }
+.fx-beam-1 { top: 30%; animation-duration: 6.5s; }
+.fx-beam-2 { top: 52%; width: 62%; height: 3px; animation-duration: 4.6s; animation-delay: -1.8s;
+  background: linear-gradient(90deg, transparent, rgba(255, 60, 60, .85), rgba(255, 120, 120, .2), transparent); }
+.fx-beam-3 { top: 63%; width: 34%; animation-duration: 8.5s; animation-delay: -3.4s; }
+.fx-beam-4 { top: 41%; width: 28%; height: 1px; animation-duration: 5.4s; animation-delay: -4.6s;
+  background: linear-gradient(90deg, transparent, rgba(255, 60, 60, .6), transparent); }
+@keyframes beamRun { 0% { transform: translateX(0); opacity: 0; } 12% { opacity: 1; } 88% { opacity: 1; } 100% { transform: translateX(340%); opacity: 0; } }
+
+/* Guiones digitales, como los del arte original */
+.fx-dash { position: absolute; height: 4px; width: 180px; opacity: .5;
+  background: repeating-linear-gradient(90deg, rgba(219, 45, 46, .9) 0 14px, transparent 14px 26px);
+  animation: dashRun 9s linear infinite; }
+.fx-dash-1 { top: 36%; left: -20%; animation-duration: 11s; }
+.fx-dash-2 { top: 58%; left: -30%; animation-duration: 7.5s; animation-delay: -3s;
+  background: repeating-linear-gradient(90deg, rgba(180, 200, 220, .7) 0 10px, transparent 10px 22px); }
+@keyframes dashRun { 0% { transform: translateX(0); opacity: 0; } 15% { opacity: .55; } 85% { opacity: .55; } 100% { transform: translateX(560%); opacity: 0; } }
+
+.logo3d {
+  position: relative; z-index: 2; display: grid; justify-items: center;
+  gap: clamp(2px, .6vw, 10px); width: 100%;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform .5s cubic-bezier(.2, .7, .2, 1);
+}
+.logo3d.is-live { transition: transform .12s linear; }
+.l3 { position: relative; display: block; }
+.l3 img { display: block; width: 100%; height: auto; }
+/* El emblema flota por delante del texto: al mover el ratón se separan y se nota el volumen. */
+.l3-full { width: min(96vw, 1020px); transform: translate3d(calc(var(--px, 0) * 12px), calc(var(--py, 0) * 9px), 0); animation: l3Float 9s ease-in-out infinite; }
+@keyframes l3Float { 50% { translate: 0 -12px; } }
+
+/* Destello metálico recortado con la silueta de cada capa. */
+.l3-sheen {
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen;
+  background: linear-gradient(104deg, transparent 40%, rgba(255, 255, 255, .55) 48%, rgba(255, 255, 255, .06) 55%, transparent 63%);
+  background-size: 260% 100%; background-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  animation: heroSheen 7s cubic-bezier(.4, 0, .2, 1) infinite;
+}
+.l3-full .l3-sheen { -webkit-mask-image: url(../assets/logo-full-640.webp); mask-image: url(../assets/logo-full-640.webp); }
+@keyframes heroSheen { 0%, 62% { background-position: 150% 0; } 100% { background-position: -60% 0; } }
+
+.hero-scroll {
+  position: absolute; left: 50%; bottom: 14px; z-index: 5; width: 22px; height: 36px;
+  border: 1px solid var(--line-2); border-radius: 12px; transform: translateX(-50%); opacity: .55;
+}
+.hero-scroll::before {
+  content: ""; position: absolute; left: 50%; top: 7px; width: 3px; height: 7px; border-radius: 2px;
+  background: var(--red); transform: translateX(-50%); animation: scrollhint 1.9s ease-in-out infinite;
+}
+@keyframes scrollhint { 50% { transform: translate(-50%, 12px); opacity: .2; } }
+/* En tema claro el logo plateado necesita una base oscura difusa para no lavarse. */
+
+.hero h1 { margin-top: 20px; font: 800 clamp(2.35rem, 4.7vw, 3.85rem)/1.02 var(--f-display); font-stretch: 112%; letter-spacing: -.025em; text-wrap: balance; }
+.hero .lede { margin-top: 22px; max-width: 40em; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.hero-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px clamp(24px, 3.4vw, 44px); margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
+.hero-facts dt { font: 700 1.55rem/1 var(--f-display); font-stretch: 118%; letter-spacing: -.01em; }
+.hero-facts dd { margin-top: 8px; font-size: .88rem; line-height: 1.4; color: var(--muted); max-width: 22ch; }
+@media (min-width: 561px) { .hero-facts dt { white-space: nowrap; } }
+@media (max-width: 560px) {
+  .hero-logo { min-height: min(68svh, 580px); }
+  .l3-full { width: 96vw; }
+  .hero-facts { gap: 16px; }
+  .hero-facts dt { font-size: 1.2rem; }
+  .hero-facts dd { font-size: .8rem; }
+}
+
+/* Makes marquee: label and control on their own row, so the logo track runs the full width and the
+   only partial logos are the ones sliding off the screen edges. Each logo links to its inventory. */
+.makes { padding: 30px 0 34px; background: var(--bg-2); border-bottom: 1px solid var(--line); overflow: hidden; }
+.makes-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.makes-track { width: 100%; overflow: hidden; padding-block: 12px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
+.makes-rail { display: flex; width: max-content; animation: marquee 70s linear infinite; }
+.makes-rail ul { display: flex; align-items: center; gap: clamp(34px, 4vw, 60px); padding-right: clamp(34px, 4vw, 60px); list-style: none; }
+.makes-rail li { width: 168px; height: 92px; }
+.makes-rail a { display: block; width: 100%; height: 92px; text-align: center; line-height: 92px; border-radius: 8px; transition: transform .25s var(--ease-out); }
+.makes-rail a:hover { transform: scale(1.08); filter: drop-shadow(0 6px 14px rgba(219, 45, 46, .45)); }
+.makes-rail a:focus-visible { outline: 2px solid var(--red); outline-offset: 4px; }
+/* Plain inline centring with a pixel cap: inside a grid or flex cell the automatic minimum size
+   wins over max-height and the logo spills out of the strip. */
+.makes-rail img { display: inline-block; width: auto; height: auto; max-width: 144px; max-height: 66px; vertical-align: middle; }
+/* Colored marks (Kia, GMC, Mitsubishi, Dodge, Tesla, Aston Martin) read fine on black in their own
+   hue, so they only get a small lift. Inversion is reserved for single-ink marks, which would vanish. */
+.makes-rail img.lift-dark { filter: brightness(1.35) saturate(1.05); }
+.makes-rail img.inv-dark { filter: invert(1); }
+@keyframes marquee { to { transform: translateX(-50%); } }
+.makes.paused .makes-rail, .makes-track:hover .makes-rail, .makes:focus-within .makes-rail { animation-play-state: paused; }
+.makes-pause { flex: none; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface); color: var(--text-2); font: 600 .7rem/1 var(--f-display); font-stretch: 118%; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+.makes-pause:hover { border-color: rgba(219, 45, 46, .55); color: var(--text); box-shadow: 0 8px 20px -10px rgba(219, 45, 46, .55); }
+.makes-pause[aria-pressed="true"] { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-text); }
+@media (prefers-reduced-motion: reduce) { .streaks { display: none; } .l3-sheen, .l3-full, .hero-scroll::before, .fx-fog, .fx-beam, .fx-dash { animation: none; } .fx-beam, .fx-dash { display: none; } .logo3d { transform: none; } .makes-rail { animation: none; } .makes-track { overflow-x: auto; } .makes-pause { display: none; } }
+
+/* How it works: a road with lane markings */
+.route { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); position: relative; }
+.route::before { content: ""; position: absolute; left: 0; right: 0; top: 0; border-top: 2px dashed var(--line-2); }
+.route li { position: relative; padding: 36px 28px 0 0; }
+.route li::before { content: ""; position: absolute; top: -7px; left: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--muted); }
+.section-alt .route li::before { background: var(--bg-2); }
+.route li:last-child::before { background: var(--red); border-color: var(--red); box-shadow: 0 0 0 5px var(--red-soft); }
+.route-n { display: block; font-size: .78rem; color: var(--muted); margin-bottom: 14px; }
+.route p { margin-top: 10px; font-size: .97rem; color: var(--text-2); max-width: 32ch; }
+.route-keys { display: inline-block; margin-top: 16px; font: 600 1.25rem/1 var(--f-hand); color: var(--red-text); transform: rotate(-3deg); }
+@media (max-width: 900px) {
+  .route { grid-template-columns: 1fr; padding-left: 26px; }
+  .route::before { top: 6px; bottom: 6px; left: 5px; right: auto; border-top: 0; border-left: 2px dashed var(--line-2); }
+  .route li { padding: 0 0 34px; }
+  .route li::before { top: 4px; left: -26px; }
+  .route li:last-child { padding-bottom: 0; }
+  .route-n { margin-bottom: 8px; }
+}
+
+/* Datos del hero, ahora en su propia franja bajo el carrusel de marcas. */
+.facts-band { padding: clamp(28px, 4vw, 44px) 0 clamp(32px, 4.5vw, 52px); background: var(--bg); border-bottom: 1px solid var(--line); }
+.facts-band .hero-facts { margin-top: 0; padding-top: 0; border-top: 0; }
