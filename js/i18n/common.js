@@ -20,6 +20,8 @@ window.CA_I18N_ADD({
     'nav.contact': 'Contacto',
     'lang': 'Idioma',
     'cta.start': 'Iniciar mi solicitud',
+    'cta.credit': 'Solicitud de crédito',
+    'div.aria': 'Divisiones de Car Advisor',
     'menu': 'Menú',
     'crumbs': 'Ruta de navegación',
 

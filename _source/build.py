@@ -65,6 +65,9 @@ def nav_html(active, is_page):
             current = ' aria-current="page"' if is_page else ' aria-current="true"'
             indicator = '<span class="nav-ind" aria-hidden="true"></span>'
         links.append(f'<a href="{slug}.html"{current}><span data-i18n="{key}">{label}</span>{indicator}</a>')
+    links.append('<a class="nav-extra" href="credit.html"><span data-i18n="cta.credit">Credit Application</span></a>')
+    links.append('<a class="nav-extra" href="insurance.html"><span>Car Advisor Insurance</span></a>')
+    links.append('<a class="nav-extra" href="crp-now.html"><span>CRP Now</span></a>')
     return "\n      ".join(links)
 
 
@@ -101,6 +104,7 @@ def fill(template, values):
 def scripts(meta):
     tags = [f'<script src="js/i18n/{name}.js"></script>' for name in ["common", *meta.get("i18n", [])]]
     tags += [f'<script src="js/{src}"></script>' for src in meta.get("data", [])]
+    tags += [f'<script src="{src}" defer></script>' for src in meta.get("cdn", [])]
     tags.append('<script src="js/core.js"></script>')
     tags += [f'<script src="js/{src}"></script>' for src in meta.get("js", [])]
     return "\n" + "\n".join(tags)

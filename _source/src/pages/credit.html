@@ -1,0 +1,155 @@
+<!--{"title": "Credit Application · Car Advisor", "title_key": "meta.credit.title", "desc": "Apply for business or personal vehicle financing through Car Advisor Corporation. Secure online application with electronic signature.", "desc_key": "meta.credit.desc", "css": ["components", "credit"], "i18n": ["credit"], "js": ["pages/credit.js"], "nav": "index", "band": false, "cdn": ["https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"]}-->
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:crumbs"><a href="index.html" data-i18n="nav.home">Home</a><span aria-hidden="true">/</span><span aria-current="page" data-i18n="cta.credit">Credit Application</span></nav>
+    <p class="eyebrow" data-i18n="cr.eyebrow">Business Credit Application</p>
+    <h1 class="metal" data-i18n="cr.title">Apply for financing in one sitting.</h1>
+    <p class="lede" data-i18n="cr.lede">Car Advisor submits your application to the lenders and dealers that fit your case. Fill it in, sign it on screen and send it. Nothing you type is saved on this website.</p>
+  </div>
+</section>
+
+<div class="wrap cr-wrap">
+  <form class="cr-form" id="cr-form" novalidate>
+
+    <fieldset class="cr-block">
+      <legend data-i18n="cr.s.program">Program type requested</legend>
+      <div class="cr-checks">
+        <label class="cr-check"><input type="checkbox" name="program" value="Retail"><span>Retail</span></label>
+        <label class="cr-check"><input type="checkbox" name="program" value="Lease"><span>Lease</span></label>
+        <label class="cr-check"><input type="checkbox" name="program" value="TRAC"><span>TRAC</span></label>
+        <label class="cr-check"><input type="checkbox" name="program" value="Balloon"><span>Balloon</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block">
+      <legend data-i18n="cr.s.business">Business</legend>
+      <div class="cr-grid">
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.legal">Business legal name (exact legal name)</span><input id="cr-legal" name="legalName" autocomplete="organization" required></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.dba">DBA (if applicable)</span><input id="cr-dba" name="dba"></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.btype">Business type</span>
+          <select id="cr-btype" name="businessType" required>
+            <option value="" data-i18n="cr.choose">Choose one</option>
+            <optgroup label="Individual"><option>Individual — Proprietorship</option><option>Individual</option></optgroup>
+            <optgroup label="Partnership"><option>General Partnership</option><option>Limited Partnership</option><option>Limited Liability Partnership</option></optgroup>
+            <optgroup label="Corporation"><option>Sub-S Corporation</option><option>C-Corporation</option><option>Limited Liability Company</option></optgroup>
+            <optgroup label="Other"><option>Non-Profit Organization</option><option>Professional Association</option><option>Other</option></optgroup>
+          </select>
+        </label>
+        <label class="cr-f"><span data-i18n="cr.f.taxid">SSN / Federal Tax ID #</span><input id="cr-taxid" name="taxId" inputmode="numeric" autocomplete="off" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.state">State of organization</span><input id="cr-orgstate" name="orgState"></label>
+        <label class="cr-f"><span data-i18n="cr.f.formed">Date business formed</span><input id="cr-formed" name="formed" type="date"></label>
+        <label class="cr-f"><span data-i18n="cr.f.gross">Gross monthly income ($)</span><input id="cr-gross" name="grossMonthly" inputmode="decimal"></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.desc">Description of business or service</span><input id="cr-bdesc" name="description"></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.street">Business physical address — street</span><input id="cr-bstreet" name="bStreet" autocomplete="street-address"></label>
+        <label class="cr-f"><span data-i18n="cr.f.city">City</span><input id="cr-bcity" name="bCity"></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.st">State</span><input id="cr-bstate" name="bState" maxlength="2"></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.zip">ZIP</span><input id="cr-bzip" name="bZip" inputmode="numeric"></label>
+        <label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-bphone" name="bPhone" type="tel" autocomplete="tel"></label>
+        <label class="cr-f"><span data-i18n="cr.f.fax">Fax number</span><input id="cr-bfax" name="bFax" type="tel"></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.key">Key contact</span><input id="cr-key" name="keyContact"></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block">
+      <legend data-i18n="cr.s.principals">Principals</legend>
+      <div class="cr-rows" data-rows="principal">
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.pname">Principal name</span><input id="cr-p1-name" name="p1Name"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.paddr">Principal address</span><input id="cr-p1-addr" name="p1Address"></label><label class="cr-f"><span data-i18n="cr.f.title">Title</span><input id="cr-p1-title" name="p1Title"></label><label class="cr-f cr-half"><span data-i18n="cr.f.own">% Ownership</span><input id="cr-p1-own" name="p1Own" inputmode="decimal"></label></div>
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.pname">Principal name</span><input id="cr-p2-name" name="p2Name"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.paddr">Principal address</span><input id="cr-p2-addr" name="p2Address"></label><label class="cr-f"><span data-i18n="cr.f.title">Title</span><input id="cr-p2-title" name="p2Title"></label><label class="cr-f cr-half"><span data-i18n="cr.f.own">% Ownership</span><input id="cr-p2-own" name="p2Own" inputmode="decimal"></label></div>
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.pname">Principal name</span><input id="cr-p3-name" name="p3Name"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.paddr">Principal address</span><input id="cr-p3-addr" name="p3Address"></label><label class="cr-f"><span data-i18n="cr.f.title">Title</span><input id="cr-p3-title" name="p3Title"></label><label class="cr-f cr-half"><span data-i18n="cr.f.own">% Ownership</span><input id="cr-p3-own" name="p3Own" inputmode="decimal"></label></div>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block">
+      <legend data-i18n="cr.s.refs">Bank, finance and trade references</legend>
+      <div class="cr-rows">
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.bank">Bank name</span><input id="cr-r1-name" name="bankName"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-r1-addr" name="bankAddress"></label><label class="cr-f"><span data-i18n="cr.f.acct">Acct. no.</span><input id="cr-r1-acct" name="bankAcct" autocomplete="off"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-r1-phone" name="bankPhone" type="tel"></label><label class="cr-f"><span data-i18n="cr.f.contact">Contact</span><input id="cr-r1-contact" name="bankContact"></label></div>
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.finref">Finance reference name</span><input id="cr-r2-name" name="finName"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-r2-addr" name="finAddress"></label><label class="cr-f"><span data-i18n="cr.f.acct">Acct. no.</span><input id="cr-r2-acct" name="finAcct" autocomplete="off"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-r2-phone" name="finPhone" type="tel"></label><label class="cr-f"><span data-i18n="cr.f.contact">Contact</span><input id="cr-r2-contact" name="finContact"></label></div>
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.traderef">Trade reference name</span><input id="cr-r3-name" name="tradeName"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-r3-addr" name="tradeAddress"></label><label class="cr-f"><span data-i18n="cr.f.acct">Acct. no.</span><input id="cr-r3-acct" name="tradeAcct" autocomplete="off"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-r3-phone" name="tradePhone" type="tel"></label><label class="cr-f"><span data-i18n="cr.f.contact">Contact</span><input id="cr-r3-contact" name="tradeContact"></label></div>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block">
+      <legend data-i18n="cr.s.guarantor">Sole proprietor or guarantor</legend>
+      <div class="cr-grid">
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.gname">Full name (first, middle initial, last, suffix)</span><input id="cr-g-name" name="gName" autocomplete="name" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.ssn">Social Security number</span><input id="cr-g-ssn" name="gSsn" inputmode="numeric" autocomplete="off" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.dob">Date of birth</span><input id="cr-g-dob" name="gDob" type="date" required></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.home">Home address (number and street)</span><input id="cr-g-street" name="gStreet" autocomplete="street-address" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.city">City</span><input id="cr-g-city" name="gCity" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.st">State</span><input id="cr-g-state" name="gState" maxlength="2" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.zip">ZIP</span><input id="cr-g-zip" name="gZip" inputmode="numeric" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.years">Years at address</span><input id="cr-g-years" name="gYears" inputmode="numeric"></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.months">Months</span><input id="cr-g-months" name="gMonths" inputmode="numeric"></label>
+        <label class="cr-f"><span data-i18n="cr.f.residence">Residence type</span>
+          <select id="cr-g-res" name="gResidence">
+            <option value="" data-i18n="cr.choose">Choose one</option>
+            <option>Own Home Outright</option><option>Buying Home</option><option>Leasing/Renting</option><option>Living with Relatives</option><option>Other</option>
+          </select>
+        </label>
+        <label class="cr-f"><span data-i18n="cr.f.rent">Monthly rent / mortgage ($)</span><input id="cr-g-rent" name="gRent" inputmode="decimal"></label>
+        <label class="cr-f"><span data-i18n="cr.f.homephone">Home phone</span><input id="cr-g-hphone" name="gHomePhone" type="tel"></label>
+        <label class="cr-f"><span data-i18n="cr.f.cell">Cell phone</span><input id="cr-g-cell" name="gCell" type="tel" autocomplete="tel" required></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.email">Email address</span><input id="cr-g-email" name="gEmail" type="email" autocomplete="email" required></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.employer">Employer name and address</span><input id="cr-g-employer" name="gEmployer"></label>
+        <label class="cr-f"><span data-i18n="cr.f.ephone">Employer phone</span><input id="cr-g-ephone" name="gEmployerPhone" type="tel"></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.jobyears">Years on job</span><input id="cr-g-jobyears" name="gJobYears" inputmode="numeric"></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.months">Months</span><input id="cr-g-jobmonths" name="gJobMonths" inputmode="numeric"></label>
+        <label class="cr-f"><span data-i18n="cr.f.income">Monthly income ($)</span><input id="cr-g-income" name="gIncome" inputmode="decimal" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.second">Secondary income ($)</span><input id="cr-g-second" name="gSecondary" inputmode="decimal"></label>
+        <label class="cr-f"><span data-i18n="cr.f.source">Source</span><input id="cr-g-source" name="gSource"></label>
+      </div>
+      <p class="cr-note" data-i18n="cr.alimony">Alimony, child support or separate maintenance income need not be revealed if you do not wish to have it considered as a basis for repaying this obligation.</p>
+    </fieldset>
+
+    <fieldset class="cr-block">
+      <legend data-i18n="cr.s.personal">Relative and personal references</legend>
+      <div class="cr-rows">
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.relative">Nearest relative not in household</span><input id="cr-k1-name" name="relName"></label><label class="cr-f"><span data-i18n="cr.f.relation">Relationship</span><input id="cr-k1-rel" name="relRelation"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-k1-addr" name="relAddress"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-k1-phone" name="relPhone" type="tel"></label></div>
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.personal">Personal reference</span><input id="cr-k2-name" name="ref1Name"></label><label class="cr-f"><span data-i18n="cr.f.relation">Relationship</span><input id="cr-k2-rel" name="ref1Relation"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-k2-addr" name="ref1Address"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-k2-phone" name="ref1Phone" type="tel"></label></div>
+        <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.personal">Personal reference</span><input id="cr-k3-name" name="ref2Name"></label><label class="cr-f"><span data-i18n="cr.f.relation">Relationship</span><input id="cr-k3-rel" name="ref2Relation"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-k3-addr" name="ref2Address"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-k3-phone" name="ref2Phone" type="tel"></label></div>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block cr-agreement">
+      <legend data-i18n="cr.s.agreement">Agreement</legend>
+      <div class="cr-legal" tabindex="0" aria-label="Agreement text">
+        <p>By signing below, Borrower and Guarantor(s) (individually and collectively, "Applicants") agree to and affirm the following:</p>
+        <p>Applicants request that Car Advisor Corporation assist with submitting this Business Credit Application to one or more independent dealers, banks, credit unions, finance companies, or other financing sources (collectively, "Financing Partners"). Car Advisor Corporation is an automotive intermediary and is not a lender. Submission of this application does not obligate Car Advisor Corporation, any dealer, or any Financing Partner to extend credit, approve a transaction, or offer any particular rate or terms.</p>
+        <p>Applicants certify that all information provided is true, correct, current, and complete. Applicants agree to notify Car Advisor Corporation of any material change in the information supplied, their financial condition, or their ability to perform any resulting obligation. Applicants authorize Car Advisor Corporation, participating dealers, Financing Partners, and their affiliates, successors, assigns, agents, and service providers to verify the information in this application; obtain consumer and business credit reports; contact employers, creditors, banks, trade references, and other financial institutions; obtain financial statements, tax returns, banking records, identity-verification information, and other information reasonably necessary to evaluate this application and prevent fraud, as permitted by law.</p>
+        <p>Applicants authorize Car Advisor Corporation to transmit and disclose this application and supporting information to selected dealers, Financing Partners, service providers, credit bureaus, and other parties involved in evaluating, processing, documenting, servicing, or completing the requested transaction. Applicants authorize those parties to disclose application status, proposed terms, verification results, and related information to Car Advisor Corporation for those purposes.</p>
+        <p>Applicants certify that neither they, nor to their knowledge any owner, officer, or manager, is a person or entity with whom the applicable parties are prohibited from doing business under sanctions administered by the U.S. Department of the Treasury's Office of Foreign Assets Control or other applicable law.</p>
+        <p>Applicants consent, as permitted by applicable law, to being contacted regarding this application and related account or transaction matters by telephone, email, or text message at the contact information provided. Consent to marketing is addressed separately and is not a condition of obtaining financing or purchasing goods or services. Standard message and data rates may apply.</p>
+        <p>A Financing Partner may require or file a UCC-1 Financing Statement only if separately authorized and legally permitted in connection with credit it extends. Car Advisor Corporation does not claim a security interest solely by receiving or transmitting this application.</p>
+        <p>Residents of California, Maine, Tennessee, New Hampshire, New York, Ohio, Rhode Island, and Vermont acknowledge the applicable state notices included in the application.</p>
+      </div>
+      <label class="cr-check cr-agree"><input type="checkbox" id="cr-agree" name="agree" required><span data-i18n="cr.agree">I have read and agree to the terms above, and I consent to sign this application electronically.</span></label>
+    </fieldset>
+
+    <fieldset class="cr-block cr-sign">
+      <legend data-i18n="cr.s.signature">Signature</legend>
+      <div class="cr-grid">
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.company">Company</span><input id="cr-s-company" name="sCompany"></label>
+        <label class="cr-f"><span data-i18n="cr.f.signer">Signed by (full name)</span><input id="cr-s-name" name="signer" autocomplete="name" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.title">Title</span><input id="cr-s-title" name="sTitle"></label>
+      </div>
+      <div class="cr-pad-wrap">
+        <canvas class="cr-pad" id="cr-pad" aria-label="Signature pad: draw your signature with your finger or mouse" data-i18n-attr="aria-label:cr.pad"></canvas>
+        <span class="cr-pad-hint" id="cr-pad-hint" data-i18n="cr.padhint">Sign here with your finger or mouse</span>
+        <button type="button" class="btn btn-ghost btn-sm cr-clear" id="cr-clear" data-i18n="cr.clear">Clear signature</button>
+      </div>
+      <p class="cr-attest" id="cr-attest"></p>
+    </fieldset>
+
+    <p class="cr-error" id="cr-error" role="alert" hidden></p>
+    <div class="cr-actions">
+      <button class="btn btn-red" type="submit" id="cr-submit"><span data-i18n="cr.submit">Sign and send application</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></button>
+      <p class="cr-privacy" data-i18n="cr.privacy">Your application is sent directly to Car Advisor Corporation over an encrypted connection. This website does not store it, and the form is erased as soon as it is sent.</p>
+    </div>
+  </form>
+
+  <section class="cr-done" id="cr-done" hidden tabindex="-1">
+    <h2 data-i18n="cr.done.t">Application sent.</h2>
+    <p data-i18n="cr.done.p">Thank you. A Car Advisor advisor will review it and contact you shortly. For your security, the form on this page has been erased.</p>
+    <a class="btn btn-ghost" href="index.html" data-i18n="soon.back">Back to Car Advisor</a>
+  </section>
+</div>

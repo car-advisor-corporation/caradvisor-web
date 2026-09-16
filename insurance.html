@@ -3,18 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title data-i18n="meta.inv.title">Inventory · Car Advisor</title>
-<meta name="description" content="Browse vehicles available through Car Advisor's nationwide network, or ask us to source any make, model or trim." data-i18n-attr="content:meta.inv.desc">
+<title data-i18n="meta.insurance.title">Car Advisor Insurance · Car Advisor</title>
+<meta name="description" content="Car Advisor Insurance, a Car Advisor Corporation division. Under maintenance." data-i18n-attr="content:meta.insurance.desc">
 <meta name="theme-color" content="#0B0D10">
-<link rel="canonical" href="https://caradvisorcorporation.com/inventory.html">
-<link rel="alternate" hreflang="en" href="https://caradvisorcorporation.com/inventory.html">
-<link rel="alternate" hreflang="es" href="https://caradvisorcorporation.com/inventory.html?lang=es">
-<link rel="alternate" hreflang="x-default" href="https://caradvisorcorporation.com/inventory.html">
-<meta property="og:url" content="https://caradvisorcorporation.com/inventory.html">
+<link rel="canonical" href="https://caradvisorcorporation.com/insurance.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Car Advisor">
-<meta property="og:title" content="Inventory · Car Advisor">
-<meta property="og:description" content="Browse vehicles available through Car Advisor's nationwide network, or ask us to source any make, model or trim.">
+<meta property="og:title" content="Car Advisor Insurance · Car Advisor">
+<meta property="og:description" content="Car Advisor Insurance, a Car Advisor Corporation division. Under maintenance.">
 <meta property="og:image" content="https://caradvisorcorporation.com/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/favicon.png?v=e97104eb">
@@ -51,9 +47,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&amp;family=Caveat:wght@700&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=Outfit:wght@300..700&amp;display=swap">
 <link rel="stylesheet" href="css/base.css?v=df7507a4">
 <link rel="stylesheet" href="css/components.css?v=7e82ac92">
-<link rel="stylesheet" href="css/inventory.css?v=f02de28a">
 </head>
-<body data-page="inventory">
+<body data-page="insurance">
 <!-- Icons and body-style silhouettes (silhouettes are the fallback when a vehicle photo fails to load). -->
 <svg class="sprite" aria-hidden="true" focusable="false" width="0" height="0">
   <defs>
@@ -145,8 +140,8 @@
       <img src="assets/logo-lockup.webp?v=03c47afe" alt="Car Advisor Solution" width="998" height="300">
     </a>
     <nav class="nav" id="nav" aria-label="Main" data-i18n-attr="aria-label:nav.aria">
-      <a href="index.html"><span data-i18n="nav.home">Home</span></a>
-      <a href="inventory.html" aria-current="page"><span data-i18n="nav.inventory">Inventory</span><span class="nav-ind" aria-hidden="true"></span></a>
+      <a href="index.html" aria-current="true"><span data-i18n="nav.home">Home</span><span class="nav-ind" aria-hidden="true"></span></a>
+      <a href="inventory.html"><span data-i18n="nav.inventory">Inventory</span></a>
       <a href="services.html"><span data-i18n="nav.services">Services</span></a>
       <a href="about.html"><span data-i18n="nav.about">About</span></a>
       <a href="faq.html"><span data-i18n="nav.faq">FAQ</span></a>
@@ -171,117 +166,16 @@
 </header>
 <div class="nav-backdrop" aria-hidden="true"></div>
 <main id="main">
-<section class="page-hero">
-  <div class="wrap">
-    <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:crumbs"><a href="index.html" data-i18n="nav.home">Home</a><span aria-hidden="true">/</span><span aria-current="page" data-i18n="nav.inventory">Inventory</span></nav>
-    <div class="page-hero-row">
-      <div>
-        <p class="eyebrow" data-i18n="inv.eyebrow">Inventory</p>
-        <h1 class="metal" data-i18n="inv.title">Find it here, or we'll find it for you.</h1>
-        <p class="lede" data-i18n="inv.lede">Browse vehicles available through our network. Don't see the one you want? We source any make, model or trim, nationwide.</p>
-      </div>
-      <p class="demo-badge" data-i18n="inv.demo">Prices are the manufacturers' starting MSRP. Photos are stock images of the same model.</p>
-    </div>
-  </div>
-</section>
-
-<section class="inv" aria-label="Vehicles" data-i18n-attr="aria-label:inv.aria">
-  <div class="wrap inv-layout">
-    <aside class="filters-panel" id="filters" aria-labelledby="filters-title">
-      <div class="fp-head">
-        <h2 id="filters-title" data-i18n="inv.filters">Filters</h2>
-        <button type="button" class="fp-close" aria-label="Close filters" data-i18n-attr="aria-label:inv.close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
-      </div>
-      <form id="filter-form" role="search">
-        <div class="fgroup">
-          <label class="fg-label" for="f-q" data-i18n="inv.search">Search</label>
-          <input class="txt-in" id="f-q" type="search" autocomplete="off" placeholder="Make, model or trim" data-i18n-attr="placeholder:inv.search.ph">
-        </div>
-        <fieldset class="fgroup"><legend data-i18n="inv.condition">Condition</legend><div class="fchips" id="f-cond"></div></fieldset>
-        <fieldset class="fgroup"><legend data-i18n="inv.body">Body style</legend><div class="fchips" id="f-body"></div></fieldset>
-        <fieldset class="fgroup"><legend data-i18n="inv.make">Make</legend><div class="checklist" id="f-make"></div></fieldset>
-        <fieldset class="fgroup"><legend data-i18n="inv.fuel">Fuel</legend><div class="fchips" id="f-fuel"></div></fieldset>
-        <fieldset class="fgroup">
-          <legend data-i18n="inv.price">Price</legend>
-          <div class="range2">
-            <label><span data-i18n="inv.min">Min</span><span class="money"><input class="num-in" id="f-pmin" type="number" inputmode="numeric" min="0" step="1000" placeholder="0"></span></label>
-            <label><span data-i18n="inv.max">Max</span><span class="money"><input class="num-in" id="f-pmax" type="number" inputmode="numeric" min="0" step="1000" placeholder="No max" data-i18n-attr="placeholder:inv.anyPh"></span></label>
-          </div>
-        </fieldset>
-        <fieldset class="fgroup">
-          <legend data-i18n="inv.year">Year</legend>
-          <div class="range2">
-            <label><span data-i18n="inv.from">From</span><select class="txt-in" id="f-ymin"></select></label>
-            <label><span data-i18n="inv.to">To</span><select class="txt-in" id="f-ymax"></select></label>
-          </div>
-        </fieldset>
-        <div class="fgroup">
-          <label class="fg-label" for="f-miles" data-i18n="inv.miles">Mileage</label>
-          <select class="txt-in" id="f-miles">
-            <option value="" data-i18n="inv.m0">Any mileage</option>
-            <option value="1000" data-i18n="inv.m1">New (under 1,000 mi)</option>
-            <option value="15000" data-i18n="inv.m2">Under 15,000 mi</option>
-            <option value="30000" data-i18n="inv.m3">Under 30,000 mi</option>
-            <option value="60000" data-i18n="inv.m4">Under 60,000 mi</option>
-          </select>
-        </div>
-      </form>
-      <div class="fp-foot">
-        <button type="button" class="btn btn-ghost btn-sm" id="f-clear" data-i18n="inv.clear">Clear all</button>
-        <button type="button" class="btn btn-red btn-sm fp-apply" id="fp-apply">Show vehicles</button>
-      </div>
-    </aside>
-
-    <div class="results" id="results">
-      <h2 class="sr-only" id="results-title" data-i18n="inv.results">Results</h2>
-      <div class="results-bar">
-        <p class="results-count" id="r-count" aria-live="polite" tabindex="-1"></p>
-        <div class="results-tools">
-          <button class="btn btn-ghost btn-sm filters-open" type="button" aria-controls="filters" aria-expanded="false"><svg aria-hidden="true"><use href="#i-filter"/></svg><span data-i18n="inv.filters">Filters</span><span class="badge" id="f-badge" hidden></span></button>
-          <label class="sort"><span data-i18n="inv.sort">Sort by</span>
-            <select class="txt-in txt-in--sm" id="f-sort">
-              <option value="rec" data-i18n="inv.s.rec">Recommended</option>
-              <option value="price-asc" data-i18n="inv.s.pasc">Price: low to high</option>
-              <option value="price-desc" data-i18n="inv.s.pdesc">Price: high to low</option>
-              <option value="year-desc" data-i18n="inv.s.year">Newest first</option>
-              <option value="miles-asc" data-i18n="inv.s.miles">Lowest mileage</option>
-            </select>
-          </label>
-        </div>
-      </div>
-      <div class="active-filters" id="active-filters"></div>
-      <ul class="inv-grid" id="inv-grid"></ul>
-      <div class="inv-empty" id="inv-empty" hidden>
-        <h2 data-i18n="inv.empty.t">No exact matches</h2>
-        <p data-i18n="inv.empty.p">Nothing in this demo inventory matches those filters, but we can still source it through our network.</p>
-        <div class="actions">
-          <button class="btn btn-ghost" type="button" id="empty-clear" data-i18n="inv.clear">Clear all</button>
-          <a class="btn btn-red" href="contact.html" data-i18n="inv.empty.ask">Ask us to find it</a>
-        </div>
-      </div>
-      <nav class="pager" id="pager" aria-label="Pages" data-i18n-attr="aria-label:inv.pages"></nav>
-      <aside class="source-cta" aria-labelledby="src-title">
-        <div>
-          <h2 id="src-title" data-i18n="inv.src.t">Not on the list?</h2>
-          <p data-i18n="inv.src.p">We aren't limited to a lot. Tell us the make, model and trim, and we'll track it down nationwide.</p>
-        </div>
-        <a class="btn btn-red" href="contact.html"><span data-i18n="inv.src.cta">Request any vehicle</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      </aside>
-      <p class="credits-note" data-i18n="inv.credits">Photos are stock images of each model, used under free licenses. Each vehicle page credits the author and license.</p>
-    </div>
-  </div>
-  <div class="fp-backdrop" aria-hidden="true"></div>
-</section>
-
-<section class="cta-band" aria-labelledby="band-title">
-  <div class="wrap cta-band-inner">
-    <div>
-      <h2 id="band-title" data-i18n="band.title">Tell us the car. We'll take it from there.</h2>
-      <p data-i18n="band.text">Three short steps, no obligation. An advisor contacts you the way you prefer, in English or Spanish.</p>
-    </div>
-    <div class="cta-band-actions">
-      <a class="btn btn-red" href="contact.html"><span data-i18n="cta.start">Start my request</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a class="btn btn-ghost-inv" href="https://wa.me/13056006112" target="_blank" rel="noopener" data-wa><svg class="wa-ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-i18n="band.wa">Chat on WhatsApp</span></a>
+<section class="soon">
+  <div class="wrap soon-inner">
+    <img class="soon-mark" src="assets/emblem.webp?v=b7cdcee9" alt="" width="512" height="512">
+    <p class="eyebrow" data-i18n="soon.eyebrow">A Car Advisor Corporation division</p>
+    <h1 class="soon-name metal">Car Advisor Insurance</h1>
+    <p class="soon-status"><span class="soon-dot" aria-hidden="true"></span><span data-i18n="soon.status">Under maintenance</span></p>
+    <p class="lede" data-i18n="soon.insurance.lede">Auto insurance from the same team that finds your next vehicle. We are getting everything ready — in the meantime, our advisors can help you.</p>
+    <div class="soon-ctas">
+      <a class="btn btn-red" href="contact.html"><span data-i18n="soon.contact">Contact us</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost" href="index.html"><span data-i18n="soon.back">Back to Car Advisor</span></a>
     </div>
   </div>
 </section>
@@ -345,10 +239,7 @@
 </nav>
 
 <script src="js/i18n/common.js?v=80b478ee"></script>
-<script src="js/i18n/inventory.js?v=f6b6dd78"></script>
-<script src="js/data/inventory.js?v=bcca3e40"></script>
+<script src="js/i18n/divisions.js?v=551f6285"></script>
 <script src="js/core.js?v=a09622d8"></script>
-<script src="js/vehicles.js?v=d7bf6e0f"></script>
-<script src="js/pages/inventory.js?v=604597c4"></script>
 </body>
 </html>

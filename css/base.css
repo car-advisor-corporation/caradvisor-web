@@ -338,3 +338,14 @@ input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 4px rgba(219, 45, 
 .foot-social { display: flex; gap: 16px; margin-top: 14px; }
 .foot-social a { color: var(--text-2); font-size: .88rem; }
 .foot-social a:hover { color: var(--text); text-shadow: 0 0 16px rgba(219, 45, 46, .45); }
+
+/* Divisiones de la empresa junto al selector de idioma; en el menú del móvil van al final. */
+.divisions { display: flex; align-items: center; gap: 4px; }
+.divisions a { padding: 7px 10px; border: 1px solid var(--line-2); border-radius: 999px; color: var(--text-2);
+  font: 600 .7rem/1 var(--f-display); font-stretch: 112%; letter-spacing: .04em; white-space: nowrap;
+  transition: color .2s ease, border-color .2s ease, box-shadow .25s var(--ease-out); }
+.divisions a:hover, .divisions a[aria-current] { color: var(--text); border-color: rgba(219, 45, 46, .6); box-shadow: 0 8px 20px -10px rgba(219, 45, 46, .55); }
+.nav .nav-extra { display: none; }
+@media (max-width: 1320px) { .divisions { display: none; } }
+@media (max-width: 1320px) and (min-width: 1081px) { .nav { gap: 18px; } }
+@media (max-width: 1080px) { .nav .nav-extra { display: block; } .nav .nav-extra:first-of-type { margin-top: 18px; border-top: 1px solid var(--line); } }
