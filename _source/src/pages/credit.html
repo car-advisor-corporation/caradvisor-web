@@ -2,7 +2,7 @@
 <section class="page-hero">
   <div class="wrap">
     <nav class="crumbs" aria-label="Breadcrumb" data-i18n-attr="aria-label:crumbs"><a href="index.html" data-i18n="nav.home">Home</a><span aria-hidden="true">/</span><span aria-current="page" data-i18n="cta.credit">Credit Application</span></nav>
-    <p class="eyebrow" data-i18n="cr.eyebrow">Business Credit Application</p>
+    <p class="eyebrow" data-i18n="cr.eyebrow">Credit Application</p>
     <h1 class="metal" data-i18n="cr.title">Apply for financing in one sitting.</h1>
     <p class="lede" data-i18n="cr.lede">Car Advisor submits your application to the lenders and dealers that fit your case. Fill it in, sign it on screen and send it. Nothing you type is saved on this website.</p>
   </div>
@@ -11,17 +11,54 @@
 <div class="wrap cr-wrap">
   <form class="cr-form" id="cr-form" novalidate>
 
-    <fieldset class="cr-block">
+    <fieldset class="cr-block cr-kind">
+      <legend data-i18n="cr.s.kind">Application type</legend>
+      <div class="cr-checks" role="radiogroup">
+        <label class="cr-check cr-kind-opt"><input type="radio" name="kind" value="personal" checked><span data-i18n="cr.kind.personal">Personal</span></label>
+        <label class="cr-check cr-kind-opt"><input type="radio" name="kind" value="commercial"><span data-i18n="cr.kind.commercial">Commercial</span></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block" data-kind="personal">
+      <legend data-i18n="cr.s.applicant">Applicant</legend>
+      <div class="cr-grid">
+        <label class="cr-f"><span data-i18n="cr.f.first">First name</span><input id="cr-i-first" name="iFirst" autocomplete="given-name" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.last">Last name</span><input id="cr-i-last" name="iLast" autocomplete="family-name" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.dob">Date of birth</span><input id="cr-i-dob" name="iDob" type="date" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.ssn">Social Security number</span><input id="cr-i-ssn" name="iSsn" inputmode="numeric" autocomplete="off" required></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.home">Home address (number and street)</span><input id="cr-i-street" name="iStreet" autocomplete="street-address" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.city">City</span><input id="cr-i-city" name="iCity" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.st">State</span><input id="cr-i-state" name="iState" maxlength="2" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.zip">ZIP</span><input id="cr-i-zip" name="iZip" inputmode="numeric" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.years">Years at address</span><input id="cr-i-years" name="iYears" inputmode="numeric" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.months">Months</span><input id="cr-i-months" name="iMonths" inputmode="numeric"></label>
+        <label class="cr-f"><span data-i18n="cr.f.cell">Cell phone</span><input id="cr-i-cell" name="iCell" type="tel" autocomplete="tel" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.email">Email address</span><input id="cr-i-email" name="iEmail" type="email" autocomplete="email" required></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block" data-kind="personal">
+      <legend data-i18n="cr.s.employment">Employment</legend>
+      <div class="cr-grid">
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.employername">Employer name</span><input id="cr-i-employer" name="iEmployer" autocomplete="organization" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.ephone">Employer phone</span><input id="cr-i-ephone" name="iEmployerPhone" type="tel"></label>
+        <label class="cr-f"><span data-i18n="cr.f.salary">Salary (monthly, $)</span><input id="cr-i-salary" name="iSalary" inputmode="decimal" required></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.employeraddr">Employer address</span><input id="cr-i-eaddr" name="iEmployerAddress" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.jobyears">Years on job</span><input id="cr-i-jobyears" name="iJobYears" inputmode="numeric" required></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.months">Months</span><input id="cr-i-jobmonths" name="iJobMonths" inputmode="numeric"></label>
+      </div>
+    </fieldset>
+
+    <fieldset class="cr-block" data-kind="commercial">
       <legend data-i18n="cr.s.program">Program type requested</legend>
       <div class="cr-checks">
-        <label class="cr-check"><input type="checkbox" name="program" value="Retail"><span>Retail</span></label>
         <label class="cr-check"><input type="checkbox" name="program" value="Lease"><span>Lease</span></label>
         <label class="cr-check"><input type="checkbox" name="program" value="TRAC"><span>TRAC</span></label>
         <label class="cr-check"><input type="checkbox" name="program" value="Balloon"><span>Balloon</span></label>
       </div>
     </fieldset>
 
-    <fieldset class="cr-block">
+    <fieldset class="cr-block" data-kind="commercial">
       <legend data-i18n="cr.s.business">Business</legend>
       <div class="cr-grid">
         <label class="cr-f cr-w2"><span data-i18n="cr.f.legal">Business legal name (exact legal name)</span><input id="cr-legal" name="legalName" autocomplete="organization" required></label>
@@ -50,7 +87,7 @@
       </div>
     </fieldset>
 
-    <fieldset class="cr-block">
+    <fieldset class="cr-block" data-kind="commercial">
       <legend data-i18n="cr.s.principals">Principals</legend>
       <div class="cr-rows" data-rows="principal">
         <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.pname">Principal name</span><input id="cr-p1-name" name="p1Name"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.paddr">Principal address</span><input id="cr-p1-addr" name="p1Address"></label><label class="cr-f"><span data-i18n="cr.f.title">Title</span><input id="cr-p1-title" name="p1Title"></label><label class="cr-f cr-half"><span data-i18n="cr.f.own">% Ownership</span><input id="cr-p1-own" name="p1Own" inputmode="decimal"></label></div>
@@ -59,7 +96,7 @@
       </div>
     </fieldset>
 
-    <fieldset class="cr-block">
+    <fieldset class="cr-block" data-kind="commercial">
       <legend data-i18n="cr.s.refs">Bank, finance and trade references</legend>
       <div class="cr-rows">
         <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.bank">Bank name</span><input id="cr-r1-name" name="bankName"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-r1-addr" name="bankAddress"></label><label class="cr-f"><span data-i18n="cr.f.acct">Acct. no.</span><input id="cr-r1-acct" name="bankAcct" autocomplete="off"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-r1-phone" name="bankPhone" type="tel"></label><label class="cr-f"><span data-i18n="cr.f.contact">Contact</span><input id="cr-r1-contact" name="bankContact"></label></div>
@@ -68,7 +105,7 @@
       </div>
     </fieldset>
 
-    <fieldset class="cr-block">
+    <fieldset class="cr-block" data-kind="commercial">
       <legend data-i18n="cr.s.guarantor">Sole proprietor or guarantor</legend>
       <div class="cr-grid">
         <label class="cr-f cr-w2"><span data-i18n="cr.f.gname">Full name (first, middle initial, last, suffix)</span><input id="cr-g-name" name="gName" autocomplete="name" required></label>
@@ -101,7 +138,7 @@
       <p class="cr-note" data-i18n="cr.alimony">Alimony, child support or separate maintenance income need not be revealed if you do not wish to have it considered as a basis for repaying this obligation.</p>
     </fieldset>
 
-    <fieldset class="cr-block">
+    <fieldset class="cr-block" data-kind="commercial">
       <legend data-i18n="cr.s.personal">Relative and personal references</legend>
       <div class="cr-rows">
         <div class="cr-row"><label class="cr-f"><span data-i18n="cr.f.relative">Nearest relative not in household</span><input id="cr-k1-name" name="relName"></label><label class="cr-f"><span data-i18n="cr.f.relation">Relationship</span><input id="cr-k1-rel" name="relRelation"></label><label class="cr-f cr-w2"><span data-i18n="cr.f.addr">Address</span><input id="cr-k1-addr" name="relAddress"></label><label class="cr-f"><span data-i18n="cr.f.phone">Phone number</span><input id="cr-k1-phone" name="relPhone" type="tel"></label></div>
@@ -128,9 +165,9 @@
     <fieldset class="cr-block cr-sign">
       <legend data-i18n="cr.s.signature">Signature</legend>
       <div class="cr-grid">
-        <label class="cr-f cr-w2"><span data-i18n="cr.f.company">Company</span><input id="cr-s-company" name="sCompany"></label>
+        <label class="cr-f cr-w2" data-kind="commercial"><span data-i18n="cr.f.company">Company</span><input id="cr-s-company" name="sCompany"></label>
         <label class="cr-f"><span data-i18n="cr.f.signer">Signed by (full name)</span><input id="cr-s-name" name="signer" autocomplete="name" required></label>
-        <label class="cr-f"><span data-i18n="cr.f.title">Title</span><input id="cr-s-title" name="sTitle"></label>
+        <label class="cr-f" data-kind="commercial"><span data-i18n="cr.f.title">Title</span><input id="cr-s-title" name="sTitle"></label>
       </div>
       <div class="cr-pad-wrap">
         <canvas class="cr-pad" id="cr-pad" aria-label="Signature pad: draw your signature with your finger or mouse" data-i18n-attr="aria-label:cr.pad"></canvas>

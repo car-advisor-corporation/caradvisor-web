@@ -44,3 +44,8 @@
   .cr-w2, .cr-row .cr-w2 { grid-column: 1 / -1; }
   .cr-f:not(.cr-half) { grid-column: 1 / -1; }
 }
+
+/* Selector Personal / Comercial */
+.cr-kind .cr-check { padding: 12px 22px; font-weight: 600; }
+.cr-kind .cr-check:has(input:checked) { border-color: var(--red); background: rgba(219, 45, 46, .12); color: var(--text); }
+.cr-kind input { accent-color: var(--red); }

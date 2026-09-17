@@ -23,6 +23,22 @@ window.CA_CREDIT = {
   const guarantor = $('#cr-g-name');
   let drawn = false;
 
+  /* ---------- Personal o comercial ----------
+     Las secciones del tipo no elegido quedan ocultas y desactivadas: un campo desactivado ni se
+     valida ni viaja en el envío, así que nunca se mezclan datos de las dos solicitudes. */
+  const kind = () => (form.elements.kind.value === 'commercial' ? 'commercial' : 'personal');
+  function applyKind() {
+    const k = kind();
+    $$('[data-kind]', form).forEach(el => {
+      const on = el.dataset.kind === k;
+      el.hidden = !on;
+      if (el.tagName === 'FIELDSET') el.disabled = !on;
+      else $$('input, select', el).forEach(i => { i.disabled = !on; });
+    });
+    paintAttest();
+  }
+  $$('input[name="kind"]', form).forEach(r => r.addEventListener('change', applyKind));
+
   /* ---------- Firma ---------- */
   const ctx = pad.getContext('2d');
   function sizePad() {
@@ -56,16 +72,17 @@ window.CA_CREDIT = {
 
   /* ---------- "Yo, NOMBRE, firmo hoy, FECHA" ---------- */
   const today = () => new Date().toLocaleDateString(document.documentElement.lang === 'es' ? 'es-US' : 'en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  const personalName = () => [$('#cr-i-first').value.trim(), $('#cr-i-last').value.trim()].filter(Boolean).join(' ');
   function paintAttest() {
-    const name = signer.value.trim() || guarantor.value.trim();
+    const name = signer.value.trim() || (kind() === 'personal' ? personalName() : guarantor.value.trim());
     attest.textContent = name ? t('cr.attest', { name, date: today() }) : '';
   }
   signer.addEventListener('input', paintAttest);
-  guarantor.addEventListener('input', () => { if (!signer.value.trim()) paintAttest(); });
+  [guarantor, $('#cr-i-first'), $('#cr-i-last')].forEach(el => el.addEventListener('input', () => { if (!signer.value.trim()) paintAttest(); }));
 
   /* ---------- Validación ---------- */
   function validate() {
-    const missing = $$('[required]', form).filter(el => el.type === 'checkbox' ? !el.checked : !el.value.trim());
+    const missing = $$('[required]', form).filter(el => !el.matches(':disabled') && (el.type === 'checkbox' ? !el.checked : !el.value.trim()));
     $$('.cr-f', form).forEach(f => f.classList.remove('bad'));
     missing.forEach(el => { const f = el.closest('.cr-f'); if (f) f.classList.add('bad'); });
     if (missing.length) {
@@ -74,7 +91,7 @@ window.CA_CREDIT = {
       missing[0].focus();
       return false;
     }
-    const email = $('#cr-g-email');
+    const email = kind() === 'personal' ? $('#cr-i-email') : $('#cr-g-email');
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.value.trim())) {
       email.closest('.cr-f').classList.add('bad');
       errorEl.textContent = t('cr.err.email'); errorEl.hidden = false; email.focus(); return false;
@@ -117,13 +134,55 @@ window.CA_CREDIT = {
       doc.text(title.toUpperCase(), M + 6, y + 1);
       y += 20;
     };
+    const finish = () => {
+      doc.addPage(); y = M;
+      head('Agreement');
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(8.6); doc.setTextColor(30);
+      $$('.cr-legal p', form).forEach(p => {
+        const lines = doc.splitTextToSize(p.textContent.trim(), W - M * 2);
+        if (y + lines.length * 11 > H - 200) { doc.addPage(); y = M; }
+        doc.text(lines, M, y); y += lines.length * 11 + 7;
+      });
+      head('Signature');
+      if (data.kind === 'commercial') { line('Company', data.sCompany); line('Title', data.sTitle); }
+      line('Signed by', data.signer);
+      line('Agreement', 'Accepted electronically by the applicant');
+      const sig = pad.toDataURL('image/png');
+      const sw = 230; const sh = sw * (pad.height / pad.width);
+      if (y + sh + 60 > H) { doc.addPage(); y = M; }
+      doc.addImage(sig, 'PNG', M, y, sw, sh);
+      y += sh + 4;
+      doc.setDrawColor(40); doc.line(M, y, M + sw, y);
+      y += 14;
+      doc.setFont('helvetica', 'italic'); doc.setFontSize(10); doc.setTextColor(15);
+      doc.text(`I, ${data.signer}, am signing this application on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.`, M, y);
+      return doc;
+    };
+
+    const personal = data.kind !== 'commercial';
     doc.setFont('helvetica', 'bold'); doc.setFontSize(17); doc.setTextColor(178, 31, 32);
     doc.text('CAR ADVISOR CORPORATION', M, y + 6);
-    doc.setFontSize(12); doc.setTextColor(15); doc.text('Business Credit Application', W - M, y + 6, { align: 'right' });
+    doc.setFontSize(12); doc.setTextColor(15);
+    doc.text(personal ? 'Personal Credit Application' : 'Business Credit Application', W - M, y + 6, { align: 'right' });
     y += 26;
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(110);
     doc.text(`Submitted online ${new Date().toLocaleString('en-US')}`, M, y);
     y += 10;
+
+    if (personal) {
+      head('Applicant');
+      line('First name', data.iFirst); line('Last name', data.iLast);
+      line('Date of birth', data.iDob); line('Social Security number', data.iSsn);
+      line('Home address', [data.iStreet, data.iCity, data.iState, data.iZip].filter(Boolean).join(', '));
+      line('Time at address', `${data.iYears || 0} years, ${data.iMonths || 0} months`);
+      line('Cell phone', data.iCell); line('Email', data.iEmail);
+      head('Employment');
+      line('Employer', data.iEmployer); line('Employer address', data.iEmployerAddress);
+      line('Employer phone', data.iEmployerPhone);
+      line('Time on job', `${data.iJobYears || 0} years, ${data.iJobMonths || 0} months`);
+      line('Salary (monthly)', data.iSalary ? `$${data.iSalary}` : '');
+      return finish();
+    }
 
     head('Program type requested'); line('Program', data.program);
     head('Business');
@@ -154,32 +213,13 @@ window.CA_CREDIT = {
       if (data[`${k}Name`]) line(l, `${data[`${k}Name`]} (${data[`${k}Relation`] || ''}) · ${data[`${k}Phone`] || ''} · ${data[`${k}Address`] || ''}`);
     });
 
-    doc.addPage(); y = M;
-    head('Agreement');
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.6); doc.setTextColor(30);
-    $$('.cr-legal p', form).forEach(p => {
-      const lines = doc.splitTextToSize(p.textContent.trim(), W - M * 2);
-      if (y + lines.length * 11 > H - 200) { doc.addPage(); y = M; }
-      doc.text(lines, M, y); y += lines.length * 11 + 7;
-    });
-    head('Signature');
-    line('Company', data.sCompany); line('Signed by', data.signer); line('Title', data.sTitle);
-    line('Agreement', 'Accepted electronically by the applicant');
-    const sig = pad.toDataURL('image/png');
-    const sw = 230; const sh = sw * (pad.height / pad.width);
-    if (y + sh + 60 > H) { doc.addPage(); y = M; }
-    doc.addImage(sig, 'PNG', M, y, sw, sh);
-    y += sh + 4;
-    doc.setDrawColor(40); doc.line(M, y, M + sw, y);
-    y += 14;
-    doc.setFont('helvetica', 'italic'); doc.setFontSize(10); doc.setTextColor(15);
-    doc.text(`I, ${data.signer}, am signing this application on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.`, M, y);
-    return doc;
+    return finish();
   }
 
   /* ---------- Borrado inmediato ---------- */
   function wipe() {
     form.reset();
+    applyKind();
     clearPad();
     attest.textContent = '';
     $$('.cr-f', form).forEach(f => f.classList.remove('bad'));
@@ -197,13 +237,16 @@ window.CA_CREDIT = {
         // En el cuerpo del correo solo va el nombre; el SSN y las cuentas viajan dentro del PDF adjunto.
         const safe = s => String(s || 'solicitud').normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
         const body = new FormData();
-        body.append('_subject', `Nueva solicitud de crédito — ${data.gName}${data.legalName ? ` (${data.legalName})` : ''}`);
+        const who = data.kind === 'commercial' ? data.gName : [data.iFirst, data.iLast].filter(Boolean).join(' ');
+        const tipo = data.kind === 'commercial' ? 'comercial' : 'personal';
+        body.append('_subject', `Nueva solicitud de crédito ${tipo} — ${who}${data.legalName ? ` (${data.legalName})` : ''}`);
         body.append('_template', 'box');
         body.append('_captcha', 'false');
-        body.append('Solicitante', data.gName);
+        body.append('Tipo', tipo);
+        body.append('Solicitante', who);
         body.append('Negocio', data.legalName || '—');
         body.append('Recibida', new Date().toLocaleString('en-US'));
-        body.append('attachment', doc.output('blob'), `Credit-Application-${safe(data.gName)}.pdf`);
+        body.append('attachment', doc.output('blob'), `Credit-Application-${tipo}-${safe(who)}.pdf`);
         const r = await fetch(CFG.endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body });
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
       }
@@ -223,5 +266,6 @@ window.CA_CREDIT = {
   // Al salir de la página, no queda nada escrito en ella.
   window.addEventListener('pagehide', wipe);
 
+  applyKind();
   onLang(() => { paintAttest(); });
 })();
