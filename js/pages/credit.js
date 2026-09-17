@@ -150,11 +150,17 @@ window.CA_CREDIT = {
       if (data.kind === 'commercial') { line('Company', data.sCompany); line('Title', data.sTitle); }
       line('Signed by', data.signer);
       line('Agreement', 'Accepted electronically by the applicant');
-    line('Marketing calls/texts (optional TCPA consent)', data.marketing === 'yes' ? 'Yes — consent given' : 'No consent');
-      const sig = pad.toDataURL('image/png');
+    line('Marketing consent', data.marketing === 'yes' ? 'Yes — consent given' : 'No consent');
+      // La firma se reduce a 600 px y se comprime: el PDF pasa de ~2 MB a unos pocos KB.
+    const small = document.createElement('canvas');
+    small.width = 600; small.height = Math.round(600 * pad.height / pad.width);
+    const sctx = small.getContext('2d');
+    sctx.fillStyle = '#FFFFFF'; sctx.fillRect(0, 0, small.width, small.height);
+    sctx.drawImage(pad, 0, 0, small.width, small.height);
+    const sig = small.toDataURL('image/jpeg', 0.85);
       const sw = 230; const sh = sw * (pad.height / pad.width);
       if (y + sh + 60 > H) { doc.addPage(); y = M; }
-      doc.addImage(sig, 'PNG', M, y, sw, sh);
+      doc.addImage(sig, 'JPEG', M, y, sw, sh);
       y += sh + 4;
       doc.setDrawColor(40); doc.line(M, y, M + sw, y);
       y += 14;
