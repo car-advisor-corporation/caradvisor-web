@@ -38,6 +38,9 @@ window.CA_CREDIT = {
     paintAttest();
   }
   $$('input[name="kind"]', form).forEach(r => r.addEventListener('change', applyKind));
+  const btype = $('#cr-btype');
+  const btypeOther = $('#cr-btype-other-wrap');
+  btype.addEventListener('change', () => { btypeOther.hidden = btype.value !== 'Other'; });
 
   /* ---------- Firma ---------- */
   const ctx = pad.getContext('2d');
@@ -138,7 +141,7 @@ window.CA_CREDIT = {
       doc.addPage(); y = M;
       head('Agreement');
       doc.setFont('helvetica', 'normal'); doc.setFontSize(8.6); doc.setTextColor(30);
-      $$('.cr-legal p', form).forEach(p => {
+      $$('.cr-legal p, .cr-legal h3', form).forEach(p => {
         const lines = doc.splitTextToSize(p.textContent.trim(), W - M * 2);
         if (y + lines.length * 11 > H - 200) { doc.addPage(); y = M; }
         doc.text(lines, M, y); y += lines.length * 11 + 7;
@@ -147,6 +150,7 @@ window.CA_CREDIT = {
       if (data.kind === 'commercial') { line('Company', data.sCompany); line('Title', data.sTitle); }
       line('Signed by', data.signer);
       line('Agreement', 'Accepted electronically by the applicant');
+    line('Marketing calls/texts (optional TCPA consent)', data.marketing === 'yes' ? 'Yes — consent given' : 'No consent');
       const sig = pad.toDataURL('image/png');
       const sw = 230; const sh = sw * (pad.height / pad.width);
       if (y + sh + 60 > H) { doc.addPage(); y = M; }
@@ -186,10 +190,13 @@ window.CA_CREDIT = {
 
     head('Program type requested'); line('Program', data.program);
     head('Business');
-    [['Business legal name', 'legalName'], ['DBA', 'dba'], ['Business type', 'businessType'], ['SSN / Federal Tax ID', 'taxId'],
+    [['Business legal name', 'legalName'], ['DBA', 'dba'], ['Business type', null], ['SSN / Federal Tax ID', 'taxId'],
      ['State of organization', 'orgState'], ['Date business formed', 'formed'], ['Gross monthly income', 'grossMonthly'],
      ['Description of business', 'description'], ['Address', null], ['Phone', 'bPhone'], ['Fax', 'bFax'], ['Key contact', 'keyContact']]
-      .forEach(([l, k]) => line(l, k ? data[k] : [data.bStreet, data.bCity, data.bState, data.bZip].filter(Boolean).join(', ')));
+      .forEach(([l, k]) => {
+        if (l === 'Business type') return line(l, data.businessType === 'Other' ? `Other: ${data.businessTypeOther || ''}` : data.businessType);
+        line(l, k ? data[k] : [data.bStreet, data.bCity, data.bState, data.bZip].filter(Boolean).join(', '));
+      });
     head('Principals');
     [1, 2, 3].forEach(i => { if (data[`p${i}Name`]) line(`Principal ${i}`, `${data[`p${i}Name`]} · ${data[`p${i}Title`] || ''} · ${data[`p${i}Own`] || ''}% · ${data[`p${i}Address`] || ''}`); });
     head('Bank, finance and trade references');
@@ -213,6 +220,12 @@ window.CA_CREDIT = {
       if (data[`${k}Name`]) line(l, `${data[`${k}Name`]} (${data[`${k}Relation`] || ''}) · ${data[`${k}Phone`] || ''} · ${data[`${k}Address`] || ''}`);
     });
 
+    if (data.tYear || data.tMake || data.tModel) {
+      head('Trade-in information');
+      line('Vehicle', [data.tYear, data.tMake, data.tModel, data.tTrim].filter(Boolean).join(' '));
+      line('Lienholder', data.tLienholder);
+      line('Monthly payment', data.tPayment ? `$${data.tPayment}` : '');
+    }
     return finish();
   }
 

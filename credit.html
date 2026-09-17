@@ -47,7 +47,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,600..800&amp;family=Caveat:wght@700&amp;family=IBM+Plex+Mono:wght@400;600&amp;family=Outfit:wght@300..700&amp;display=swap">
 <link rel="stylesheet" href="css/base.css?v=df7507a4">
 <link rel="stylesheet" href="css/components.css?v=7e82ac92">
-<link rel="stylesheet" href="css/credit.css?v=206e14d9">
+<link rel="stylesheet" href="css/credit.css?v=62666f28">
 </head>
 <body data-page="credit">
 <!-- Icons and body-style silhouettes (silhouettes are the fallback when a vehicle photo fails to load). -->
@@ -240,6 +240,7 @@
             <optgroup label="Other"><option>Non-Profit Organization</option><option>Professional Association</option><option>Other</option></optgroup>
           </select>
         </label>
+        <label class="cr-f cr-w2" id="cr-btype-other-wrap" hidden><span data-i18n="cr.f.btypeother">Other business type</span><input id="cr-btype-other" name="businessTypeOther"></label>
         <label class="cr-f"><span data-i18n="cr.f.taxid">SSN / Federal Tax ID #</span><input id="cr-taxid" name="taxId" inputmode="numeric" autocomplete="off" required></label>
         <label class="cr-f"><span data-i18n="cr.f.state">State of organization</span><input id="cr-orgstate" name="orgState"></label>
         <label class="cr-f"><span data-i18n="cr.f.formed">Date business formed</span><input id="cr-formed" name="formed" type="date"></label>
@@ -315,6 +316,18 @@
       </div>
     </fieldset>
 
+    <fieldset class="cr-block" data-kind="commercial">
+      <legend data-i18n="cr.s.trade">Trade-in information (optional)</legend>
+      <div class="cr-grid">
+        <label class="cr-f cr-half"><span data-i18n="cr.f.year">Year</span><input id="cr-t-year" name="tYear" inputmode="numeric"></label>
+        <label class="cr-f"><span data-i18n="cr.f.make">Make</span><input id="cr-t-make" name="tMake"></label>
+        <label class="cr-f"><span data-i18n="cr.f.model">Model</span><input id="cr-t-model" name="tModel"></label>
+        <label class="cr-f cr-half"><span data-i18n="cr.f.trim">Trim</span><input id="cr-t-trim" name="tTrim"></label>
+        <label class="cr-f cr-w2"><span data-i18n="cr.f.lien">Lienholder</span><input id="cr-t-lien" name="tLienholder"></label>
+        <label class="cr-f"><span data-i18n="cr.f.tpayment">Monthly payment ($)</span><input id="cr-t-payment" name="tPayment" inputmode="decimal"></label>
+      </div>
+    </fieldset>
+
     <fieldset class="cr-block cr-agreement">
       <legend data-i18n="cr.s.agreement">Agreement</legend>
       <div class="cr-legal" tabindex="0" aria-label="Agreement text">
@@ -325,8 +338,19 @@
         <p>Applicants certify that neither they, nor to their knowledge any owner, officer, or manager, is a person or entity with whom the applicable parties are prohibited from doing business under sanctions administered by the U.S. Department of the Treasury's Office of Foreign Assets Control or other applicable law.</p>
         <p>Applicants consent, as permitted by applicable law, to being contacted regarding this application and related account or transaction matters by telephone, email, or text message at the contact information provided. Consent to marketing is addressed separately and is not a condition of obtaining financing or purchasing goods or services. Standard message and data rates may apply.</p>
         <p>A Financing Partner may require or file a UCC-1 Financing Statement only if separately authorized and legally permitted in connection with credit it extends. Car Advisor Corporation does not claim a security interest solely by receiving or transmitting this application.</p>
-        <p>Residents of California, Maine, Tennessee, New Hampshire, New York, Ohio, Rhode Island, and Vermont acknowledge the applicable state notices included in the application.</p>
+        <p>Residents of California, Maine, Tennessee, New Hampshire, New York, Ohio, Rhode Island, and Vermont acknowledge the applicable state notices below.</p>
+        <h3>TCPA disclosure for application servicing</h3>
+        <p>NOTICE REGARDING EMAILS AND CALLS/TEXT MESSAGES: You agree that Car Advisor Corporation, participating dealers, Financing Partners, and their service providers may contact you about this application, a resulting transaction, or amounts you may owe, using any telephone number or email address you provide. Contacts may include calls, emails, or text messages and, where permitted by law and with any consent required by law, prerecorded or artificial voice messages or an automatic telephone dialing system. Message and data rates may apply. This servicing consent extends to lawful assignees and agents. You may revoke consent for a telephone number or email address by notifying the contacting party through a reasonable method it provides.</p>
+        <h3>State notices</h3>
+        <p><strong>California Residents:</strong> Applicant, if married, may apply for a separate account.</p>
+        <p><strong>Maine and Tennessee Residents:</strong> You must have physical damage insurance covering loss or damage to the vehicle for the term of any contract. For a lease, you must also have the liability insurance as described in the lease. You may buy this insurance from anyone you choose. You do not have to buy it from someone affiliated with the dealer or an assignee of this contract. Your choice of insurance will not affect the credit approval process unless the insurance does not satisfy the contract requirements or the insurance company does not satisfy the reasonable standards of the dealer or an assignee of the contract.</p>
+        <p><strong>New Hampshire Residents:</strong> If applying for a balloon payment contract, you are entitled to receive upon request a written estimate of the monthly payment amount for refinancing the balloon payment in accord with the creditor's existing refinance programs. You would be entitled to receive the estimate before you enter into a balloon payment contract. A balloon contract is an installment sales contract with a final scheduled payment that is at least twice the amount of one of the earlier scheduled equal periodic installment payments.</p>
+        <p><strong>New York Residents:</strong> In connection with this application, we may request a consumer report on you. If you request, we will inform you whether or not a consumer report was requested and, if it was, of the name and address of the consumer reporting agency that furnished the report. Additional consumer reports may be ordered without further notice to you in connection with any update, renewal or extension of credit granted.</p>
+        <p><strong>Ohio Residents:</strong> The Ohio laws against discrimination require that all creditors make credit equally available to all creditworthy customers, and that credit reporting agencies maintain separate credit histories on each individual upon request. The Ohio Civil Rights Commission administers compliance with this law.</p>
+        <p><strong>Rhode Island Residents:</strong> Credit reports may be obtained in connection with this application for credit.</p>
+        <p><strong>Vermont Residents:</strong> You authorize Dealer and any financial service provider with whom this application is shared, and each of their respective employees or agents, to obtain and verify information about you (including one or more credit reports, information about your employment and banking and credit relationships) that they may deem necessary or appropriate in evaluation your credit application. If your application is approved and credit is granted, you authorize the parties granting credit and/or holding your account, and their respective employees and agents, to obtain additional credit reports and other information about you in connection with reviewing the account, increasing the available credit on the account (if applicable), taking collection on the account, or for any other legitimate purpose.</p>
       </div>
+      <label class="cr-check cr-agree cr-optin"><input type="checkbox" id="cr-marketing" name="marketing" value="yes"><span data-i18n="cr.marketing">Optional: I expressly consent to receive marketing calls and text messages from or on behalf of Car Advisor Corporation at the telephone number(s) I provided, including calls or messages made using an automatic telephone dialing system or prerecorded or artificial voice, where permitted by law. Consent is not a condition of purchasing any goods or services or obtaining financing. Message and data rates may apply. I may revoke this consent at any time, including by replying STOP.</span></label>
       <label class="cr-check cr-agree"><input type="checkbox" id="cr-agree" name="agree" required><span data-i18n="cr.agree">I have read and agree to the terms above, and I consent to sign this application electronically.</span></label>
     </fieldset>
 
@@ -418,9 +442,9 @@
 </nav>
 
 <script src="js/i18n/common.js?v=80b478ee"></script>
-<script src="js/i18n/credit.js?v=323b6e19"></script>
+<script src="js/i18n/credit.js?v=51bb6b24"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <script src="js/core.js?v=a09622d8"></script>
-<script src="js/pages/credit.js?v=f60684c0"></script>
+<script src="js/pages/credit.js?v=ba6489e9"></script>
 </body>
 </html>

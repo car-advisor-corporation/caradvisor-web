@@ -49,3 +49,6 @@
 .cr-kind .cr-check { padding: 12px 22px; font-weight: 600; }
 .cr-kind .cr-check:has(input:checked) { border-color: var(--red); background: rgba(219, 45, 46, .12); color: var(--text); }
 .cr-kind input { accent-color: var(--red); }
+.cr-legal h3 { margin: 18px 0 6px; font: 700 .76rem/1.2 var(--f-display); letter-spacing: .1em; text-transform: uppercase; color: var(--text); }
+.cr-legal strong { color: var(--text); font-weight: 600; }
+.cr-optin span { font-size: .84rem; color: var(--text-2); }
