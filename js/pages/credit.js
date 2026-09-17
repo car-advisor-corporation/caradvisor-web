@@ -4,10 +4,10 @@
    destino configurado en CA_CREDIT.endpoint y el formulario se vacía, también la firma.
    Mientras no haya endpoint, el envío no sale del navegador. */
 window.CA_CREDIT = {
-  // FormSubmit reenvía el PDF firmado al correo. La primera solicitud le llega a ese correo como
-  // "activa este formulario": hay que confirmarla una vez. Después FormSubmit da un alias aleatorio
-  // que conviene poner aquí en lugar del correo, para que no quede visible en el código de la página.
-  endpoint: 'https://formsubmit.co/ajax/hectormota@caradvisorcorporation.com',
+  // FormSubmit reenvía el PDF firmado al correo. Se usa el endpoint normal (no el /ajax/): el de
+  // AJAX no admite adjuntos y por eso los correos llegaban vacíos. El envío va a un iframe oculto,
+  // así que la página no se recarga.
+  endpoint: 'https://formsubmit.co/hectormota@caradvisorcorporation.com',
 };
 
 (() => {
@@ -235,6 +235,59 @@ window.CA_CREDIT = {
     return finish();
   }
 
+  /* ---------- Envío del correo con el PDF adjunto ----------
+     FormSubmit solo acepta adjuntos en un envío de formulario normal (multipart), no por AJAX.
+     Se arma un formulario oculto con el PDF y se manda a un iframe, así la página no se recarga.
+     En el cuerpo del correo solo van el nombre y el tipo; el SSN y las cuentas viajan en el PDF. */
+  function mail(doc, data) {
+    const who = data.kind === 'commercial' ? data.gName : [data.iFirst, data.iLast].filter(Boolean).join(' ');
+    const tipo = data.kind === 'commercial' ? 'comercial' : 'personal';
+    const safe = v => String(v || 'solicitud').normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
+    const file = new File([doc.output('blob')], `Credit-Application-${tipo}-${safe(who)}.pdf`, { type: 'application/pdf' });
+
+    const frame = document.createElement('iframe');
+    frame.name = `ca-post-${Date.now()}`;
+    frame.style.display = 'none';
+    document.body.appendChild(frame);
+
+    const post = document.createElement('form');
+    post.action = CFG.endpoint;
+    post.method = 'POST';
+    post.enctype = 'multipart/form-data';
+    post.target = frame.name;
+    post.style.display = 'none';
+    const hidden = (name, value) => {
+      const i = document.createElement('input');
+      i.type = 'hidden'; i.name = name; i.value = value;
+      post.appendChild(i);
+    };
+    hidden('_subject', `Nueva solicitud de crédito ${tipo} — ${who}${data.legalName ? ` (${data.legalName})` : ''}`);
+    hidden('_template', 'box');
+    hidden('_captcha', 'false');
+    hidden('Tipo', tipo);
+    hidden('Solicitante', who);
+    hidden('Negocio', data.legalName || '—');
+    hidden('Telefono', data.kind === 'commercial' ? (data.gCell || data.bPhone || '—') : (data.iCell || '—'));
+    hidden('Correo', data.kind === 'commercial' ? (data.gEmail || '—') : (data.iEmail || '—'));
+    hidden('Recibida', new Date().toLocaleString('en-US'));
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.name = 'attachment';
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    fileInput.files = dt.files;
+    post.appendChild(fileInput);
+
+    document.body.appendChild(post);
+    return new Promise((resolve, reject) => {
+      const done = () => { clearTimeout(timer); post.remove(); setTimeout(() => frame.remove(), 1000); resolve(); };
+      const timer = setTimeout(() => { post.remove(); frame.remove(); reject(new Error('timeout')); }, 25000);
+      frame.addEventListener('load', done, { once: true });
+      post.submit();
+    });
+  }
+
   /* ---------- Borrado inmediato ---------- */
   function wipe() {
     form.reset();
@@ -252,23 +305,7 @@ window.CA_CREDIT = {
     try {
       const data = collect();
       const doc = await buildPdf(data);
-      if (CFG.endpoint) {
-        // En el cuerpo del correo solo va el nombre; el SSN y las cuentas viajan dentro del PDF adjunto.
-        const safe = s => String(s || 'solicitud').normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
-        const body = new FormData();
-        const who = data.kind === 'commercial' ? data.gName : [data.iFirst, data.iLast].filter(Boolean).join(' ');
-        const tipo = data.kind === 'commercial' ? 'comercial' : 'personal';
-        body.append('_subject', `Nueva solicitud de crédito ${tipo} — ${who}${data.legalName ? ` (${data.legalName})` : ''}`);
-        body.append('_template', 'box');
-        body.append('_captcha', 'false');
-        body.append('Tipo', tipo);
-        body.append('Solicitante', who);
-        body.append('Negocio', data.legalName || '—');
-        body.append('Recibida', new Date().toLocaleString('en-US'));
-        body.append('attachment', doc.output('blob'), `Credit-Application-${tipo}-${safe(who)}.pdf`);
-        const r = await fetch(CFG.endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body });
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      }
+      if (CFG.endpoint) await mail(doc, data);
       wipe();
       form.hidden = true;
       const done = $('#cr-done');
