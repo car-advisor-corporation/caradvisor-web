@@ -48,6 +48,7 @@ window.CA_I18N_ADD({
     'mb.aria': 'Contacto rápido',
     'mb.call': 'Llamar',
     'mb.start': 'Empezar',
+    'mb.credit': 'Solicitud de crédito',
   },
   dyn: {
     en: {

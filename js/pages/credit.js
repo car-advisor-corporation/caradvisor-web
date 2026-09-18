@@ -108,6 +108,23 @@ window.CA_CREDIT = {
   }
 
   /* ---------- PDF firmado, generado en el navegador ---------- */
+  let logoCache;
+  async function logoData() {
+    if (logoCache !== undefined) return logoCache;
+    try {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      await new Promise((res, rej) => { img.onload = res; img.onerror = rej; img.src = 'assets/logo-print.jpg'; });
+      const c = document.createElement('canvas');
+      c.width = img.naturalWidth; c.height = img.naturalHeight;
+      c.getContext('2d').drawImage(img, 0, 0);
+      logoCache = c.toDataURL('image/jpeg', 0.92);
+    } catch (e) {
+      logoCache = null;                 // sin logo, el membrete sigue saliendo en texto
+    }
+    return logoCache;
+  }
+
   function collect() {
     const data = {};
     new FormData(form).forEach((v, k) => { data[k] = data[k] ? `${data[k]}, ${v}` : v; });
@@ -170,14 +187,24 @@ window.CA_CREDIT = {
     };
 
     const personal = data.kind !== 'commercial';
-    doc.setFont('helvetica', 'bold'); doc.setFontSize(17); doc.setTextColor(178, 31, 32);
-    doc.text('CAR ADVISOR CORPORATION', M, y + 6);
-    doc.setFontSize(12); doc.setTextColor(15);
-    doc.text(personal ? 'Personal Credit Application' : 'Business Credit Application', W - M, y + 6, { align: 'right' });
-    y += 26;
+    // Membrete: el logo original, la dirección, el teléfono y el correo de la empresa.
+    const logo = await logoData();
+    const LOGO = 74;
+    if (logo) doc.addImage(logo, 'JPEG', M, y - 6, LOGO, LOGO);
+    const tx = M + (logo ? LOGO + 16 : 0);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(178, 31, 32);
+    doc.text('CAR ADVISOR CORPORATION', tx, y + 8);
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(8.6); doc.setTextColor(90);
+    doc.text('1500 NW 89th Ct, Suite 112, Doral, FL 33172', tx, y + 22);
+    doc.text('+1 (305) 600-6112  ·  +1 (786) 536-7332', tx, y + 33);
+    doc.text('Hectormota@caradvisorcorporation.com', tx, y + 44);
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(15);
+    doc.text(personal ? 'Personal Credit Application' : 'Business Credit Application', W - M, y + 8, { align: 'right' });
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(110);
-    doc.text(`Submitted online ${new Date().toLocaleString('en-US')}`, M, y);
-    y += 10;
+    doc.text(`Submitted online ${new Date().toLocaleString('en-US')}`, W - M, y + 22, { align: 'right' });
+    y += LOGO + 6;
+    doc.setDrawColor(210); doc.line(M, y, W - M, y);
+    y += 14;
 
     if (personal) {
       head('Applicant');
