@@ -116,8 +116,18 @@
    only partial logos are the ones sliding off the screen edges. Each logo links to its inventory. */
 .makes { padding: 30px 0 34px; background: var(--bg-2); border-bottom: 1px solid var(--line); overflow: hidden; }
 .makes-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
-.makes-track { width: 100%; overflow: hidden; padding-block: 12px; -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent); }
-.makes-rail { display: flex; width: max-content; animation: marquee 70s linear infinite; }
+/* La pasarela es un carrusel que se desplaza solo, pero también se puede arrastrar con el dedo,
+   con el ratón o con la rueda: el movimiento lo lleva el scroll, no una animación. */
+.makes-track {
+  width: 100%; padding-block: 12px; overflow-x: auto; overflow-y: hidden; cursor: grab;
+  scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+}
+.makes-track::-webkit-scrollbar { display: none; }
+.makes-track.dragging { cursor: grabbing; }
+.makes-track.dragging a { pointer-events: none; }
+.makes-rail { display: flex; width: max-content; }
 .makes-rail ul { display: flex; align-items: center; gap: clamp(34px, 4vw, 60px); padding-right: clamp(34px, 4vw, 60px); list-style: none; }
 .makes-rail li { width: 168px; height: 92px; }
 .makes-rail a { display: block; width: 100%; height: 92px; text-align: center; line-height: 92px; border-radius: 8px; transition: transform .25s var(--ease-out); }
@@ -130,8 +140,6 @@
    hue, so they only get a small lift. Inversion is reserved for single-ink marks, which would vanish. */
 .makes-rail img.lift-dark { filter: brightness(1.35) saturate(1.05); }
 .makes-rail img.inv-dark { filter: invert(1); }
-@keyframes marquee { to { transform: translateX(-50%); } }
-.makes.paused .makes-rail, .makes-track:hover .makes-rail, .makes:focus-within .makes-rail { animation-play-state: paused; }
 .makes-pause { flex: none; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line-2); background: var(--surface); color: var(--text-2); font: 600 .7rem/1 var(--f-display); font-stretch: 118%; letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
 .makes-pause:hover { border-color: rgba(219, 45, 46, .55); color: var(--text); box-shadow: 0 8px 20px -10px rgba(219, 45, 46, .55); }
 .makes-pause[aria-pressed="true"] { background: var(--invert-bg); border-color: var(--invert-bg); color: var(--invert-text); }
