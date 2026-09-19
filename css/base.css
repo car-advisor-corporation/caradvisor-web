@@ -260,7 +260,9 @@ input[type="checkbox"] { accent-color: var(--red); }
 .wa-float:hover { transform: scale(1.06); }
 .wa-float svg { width: 30px; height: 30px; }
 .mbar { display: none; }
-@media (max-width: 760px) {
+/* La barra inferior sale en móvil vertical y también con el teléfono acostado (pantalla baja),
+   donde antes desaparecía y solo quedaba el botón flotante de WhatsApp. */
+@media (max-width: 760px), (max-height: 560px) and (pointer: coarse) {
   .wa-float { display: none; }
   .mbar {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: 1fr 1fr 1.35fr; gap: 8px;
@@ -270,6 +272,12 @@ input[type="checkbox"] { accent-color: var(--red); }
   .mbar a { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 8px; font-size: .9rem; font-weight: 600; border: 1px solid var(--line-2); background: var(--surface); color: var(--text); }
   .mbar a svg { width: 18px; height: 18px; }
   .mbar a.go { background: var(--red); border-color: var(--red); color: #fff; }
+}
+
+@media (max-height: 560px) and (pointer: coarse) {
+  .mbar { padding: 6px 12px calc(6px + env(safe-area-inset-bottom)); gap: 6px; }
+  .mbar a { min-height: 38px; font-size: .84rem; }
+  .site-header { position: sticky; }
 }
 
 /* ---------- Page transitions: the page slides; header and active-tab bar stay put ---------- */

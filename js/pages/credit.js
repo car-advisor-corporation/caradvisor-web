@@ -62,6 +62,13 @@ window.CA_CREDIT = {
     const p = point(e);
     ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
     last = p;
+    if (kind() === 'personal' && !shots.idFront) {
+      const box = form.querySelector('[data-shot="idFront"]');
+      box.classList.add('bad');
+      errorEl.textContent = t('cr.err.license'); errorEl.hidden = false;
+      box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return false;
+    }
     if (!drawn) { drawn = true; hint.hidden = true; }
   });
   ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => pad.addEventListener(ev, () => { last = null; }));
@@ -99,12 +106,76 @@ window.CA_CREDIT = {
       email.closest('.cr-f').classList.add('bad');
       errorEl.textContent = t('cr.err.email'); errorEl.hidden = false; email.focus(); return false;
     }
+    if (kind() === 'personal' && !shots.idFront) {
+      const box = form.querySelector('[data-shot="idFront"]');
+      box.classList.add('bad');
+      errorEl.textContent = t('cr.err.license'); errorEl.hidden = false;
+      box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return false;
+    }
     if (!drawn) {
       errorEl.textContent = t('cr.err.signature'); errorEl.hidden = false;
       pad.scrollIntoView({ block: 'center', behavior: 'smooth' }); return false;
     }
     errorEl.hidden = true;
     return true;
+  }
+
+  /* ---------- Fotos tomadas con el teléfono ----------
+     La imagen se reduce en el navegador y se guarda solo en memoria, para ir dentro del PDF. */
+  const shots = {};
+  function shrink(file, max = 1500) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+        const c = document.createElement('canvas');
+        c.width = Math.round(img.naturalWidth * scale);
+        c.height = Math.round(img.naturalHeight * scale);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        resolve({ data: c.toDataURL('image/jpeg', 0.75), w: c.width, h: c.height });
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('imagen')); };
+      img.src = url;
+    });
+  }
+  $$('.cr-shot', form).forEach(box => {
+    const key = box.dataset.shot;
+    const input = $('input[type="file"]', box);
+    const prev = $('.cr-shot-prev', box);
+    const clear = $('.cr-shot-clear', box);
+    input.addEventListener('change', async () => {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      try {
+        shots[key] = await shrink(file);
+        prev.src = shots[key].data;
+        prev.hidden = false;
+        clear.hidden = false;
+        box.classList.remove('bad');
+      } catch (e) {
+        delete shots[key];
+      }
+    });
+    clear.addEventListener('click', () => {
+      delete shots[key];
+      input.value = '';
+      prev.hidden = true;
+      prev.removeAttribute('src');
+      clear.hidden = true;
+    });
+  });
+  function wipeShots() {
+    Object.keys(shots).forEach(k => delete shots[k]);
+    $$('.cr-shot', form).forEach(box => {
+      $('input[type="file"]', box).value = '';
+      const prev = $('.cr-shot-prev', box);
+      prev.hidden = true; prev.removeAttribute('src');
+      $('.cr-shot-clear', box).hidden = true;
+      box.classList.remove('bad');
+    });
   }
 
   /* ---------- PDF firmado, generado en el navegador ---------- */
@@ -183,6 +254,20 @@ window.CA_CREDIT = {
       y += 14;
       doc.setFont('helvetica', 'italic'); doc.setFontSize(10); doc.setTextColor(15);
       doc.text(`I, ${data.signer}, am signing this application on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.`, M, y);
+      // Las fotos del teléfono entran como páginas del propio PDF, no como archivos sueltos.
+      const photos = [
+        ["Driver's license — front", shots.idFront],
+        ["Driver's license — back", shots.idBack],
+        ['Trade-in registration', shots.ptReg || shots.tReg],
+      ].filter(([, img]) => img);
+      photos.forEach(([title, img]) => {
+        doc.addPage(); y = M;
+        head(title);
+        const maxW = W - M * 2;
+        const maxH = H - y - M;
+        const scale = Math.min(maxW / img.w, maxH / img.h);
+        doc.addImage(img.data, 'JPEG', M, y, img.w * scale, img.h * scale);
+      });
       return doc;
     };
 
@@ -206,6 +291,20 @@ window.CA_CREDIT = {
     doc.setDrawColor(210); doc.line(M, y, W - M, y);
     y += 14;
 
+    const tradeFields = personal
+      ? { year: data.ptYear, make: data.ptMake, model: data.ptModel, trim: data.ptTrim, vin: data.ptVin, owner: data.ptOwner, lien: data.ptLienholder, payment: data.ptPayment }
+      : { year: data.tYear, make: data.tMake, model: data.tModel, trim: data.tTrim, vin: data.tVin, owner: data.tOwner, lien: data.tLienholder, payment: data.tPayment };
+    const tradeBlock = () => {
+      if (!tradeFields.year && !tradeFields.make && !tradeFields.model && !tradeFields.vin) return;
+      head('Trade-in information');
+      line('Vehicle', [tradeFields.year, tradeFields.make, tradeFields.model, tradeFields.trim].filter(Boolean).join(' '));
+      line('VIN', tradeFields.vin);
+      line('Name on the registration', tradeFields.owner);
+      line('Lienholder', tradeFields.lien);
+      line('Monthly payment', tradeFields.payment ? `$${tradeFields.payment}` : '');
+    };
+
+    head('Program type requested'); line('Program', data.program);
     if (personal) {
       head('Applicant');
       line('First name', data.iFirst); line('Last name', data.iLast);
@@ -218,10 +317,10 @@ window.CA_CREDIT = {
       line('Employer phone', data.iEmployerPhone);
       line('Time on job', `${data.iJobYears || 0} years, ${data.iJobMonths || 0} months`);
       line('Salary (monthly)', data.iSalary ? `$${data.iSalary}` : '');
+      tradeBlock();
       return finish();
     }
 
-    head('Program type requested'); line('Program', data.program);
     head('Business');
     [['Business legal name', 'legalName'], ['DBA', 'dba'], ['Business type', null], ['SSN / Federal Tax ID', 'taxId'],
      ['State of organization', 'orgState'], ['Date business formed', 'formed'], ['Gross monthly income', 'grossMonthly'],
@@ -253,12 +352,7 @@ window.CA_CREDIT = {
       if (data[`${k}Name`]) line(l, `${data[`${k}Name`]} (${data[`${k}Relation`] || ''}) · ${data[`${k}Phone`] || ''} · ${data[`${k}Address`] || ''}`);
     });
 
-    if (data.tYear || data.tMake || data.tModel) {
-      head('Trade-in information');
-      line('Vehicle', [data.tYear, data.tMake, data.tModel, data.tTrim].filter(Boolean).join(' '));
-      line('Lienholder', data.tLienholder);
-      line('Monthly payment', data.tPayment ? `$${data.tPayment}` : '');
-    }
+    tradeBlock();
     return finish();
   }
 
@@ -318,6 +412,7 @@ window.CA_CREDIT = {
   /* ---------- Borrado inmediato ---------- */
   function wipe() {
     form.reset();
+    wipeShots();
     applyKind();
     clearPad();
     attest.textContent = '';
