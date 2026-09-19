@@ -33,7 +33,7 @@
       const dt = Math.min(now - last, 60);
       last = now;
       if (!paused && !held && !document.hidden) {
-        offset = norm(offset + dt * 0.115);        // ~115 px por segundo
+        offset = norm(offset + dt * 0.09);         // 90 px por segundo
         paint();
       }
       requestAnimationFrame(tick);
@@ -42,13 +42,15 @@
     // rAF se congela en pestañas ocultas; este respaldo mantiene el ritmo al volver
     document.addEventListener('visibilitychange', () => { last = performance.now(); });
 
-    /* Arrastre con el dedo o el ratón */
+    /* Arrastre solo en pantallas táctiles; en escritorio la pasarela solo se mueve sola */
+    const touch = matchMedia('(pointer: coarse)').matches;
+    if (touch) track.classList.add('drag-ok');
     let startX = 0, startOffset = 0, moved = 0;
-    track.addEventListener('pointerdown', e => {
+    if (touch) track.addEventListener('pointerdown', e => {
       held = true; moved = 0; startX = e.clientX; startOffset = offset;
       track.setPointerCapture(e.pointerId);
     });
-    track.addEventListener('pointermove', e => {
+    if (touch) track.addEventListener('pointermove', e => {
       if (!held) return;
       const dx = e.clientX - startX;
       moved = Math.max(moved, Math.abs(dx));
@@ -62,19 +64,11 @@
       if (track.hasPointerCapture && e && e.pointerId != null && track.hasPointerCapture(e.pointerId)) track.releasePointerCapture(e.pointerId);
       setTimeout(() => track.classList.remove('dragging'), 0);
     };
-    ['pointerup', 'pointercancel'].forEach(ev => track.addEventListener(ev, release));
+    if (touch) ['pointerup', 'pointercancel'].forEach(ev => track.addEventListener(ev, release));
 
-    /* Rueda del ratón y gesto horizontal del trackpad */
-    track.addEventListener('wheel', e => {
-      const dx = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : 0;
-      if (!dx) return;                              // el desplazamiento vertical sigue moviendo la página
-      e.preventDefault();
-      offset = norm(offset + dx);
-      paint();
-    }, { passive: false });
 
     /* Con el ratón encima se detiene, para poder leer y hacer clic */
-    track.addEventListener('pointerenter', () => { if (!('ontouchstart' in window)) held = true; });
+    track.addEventListener('pointerenter', () => { if (!touch) held = true; });
     track.addEventListener('pointerleave', e => { release(e); held = false; });
     makes.addEventListener('focusin', () => { held = true; });
     makes.addEventListener('focusout', () => { held = false; });
