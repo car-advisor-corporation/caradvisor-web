@@ -119,15 +119,14 @@
 /* La pasarela es un carrusel que se desplaza solo, pero también se puede arrastrar con el dedo,
    con el ratón o con la rueda: el movimiento lo lleva el scroll, no una animación. */
 .makes-track {
-  width: 100%; padding-block: 12px; overflow-x: auto; overflow-y: hidden; cursor: grab;
-  scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain;
+  width: 100%; padding-block: 12px; overflow: hidden; cursor: grab;
+  touch-action: pan-y;                      /* el dedo arrastra la pasarela y sigue moviendo la página */
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
-.makes-track::-webkit-scrollbar { display: none; }
 .makes-track.dragging { cursor: grabbing; }
 .makes-track.dragging a { pointer-events: none; }
-.makes-rail { display: flex; width: max-content; }
+.makes-rail { display: flex; width: max-content; will-change: transform; }
 .makes-rail ul { display: flex; align-items: center; gap: clamp(34px, 4vw, 60px); padding-right: clamp(34px, 4vw, 60px); list-style: none; }
 .makes-rail li { width: 168px; height: 92px; }
 .makes-rail a { display: block; width: 100%; height: 92px; text-align: center; line-height: 92px; border-radius: 8px; transition: transform .25s var(--ease-out); }
