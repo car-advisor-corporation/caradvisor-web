@@ -22,13 +22,13 @@
     <fieldset class="cr-block cr-program">
       <legend data-i18n="cr.s.program">Program type requested</legend>
       <div class="cr-checks" role="radiogroup">
-        <label class="cr-check"><input type="radio" name="program" value="Lease" required><span>Lease</span></label>
-        <label class="cr-check"><input type="radio" name="program" value="TRAC"><span>TRAC</span></label>
-        <label class="cr-check"><input type="radio" name="program" value="Sell Trade"><span>Sell Trade</span></label>
+        <label class="cr-check"><input type="radio" name="program" value="Purchase" checked required><span data-i18n="cr.p.purchase">Purchase</span></label>
+        <label class="cr-check"><input type="radio" name="program" value="Lease"><span data-i18n="cr.p.lease">Lease</span></label>
+        <label class="cr-check"><input type="radio" name="program" value="Sell Trade"><span data-i18n="cr.p.sell">Sell Trade</span></label>
       </div>
     </fieldset>
 
-    <fieldset class="cr-block" data-kind="personal">
+    <fieldset class="cr-block" data-kind="personal" data-sell="yes">
       <legend data-i18n="cr.s.applicant">Applicant</legend>
       <div class="cr-grid">
         <label class="cr-f"><span data-i18n="cr.f.first">First name</span><input id="cr-i-first" name="iFirst" autocomplete="given-name" required></label>
@@ -73,7 +73,7 @@
           </select>
         </label>
         <label class="cr-f cr-w2" id="cr-btype-other-wrap" hidden><span data-i18n="cr.f.btypeother">Other business type</span><input id="cr-btype-other" name="businessTypeOther"></label>
-        <label class="cr-f"><span data-i18n="cr.f.taxid">SSN / Federal Tax ID #</span><input id="cr-taxid" name="taxId" inputmode="numeric" autocomplete="off" required></label>
+        <label class="cr-f"><span data-i18n="cr.f.ein">EIN (Federal Tax ID)</span><input id="cr-taxid" name="taxId" inputmode="numeric" autocomplete="off" required></label>
         <label class="cr-f"><span data-i18n="cr.f.state">State of organization</span><input id="cr-orgstate" name="orgState"></label>
         <label class="cr-f"><span data-i18n="cr.f.formed">Date business formed</span><input id="cr-formed" name="formed" type="date"></label>
         <label class="cr-f"><span data-i18n="cr.f.gross">Gross monthly income ($)</span><input id="cr-gross" name="grossMonthly" inputmode="decimal"></label>
@@ -137,6 +137,13 @@
         <label class="cr-f"><span data-i18n="cr.f.source">Source</span><input id="cr-g-source" name="gSource"></label>
       </div>
       <p class="cr-note" data-i18n="cr.alimony">Alimony, child support or separate maintenance income need not be revealed if you do not wish to have it considered as a basis for repaying this obligation.</p>
+      <div class="cr-shot" data-shot="gIdFront">
+        <span class="cr-shot-label" data-i18n="cr.f.idfront">Front of the license</span>
+        <label class="btn btn-ghost btn-sm cr-shot-btn"><input type="file" accept="image/*" capture="environment" id="cr-g-id-front" name="gIdFrontPhoto"><span data-i18n="cr.shot.take">Take photo</span></label>
+        <img class="cr-shot-prev" alt="" hidden>
+        <button type="button" class="btn btn-ghost btn-sm cr-shot-clear" hidden data-i18n="cr.shot.clear">Remove</button>
+        <p class="cr-shot-hint" data-i18n="cr.id.why">We need a photo of your driver's license to confirm the application is really yours.</p>
+      </div>
     </fieldset>
 
     <fieldset class="cr-block" data-kind="commercial">
@@ -169,8 +176,8 @@
       </div>
     </fieldset>
 
-    <fieldset class="cr-block" data-kind="personal">
-      <legend data-i18n="cr.s.trade">Trade-in information (optional)</legend>
+    <fieldset class="cr-block" data-kind="personal" data-sell="yes">
+      <legend><span class="lg-trade" data-i18n="cr.s.trade">Trade-in information (optional)</span><span class="lg-sell" data-i18n="cr.s.sellveh" hidden>Vehicle you are selling</span></legend>
       <div class="cr-grid">
         <label class="cr-f cr-half"><span data-i18n="cr.f.year">Year</span><input id="cr-pt-year" name="ptYear" inputmode="numeric"></label>
         <label class="cr-f"><span data-i18n="cr.f.make">Make</span><input id="cr-pt-make" name="ptMake"></label>

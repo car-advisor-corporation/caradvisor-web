@@ -27,17 +27,30 @@ window.CA_CREDIT = {
      Las secciones del tipo no elegido quedan ocultas y desactivadas: un campo desactivado ni se
      valida ni viaja en el envío, así que nunca se mezclan datos de las dos solicitudes. */
   const kind = () => (form.elements.kind.value === 'commercial' ? 'commercial' : 'personal');
+  const program = () => (form.elements.program.value || 'Purchase');
+  const selling = () => program() === 'Sell Trade';
   function applyKind() {
     const k = kind();
+    const sell = selling();
+    // Al vender un vehículo solo hacen falta los datos de la persona y los del vehículo:
+    // es la misma pantalla para particulares y para empresas.
     $$('[data-kind]', form).forEach(el => {
-      const on = el.dataset.kind === k;
+      const on = sell ? el.dataset.sell === 'yes' : el.dataset.kind === k;
       el.hidden = !on;
       if (el.tagName === 'FIELDSET') el.disabled = !on;
       else $$('input, select', el).forEach(i => { i.disabled = !on; });
     });
+    form.classList.toggle('selling', sell);
+    // Al vender, los datos del vehículo y la foto de la registración dejan de ser opcionales
+    const lg = form.querySelector('.lg-trade'), lgs = form.querySelector('.lg-sell');
+    if (lg && lgs) { lg.hidden = sell; lgs.hidden = !sell; }
+    ['ptYear', 'ptMake', 'ptModel', 'ptVin'].forEach(n => {
+      const el = form.elements[n];
+      if (el) el.required = sell;
+    });
     paintAttest();
   }
-  $$('input[name="kind"]', form).forEach(r => r.addEventListener('change', applyKind));
+  $$('input[name="kind"], input[name="program"]', form).forEach(r => r.addEventListener('change', applyKind));
   const btype = $('#cr-btype');
   const btypeOther = $('#cr-btype-other-wrap');
   btype.addEventListener('change', () => { btypeOther.hidden = btype.value !== 'Other'; });
@@ -62,7 +75,14 @@ window.CA_CREDIT = {
     const p = point(e);
     ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke();
     last = p;
-    if (kind() === 'personal' && !shots.idFront) {
+    if (selling() && !shots.ptReg) {
+      const box = form.querySelector('[data-shot="ptReg"]');
+      box.classList.add('bad');
+      errorEl.textContent = t('cr.err.reg'); errorEl.hidden = false;
+      box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return false;
+    }
+    if (kind() === 'personal' && !selling() && !shots.idFront) {
       const box = form.querySelector('[data-shot="idFront"]');
       box.classList.add('bad');
       errorEl.textContent = t('cr.err.license'); errorEl.hidden = false;
@@ -106,7 +126,14 @@ window.CA_CREDIT = {
       email.closest('.cr-f').classList.add('bad');
       errorEl.textContent = t('cr.err.email'); errorEl.hidden = false; email.focus(); return false;
     }
-    if (kind() === 'personal' && !shots.idFront) {
+    if (selling() && !shots.ptReg) {
+      const box = form.querySelector('[data-shot="ptReg"]');
+      box.classList.add('bad');
+      errorEl.textContent = t('cr.err.reg'); errorEl.hidden = false;
+      box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      return false;
+    }
+    if (kind() === 'personal' && !selling() && !shots.idFront) {
       const box = form.querySelector('[data-shot="idFront"]');
       box.classList.add('bad');
       errorEl.textContent = t('cr.err.license'); errorEl.hidden = false;
@@ -256,7 +283,7 @@ window.CA_CREDIT = {
       doc.text(`I, ${data.signer}, am signing this application on ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}.`, M, y);
       // Las fotos del teléfono entran como páginas del propio PDF, no como archivos sueltos.
       const photos = [
-        ["Driver's license — front", shots.idFront],
+        ["Driver's license — front", shots.idFront || shots.gIdFront],
         ["Driver's license — back", shots.idBack],
         ['Trade-in registration', shots.ptReg || shots.tReg],
       ].filter(([, img]) => img);
@@ -272,6 +299,7 @@ window.CA_CREDIT = {
     };
 
     const personal = data.kind !== 'commercial';
+    const sell = data.program === 'Sell Trade';
     // Membrete: el logo original, la dirección, el teléfono y el correo de la empresa.
     const logo = await logoData();
     const LOGO = 74;
@@ -284,7 +312,7 @@ window.CA_CREDIT = {
     doc.text('+1 (305) 600-6112  ·  +1 (786) 536-7332', tx, y + 33);
     doc.text('Hectormota@caradvisorcorporation.com', tx, y + 44);
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(15);
-    doc.text(personal ? 'Personal Credit Application' : 'Business Credit Application', W - M, y + 8, { align: 'right' });
+    doc.text(sell ? 'Vehicle Sale — Trade Form' : (personal ? 'Personal Credit Application' : 'Business Credit Application'), W - M, y + 8, { align: 'right' });
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8.5); doc.setTextColor(110);
     doc.text(`Submitted online ${new Date().toLocaleString('en-US')}`, W - M, y + 22, { align: 'right' });
     y += LOGO + 6;
@@ -305,6 +333,16 @@ window.CA_CREDIT = {
     };
 
     head('Program type requested'); line('Program', data.program);
+    if (sell) {
+      head('Seller');
+      line('First name', data.iFirst); line('Last name', data.iLast);
+      line('Date of birth', data.iDob); line('Social Security number', data.iSsn);
+      line('Home address', [data.iStreet, data.iCity, data.iState, data.iZip].filter(Boolean).join(', '));
+      line('Time at address', `${data.iYears || 0} years, ${data.iMonths || 0} months`);
+      line('Cell phone', data.iCell); line('Email', data.iEmail);
+      tradeBlock();
+      return finish();
+    }
     if (personal) {
       head('Applicant');
       line('First name', data.iFirst); line('Last name', data.iLast);
@@ -362,7 +400,7 @@ window.CA_CREDIT = {
      En el cuerpo del correo solo van el nombre y el tipo; el SSN y las cuentas viajan en el PDF. */
   function mail(doc, data) {
     const who = data.kind === 'commercial' ? data.gName : [data.iFirst, data.iLast].filter(Boolean).join(' ');
-    const tipo = data.kind === 'commercial' ? 'comercial' : 'personal';
+    const tipo = data.program === 'Sell Trade' ? 'venta' : (data.kind === 'commercial' ? 'comercial' : 'personal');
     const safe = v => String(v || 'solicitud').normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
     const file = new File([doc.output('blob')], `Credit-Application-${tipo}-${safe(who)}.pdf`, { type: 'application/pdf' });
 
@@ -382,7 +420,7 @@ window.CA_CREDIT = {
       i.type = 'hidden'; i.name = name; i.value = value;
       post.appendChild(i);
     };
-    hidden('_subject', `Nueva solicitud de crédito ${tipo} — ${who}${data.legalName ? ` (${data.legalName})` : ''}`);
+    hidden('_subject', `${data.program === 'Sell Trade' ? 'Venta de vehículo' : `Nueva solicitud de crédito ${tipo}`} — ${who}${data.legalName ? ` (${data.legalName})` : ''}`);
     hidden('_template', 'box');
     hidden('_captcha', 'false');
     hidden('Tipo', tipo);
