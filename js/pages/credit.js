@@ -309,7 +309,7 @@ window.CA_CREDIT = {
     doc.text('CAR ADVISOR CORPORATION', tx, y + 8);
     doc.setFont('helvetica', 'normal'); doc.setFontSize(8.6); doc.setTextColor(90);
     doc.text('1500 NW 89th Ct, Suite 112, Doral, FL 33172', tx, y + 22);
-    doc.text('+1 (305) 600-6112  ·  +1 (786) 536-7332', tx, y + 33);
+    doc.text('+1 (786) 629-9007  ·  +1 (305) 600-6112', tx, y + 33);
     doc.text('Hectormota@caradvisorcorporation.com', tx, y + 44);
     doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(15);
     doc.text(sell ? 'Vehicle Sale — Trade Form' : (personal ? 'Personal Credit Application' : 'Business Credit Application'), W - M, y + 8, { align: 'right' });
