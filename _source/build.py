@@ -105,8 +105,8 @@ def scripts(meta):
     tags = [f'<script src="js/i18n/{name}.js"></script>' for name in ["common", *meta.get("i18n", [])]]
     tags += [f'<script src="js/{src}"></script>' for src in meta.get("data", [])]
     tags += [f'<script src="{src}" defer></script>' for src in meta.get("cdn", [])]
-    tags.append('<script src="js/analytics.js"></script>')
     tags.append('<script src="js/core.js"></script>')
+    tags.append('<script src="js/analytics.js"></script>')  # después de core.js: core reasigna window.CA
     tags += [f'<script src="js/{src}"></script>' for src in meta.get("js", [])]
     return "\n" + "\n".join(tags)
 
