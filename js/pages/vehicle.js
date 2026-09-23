@@ -35,6 +35,10 @@
   }
 
   if (window.CA.crm) window.CA.crm.sawVehicle(v);
+  if (window.CA.track) window.CA.track('view_vehicle', {
+    vehiculo: `${v.year} ${v.make} ${v.model}`, marca: v.make, precio: v.price,
+    estado: v.cond || '', stock: v.stock || '',
+  });
 
   const price = $('#p-price');
   const down = $('#p-down');

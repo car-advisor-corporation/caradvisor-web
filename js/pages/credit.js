@@ -466,6 +466,10 @@ window.CA_CREDIT = {
       const data = collect();
       const doc = await buildPdf(data);
       if (CFG.endpoint) await mail(doc, data);
+      /* Conversión: solo el tipo de solicitud. Ni un dato del solicitante sale por aquí. */
+      if (window.CA.track) window.CA.track('credit_application', {
+        tipo: kind(), programa: program(), idioma: document.documentElement.lang,
+      });
       wipe();
       form.hidden = true;
       const done = $('#cr-done');

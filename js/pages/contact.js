@@ -119,6 +119,13 @@
         budget: lastSubmission.budgetIdx > 0 ? b.options[lastSubmission.budgetIdx].textContent.trim() : '',
       }));
     }
+    /* Conversión: solo el contexto del coche, ningún dato personal. */
+    if (window.CA.track) window.CA.track('generate_lead', {
+      vehiculo: lastSubmission.vehicle || '',
+      entrega_a_cambio: lastSubmission.trade === 'yes' ? 'si' : 'no',
+      contacto_preferido: lastSubmission.contact || '',
+      idioma: document.documentElement.lang,
+    });
     form.hidden = true;
     successEl.hidden = false;
     successEl.focus();
